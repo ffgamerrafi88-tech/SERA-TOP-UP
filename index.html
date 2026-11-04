@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SERA TOP UP - Game Top Up Center</title>
+    <title>SERA TOP UP</title>
     <style>
         * {
             box-sizing: border-box;
@@ -83,13 +83,12 @@
         .cat-card {
             background: #1e293b;
             border-radius: 12px;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             border: 1px solid #334155;
             cursor: pointer;
             transition: 0.2s;
-            overflow: hidden;
         }
 
         .cat-card:hover {
@@ -97,16 +96,8 @@
             border-color: #22c55e;
         }
 
-        .cat-card img {
-            width: 100%;
-            border-radius: 8px;
-            height: 120px;
-            object-fit: cover;
-        }
-
         .cat-card h4 {
-            font-size: 13px;
-            margin-top: 8px;
+            font-size: 14px;
             color: #f1f5f9;
         }
 
@@ -120,33 +111,17 @@
         }
 
         .header-banner {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            background: #1e293b;
             border-radius: 12px;
             padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
             margin-bottom: 20px;
             border: 1px solid #334155;
-        }
-
-        .header-banner img {
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
-            object-fit: cover;
+            text-align: center;
         }
 
         .header-banner h2 {
             font-size: 16px;
             color: #ffffff;
-        }
-
-        .header-banner p {
-            font-size: 12px;
-            color: #22c55e;
-            font-weight: bold;
-            margin-top: 4px;
         }
 
         /* Step Card Box */
@@ -464,32 +439,26 @@
     <div id="homeView" class="page-view active-view">
         <div class="section-title">Special Offer</div>
         <div class="grid-container">
-            <div class="cat-card" onclick="openCategory('FF Like', 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&auto=format&fit=crop&q=60')">
-                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&auto=format&fit=crop&q=60" alt="FF Like">
+            <div class="cat-card" onclick="openCategory('FF Like')">
                 <h4>FF Like</h4>
             </div>
             <div class="cat-card" onclick="alert('বর্তমানে কোনো ফ্রি টুর্নামেন্ট চালু নেই।')">
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&auto=format&fit=crop&q=60" alt="Free Tournament">
                 <h4>Free Tournament</h4>
             </div>
         </div>
 
         <div class="section-title">FF Categories</div>
         <div class="grid-container">
-            <div class="cat-card" onclick="openCategory('Uid Topup [BD SERVER]', 'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400&auto=format&fit=crop&q=60')">
-                <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400&auto=format&fit=crop&q=60" alt="Uid Topup">
+            <div class="cat-card" onclick="openCategory('Uid Topup [BD SERVER]')">
                 <h4>Uid Topup [BD SERVER]</h4>
             </div>
-            <div class="cat-card" onclick="openCategory('Weekly/Monthly', 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&auto=format&fit=crop&q=60')">
-                <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&auto=format&fit=crop&q=60" alt="Weekly/Monthly">
+            <div class="cat-card" onclick="openCategory('Weekly/Monthly')">
                 <h4>Weekly/Monthly</h4>
             </div>
-            <div class="cat-card" onclick="openCategory('Level Up Pass', 'https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?w=400&auto=format&fit=crop&q=60')">
-                <img src="https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?w=400&auto=format&fit=crop&q=60" alt="Level Up Pass">
+            <div class="cat-card" onclick="openCategory('Level Up Pass')">
                 <h4>Level Up Pass</h4>
             </div>
-            <div class="cat-card" onclick="openCategory('Weekly Lite (BD Server)', 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&auto=format&fit=crop&q=60')">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&auto=format&fit=crop&q=60" alt="Weekly Lite">
+            <div class="cat-card" onclick="openCategory('Weekly Lite (BD Server)')">
                 <h4>Weekly Lite (BD Server)</h4>
             </div>
         </div>
@@ -500,11 +469,8 @@
         <button onclick="showView('homeView')" style="background:none; border:none; color:#22c55e; font-weight:bold; cursor:pointer; margin-bottom:12px;">← Back to Home</button>
 
         <div class="header-banner">
-            <img id="catBannerImg" src="" alt="Banner">
-            <div>
-                <h2 id="catTitle">Category Title</h2>
-                <p>⚡ ২ সেকেন্ডে টপআপ</p>
-            </div>
+            <h2 id="catTitle">Category Title</h2>
+            <p style="font-size: 12px; color: #22c55e; font-weight: bold; margin-top: 4px;">⚡ ২ সেকেন্ডে টপআপ</p>
         </div>
 
         <!-- Step 1 -->
@@ -692,9 +658,8 @@
         window.scrollTo(0, 0);
     }
 
-    function openCategory(catName, imgSrc) {
+    function openCategory(catName) {
         document.getElementById('catTitle').innerText = catName;
-        document.getElementById('catBannerImg').src = imgSrc;
         const grid = document.getElementById('pkgGridContainer');
         grid.innerHTML = '';
         selectedPackage = null;
@@ -776,7 +741,6 @@
     function saveOrder(playerID, pkgName, price, trxID) {
         let orders = JSON.parse(localStorage.getItem('seraOrders')) || [];
         
-        // English Date Format
         const now = new Date();
         const englishDate = now.toLocaleString('en-US', { 
             year: 'numeric', 
