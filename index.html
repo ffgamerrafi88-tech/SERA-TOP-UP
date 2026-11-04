@@ -3,785 +3,650 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SERA TOP UP</title>
+    <title>SERA TOP UP - Free Fire Diamond Top Up</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Hind Siliguri -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'Segoe UI', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            padding-bottom: 70px;
-        }
-
-        /* Top Header */
-        header {
-            background: #1e293b;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo span {
-            color: #22c55e;
-        }
-
-        .user-icon {
-            width: 35px;
-            height: 35px;
-            background: #22c55e;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        /* Section Title */
-        .section-title {
-            text-align: left;
-            font-size: 16px;
-            font-weight: 700;
-            color: #e2e8f0;
-            margin: 15px 0 10px 0;
-            border-left: 4px solid #22c55e;
-            padding-left: 8px;
-        }
-
-        /* Home Category Cards */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .cat-card {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            border: 1px solid #334155;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .cat-card:hover {
-            transform: translateY(-3px);
-            border-color: #22c55e;
-        }
-
-        .cat-card h4 {
-            font-size: 14px;
-            color: #f1f5f9;
-        }
-
-        /* Package Details Page View */
-        .page-view {
-            display: none;
-        }
-
-        .active-view {
-            display: block;
-        }
-
-        .header-banner {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #334155;
-            text-align: center;
-        }
-
-        .header-banner h2 {
-            font-size: 16px;
-            color: #ffffff;
-        }
-
-        /* Step Card Box */
-        .step-box {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            border: 1px solid #334155;
-        }
-
-        .step-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .step-number {
-            background: #22c55e;
-            color: white;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        /* Package Selection Grid */
-        .package-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .pkg-item {
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            background: #0f172a;
-            transition: 0.2s;
-        }
-
-        .pkg-item.selected {
-            border-color: #22c55e;
-            background: #14532d;
-            box-shadow: 0 0 0 1px #22c55e;
-        }
-
-        .pkg-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        .pkg-price {
-            font-size: 13px;
-            font-weight: bold;
-            color: #f59e0b;
-            margin-top: 4px;
-        }
-
-        /* Inputs & Payment */
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            background: #0f172a;
-            color: #ffffff;
-        }
-
-        input:focus {
-            border-color: #22c55e;
-        }
-
-        .pay-options {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .pay-card {
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 10px 4px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-            background: #0f172a;
-        }
-
-        .pay-card.selected {
-            border-color: #22c55e;
-            background: #14532d;
-            color: #22c55e;
-        }
-
-        .payment-info {
-            background: #0f172a;
-            border: 1px dashed #22c55e;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 12px 0;
-            font-size: 13px;
-            color: #cbd5e1;
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: #22c55e;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-submit:hover {
-            background: #16a34a;
-        }
-
-        .rules-box {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 15px;
-            font-size: 12px;
-            color: #94a3b8;
-            line-height: 1.6;
-            border: 1px solid #334155;
-        }
-
-        /* Professional Footer Section */
-        footer {
-            background: #090d16;
-            padding: 30px 15px 20px 15px;
-            margin-top: 40px;
-            border-top: 1px solid #1e293b;
-            text-align: center;
-        }
-
-        .footer-section {
-            margin-bottom: 25px;
-        }
-
-        .footer-title {
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin-bottom: 10px;
-        }
-
-        .footer-desc {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-bottom: 15px;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .social-btn {
-            width: 40px;
-            height: 40px;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 16px;
-            background: #1e293b;
-        }
-
-        .support-card {
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #1e293b;
-            text-align: left;
-            max-width: 350px;
-            margin: 0 auto;
-        }
-
-        .support-icon {
-            width: 40px;
-            height: 40px;
-            background: #22c55e;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 20px 0;
-            font-size: 12px;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-        }
-
-        .copyright {
-            font-size: 11px;
-            color: #64748b;
-            border-top: 1px solid #1e293b;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-
-        /* Bottom Fixed Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #1e293b;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            border-top: 1px solid #334155;
-            z-index: 100;
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 11px;
-            cursor: pointer;
-            text-decoration: none;
-            flex: 1;
-        }
-
-        .nav-item.active {
-            color: #22c55e;
-            font-weight: bold;
-        }
-
-        .nav-item svg {
-            width: 20px;
-            height: 20px;
-            display: block;
-            margin: 0 auto 2px;
-            fill: currentColor;
-        }
-
-        .floating-support {
-            position: fixed;
-            bottom: 75px;
-            right: 15px;
-            background: #22c55e;
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            text-decoration: none;
-            z-index: 99;
-        }
-
-        .history-item {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            color: #cbd5e1;
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f4f6f9;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800 pb-20 min-h-screen">
 
-<header>
-    <div class="logo">💎 SERA <span>TOP UP</span></div>
-    <div class="user-icon">S</div>
-</header>
-
-<div class="container">
-
-    <!-- VIEW 1: HOME PAGE -->
-    <div id="homeView" class="page-view active-view">
-        <div class="section-title">Special Offer</div>
-        <div class="grid-container">
-            <div class="cat-card" onclick="openCategory('FF Like')">
-                <h4>FF Like</h4>
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navTo('home')">
+                <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-md shadow-brand-500/30">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-none">SERA <span class="text-brand-600">TOP UP</span></h1>
+                    <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Fast & Trusted Game TopUp</span>
+                </div>
             </div>
-            <div class="cat-card" onclick="alert('বর্তমানে কোনো ফ্রি টুর্নামেন্ট চালু নেই।')">
-                <h4>Free Tournament</h4>
+            <div class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow-sm">
+                <span>S</span>
             </div>
         </div>
+    </header>
 
-        <div class="section-title">FF Categories</div>
-        <div class="grid-container">
-            <div class="cat-card" onclick="openCategory('Uid Topup [BD SERVER]')">
-                <h4>Uid Topup [BD SERVER]</h4>
+    <!-- Main Dynamic View Container -->
+    <main class="max-w-md mx-auto px-4 pt-4">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: HOME PAGE -->
+        <!-- ========================================== -->
+        <section id="view-home" class="space-y-5">
+            <!-- Notice Banner -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-sm">
+                <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
+                    <p class="text-xs text-amber-900 leading-relaxed font-medium">
+                        <strong>নোটিশ:</strong> মা-বাবা বা ফ্যামিলির কারো ফোন থেকে না বলে টাকা পাঠিয়ে টপ-আপ করলে তার অ্যাকাউন্ট স্থায়ীভাবে ব্লক করা হবে। যেকোনো সমস্যায় হেল্প পেতে টেলিগ্রাম চ্যাটে মেসেজ দিন।
+                    </p>
+                </div>
             </div>
-            <div class="cat-card" onclick="openCategory('Weekly/Monthly')">
-                <h4>Weekly/Monthly</h4>
+
+            <!-- Banner Carousel / Static Banner -->
+            <div class="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-emerald-700 to-teal-900 text-white p-5">
+                <div class="relative z-10 space-y-2">
+                    <span class="bg-amber-400 text-gray-900 text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase">Instant Auto Delivery</span>
+                    <h2 class="text-2xl font-black leading-snug">ফ্রি ফায়ার ডায়মন্ড <br><span class="text-amber-300">ইনস্ট্যান্ট টপ-আপ</span></h2>
+                    <p class="text-xs text-emerald-100">বাংলাদেশ সার্ভারে সর্বনিম্ন দামে সর্বোচ্চ বিশ্বস্ততায় নিন ইউআইডি টপ-আপ!</p>
+                </div>
+                <div class="absolute right-[-10px] bottom-[-10px] opacity-20 text-8xl text-white">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
             </div>
-            <div class="cat-card" onclick="openCategory('Level Up Pass')">
-                <h4>Level Up Pass</h4>
+
+            <!-- Special Offer Category Section -->
+            <div class="space-y-3">
+                <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Special Offer
+                </h3>
+                <div class="grid grid-cols-2 gap-3.5">
+                    <div onclick="openCategory('FF Like')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-amber-400 p-2">
+                            <i class="fa-solid fa-thumbs-up text-4xl mb-1"></i>
+                            <span class="text-xs font-bold text-white">200 Likes</span>
+                            <span class="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">POPULAR</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">FF Like</h4>
+                        <p class="text-[11px] text-gray-500">200+ লাইক প্রতিদিন</p>
+                    </div>
+
+                    <div onclick="alert('বর্তমানে কোনো ফ্রি টুর্নামেন্ট চালু নেই।')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-emerald-800 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
+                            <i class="fa-solid fa-trophy text-4xl mb-1 text-amber-300"></i>
+                            <span class="text-xs font-bold text-white">Tournament</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Free Tournament</h4>
+                        <p class="text-[11px] text-gray-500">টুর্নামেন্ট খেলে জিতুন</p>
+                    </div>
+                </div>
             </div>
-            <div class="cat-card" onclick="openCategory('Weekly Lite (BD Server)')">
-                <h4>Weekly Lite (BD Server)</h4>
+
+            <!-- Main FF TopUp Grid -->
+            <div class="space-y-3">
+                <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
+                </h3>
+                <div class="grid grid-cols-2 gap-3.5">
+                    
+                    <!-- Uid Topup BD SERVER -->
+                    <div onclick="openCategory('Uid Topup [BD SERVER]')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-gradient-to-br from-red-700 to-red-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
+                            <i class="fa-solid fa-gem text-4xl mb-1 text-cyan-300"></i>
+                            <span class="text-xs font-bold">UID Topup</span>
+                            <span class="absolute top-2 left-2 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">⚡ INSTANT</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Uid Topup [BD SERVER]</h4>
+                        <p class="text-[11px] text-brand-600 font-semibold">⚡ ২ সেকেন্ডে টপআপ</p>
+                    </div>
+
+                    <!-- Weekly/Monthly -->
+                    <div onclick="openCategory('Weekly/Monthly')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-gradient-to-br from-blue-700 to-indigo-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
+                            <i class="fa-solid fa-calendar-check text-4xl mb-1 text-amber-300"></i>
+                            <span class="text-xs font-bold">Weekly/Monthly</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Weekly/Monthly</h4>
+                        <p class="text-[11px] text-gray-500">বেস্ট অফার মেম্বারশিপ</p>
+                    </div>
+
+                    <!-- Level Up Pass -->
+                    <div onclick="openCategory('Level Up Pass')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-gradient-to-br from-amber-600 to-amber-800 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
+                            <i class="fa-solid fa-crown text-4xl mb-1 text-yellow-200"></i>
+                            <span class="text-xs font-bold">Level Up</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Level Up Pass</h4>
+                        <p class="text-[11px] text-gray-500">লেভেল অনুযায়ী ডায়মন্ড</p>
+                    </div>
+
+                    <!-- Weekly Lite -->
+                    <div onclick="openCategory('Weekly Lite (BD Server)')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-gradient-to-br from-teal-700 to-emerald-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
+                            <i class="fa-solid fa-bolt-lightning text-4xl mb-1 text-yellow-300"></i>
+                            <span class="text-xs font-bold">Weekly Lite</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Weekly Lite (BD Server)</h4>
+                        <p class="text-[11px] text-gray-500">কম দামে উইকলি</p>
+                    </div>
+
+                </div>
             </div>
+
+            <!-- Professional Footer Section (Added per user request) -->
+            <footer class="bg-slate-900 text-gray-300 rounded-2xl p-5 space-y-5 border border-slate-800 mt-8">
+                <div>
+                    <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-1">STAY CONNECTED</h4>
+                    <p class="text-[11px] text-gray-400 mb-3">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</p>
+                    <div class="flex gap-2">
+                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-4">
+                    <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">SUPPORT CENTER</h4>
+                    <div class="bg-slate-800/60 border border-slate-700/60 p-3 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-500 rounded-full flex items-center justify-center text-white text-lg">
+                            <i class="fa-brands fa-telegram"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-white">Help line [9AM-12PM]</div>
+                            <div class="text-[11px] text-brand-400">টেলিগ্রামে সাপোর্ট</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-x-4 gap-y-2 text-[11px] text-gray-400 border-t border-slate-800 pt-4">
+                    <a href="#" class="hover:text-white">About Us</a>
+                    <a href="#" class="hover:text-white">Terms & Conditions</a>
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Refund & Return Policy</a>
+                    <a href="#" class="hover:text-white">Delete Account Policy</a>
+                </div>
+
+                <div class="border-t border-slate-800 pt-4 text-center text-[11px] text-gray-500">
+                    © SERA TOP UP | All Rights Reserved | Developed by <a href="https://wa.me/8801997816786" target="_blank" class="text-brand-400 font-bold underline">GR TEAM</a>
+                </div>
+            </footer>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: CATEGORY RECHARGE DETAILS PAGE -->
+        <!-- ========================================== -->
+        <section id="view-details" class="hidden space-y-5">
+            <button onclick="navTo('home')" class="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 transition">
+                <i class="fa-solid fa-arrow-left"></i> হোম পেজে ফিরে যান
+            </button>
+
+            <!-- Product Header Banner -->
+            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl shadow-sm flex items-center gap-4">
+                <div class="w-14 h-14 bg-brand-600 text-white rounded-xl flex items-center justify-center text-2xl shadow-sm">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div>
+                    <h2 id="detail-title" class="font-extrabold text-gray-900 text-lg">Category Title</h2>
+                    <span class="bg-brand-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-block mt-1">⚡ ২ সেকেন্ডে টপআপ</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Select Recharge (Package Grid) -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
+                    <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">1</span>
+                    Select Recharge
+                </div>
+
+                <div id="package-grid" class="grid grid-cols-2 gap-2.5 pt-1">
+                    <!-- Dynamically Rendered Packages -->
+                </div>
+            </div>
+
+            <!-- Step 2: Account Info (Player ID Input) -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
+                    <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">2</span>
+                    Account Info
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Player ID Code</label>
+                    <input type="text" id="player-id-input" placeholder="এখানে আপনার গেমের আইডি কোড লিখুন" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none text-gray-900 font-semibold text-sm transition">
+                </div>
+            </div>
+
+            <!-- Step 3: Payment Method & Checkout -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
+                    <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">3</span>
+                    Select Option & Payment
+                </div>
+
+                <div class="grid grid-cols-4 gap-1.5">
+                    <div id="pay-bKash" onclick="selectPaymentMethod('bKash', '01310518316')" class="p-2.5 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">
+                        bKash
+                    </div>
+                    <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad', '01310518316')" class="p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                        Nagad
+                    </div>
+                    <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket', '01310518316')" class="p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                        Rocket
+                    </div>
+                    <div id="pay-Upay" onclick="selectPaymentMethod('Upay', '01843800533')" class="p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                        Upay
+                    </div>
+                </div>
+
+                <!-- Payment Instructions -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
+                    <p class="font-semibold text-gray-700"><span id="pay-method-name">bKash</span> Send Money Number:</p>
+                    <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-300">
+                        <span id="pay-number-display" class="font-mono font-bold text-base text-gray-900">01310518316</span>
+                        <button onclick="copyNumber()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-3 py-1 rounded text-xs">
+                            <i class="fa-regular fa-copy"></i> কপি
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TrxID Form Input -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-gray-700">TrxID (ট্রানজেকশন আইডি)</label>
+                    <input type="text" id="trx-id-input" placeholder="যেমন: 9N7A8B6C" class="w-full uppercase px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 outline-none font-mono text-sm font-bold">
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="submitOrder()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-xl text-base shadow-lg shadow-brand-500/30 transition flex items-center justify-center gap-2">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Rules & Conditions -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+                <h4 class="font-bold text-xs text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-scroll text-brand-500"></i> Rules & Conditions
+                </h4>
+                <ul class="text-xs text-gray-600 space-y-1.5 list-disc pl-4 leading-relaxed">
+                    <li>শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।</li>
+                    <li>Player ID Code ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।</li>
+                    <li>অর্ডার কমপ্লিট হওয়ার পরেও আইডিতে ডায়মন্ড না গেলে চেক করার জন্য আইডি পাস দিতে হবে।</li>
+                    <li>কোনো সমস্যা হলে TrxID সহ আমাদের টেলিগ্রাম সাপোর্টে মেসেজ দিন।</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: MY ORDERS PAGE -->
+        <!-- ========================================== -->
+        <section id="view-orders" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fa-solid fa-box text-brand-500"></i> My Orders
+                </h2>
+                <span class="text-xs text-gray-500 font-semibold" id="orders-count-badge">0 Orders</span>
+            </div>
+
+            <!-- Orders Container -->
+            <div id="orders-list-container" class="space-y-3">
+                <!-- Rendered dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating WhatsApp/Telegram Support Button -->
+    <a href="https://wa.me/8801997816786" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="WhatsApp Support">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Fixed Bottom Bar Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-lg">
+        <div class="max-w-md mx-auto grid grid-cols-2 py-2.5 text-center text-xs font-semibold text-gray-500">
+            <button id="nav-btn-home" onclick="navTo('home')" class="flex flex-col items-center gap-1 text-brand-600">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span>Home</span>
+            </button>
+            <button id="nav-btn-orders" onclick="navTo('orders')" class="flex flex-col items-center gap-1 hover:text-brand-600">
+                <i class="fa-solid fa-box text-lg"></i>
+                <span>My Orders</span>
+            </button>
         </div>
-    </div>
+    </nav>
 
-    <!-- VIEW 2: CATEGORY DETAIL PAGE -->
-    <div id="detailsView" class="page-view">
-        <button onclick="showView('homeView')" style="background:none; border:none; color:#22c55e; font-weight:bold; cursor:pointer; margin-bottom:12px;">← Back to Home</button>
-
-        <div class="header-banner">
-            <h2 id="catTitle">Category Title</h2>
-            <p style="font-size: 12px; color: #22c55e; font-weight: bold; margin-top: 4px;">⚡ ২ সেকেন্ডে টপআপ</p>
-        </div>
-
-        <!-- Step 1 -->
-        <div class="step-box">
-            <div class="step-title">
-                <span class="step-number">1</span> Select Recharge
+    <!-- Custom Notification Toast -->
+    <div id="toast-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
+            <div id="toast-icon" class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600">
+                <i class="fa-solid fa-check"></i>
             </div>
-            <div class="package-grid" id="pkgGridContainer"></div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="step-box">
-            <div class="step-title">
-                <span class="step-number">2</span> Account Info
-            </div>
-            <label style="font-size: 12px; font-weight: bold; color: #cbd5e1; display:block; margin-bottom:6px;">Player Id</label>
-            <input type="text" id="playerIDInput" placeholder="এখানে আপনার গেমের আইডি কোড লিখুন">
-        </div>
-
-        <!-- Step 3 -->
-        <div class="step-box">
-            <div class="step-title">
-                <span class="step-number">3</span> Select Option
-            </div>
-            <div class="pay-options">
-                <div class="pay-card selected" onclick="selectPayment('bKash', '01310518316', this)">bKash</div>
-                <div class="pay-card" onclick="selectPayment('Nagad', '01310518316', this)">Nagad</div>
-                <div class="pay-card" onclick="selectPayment('Rocket', '01310518316', this)">Rocket</div>
-                <div class="pay-card" onclick="selectPayment('Upay', '01843800533', this)">Upay</div>
-            </div>
-
-            <div class="payment-info">
-                <span id="payMethodName">bKash</span> Send Money Number:<br>
-                <strong id="payNumber" style="color:#f59e0b; font-size:16px;">01310518316</strong>
-                <button onclick="copyNumber()" style="margin-left:10px; padding:3px 8px; font-size:11px; background:#334155; color:#fff; border:none; border-radius:4px; cursor:pointer;">কপি</button>
-            </div>
-
-            <label style="font-size: 12px; font-weight: bold; color: #cbd5e1; display:block; margin-bottom:6px;">TrxID (ট্রানজেকশন আইডি)</label>
-            <input type="text" id="trxIDInput" placeholder="যেমন: 9N7A8B6C">
-
-            <button class="btn-submit" onclick="submitOrder()">Buy Now</button>
-            <div id="orderStatusMsg" style="margin-top:10px; font-size:13px; font-weight:bold; text-align:center;"></div>
-        </div>
-
-        <!-- Rules -->
-        <div class="rules-box">
-            <h4 style="color:#f1f5f9; margin-bottom:6px;">📋 Rules & Conditions:</h4>
-            • শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।<br>
-            • Player ID Code ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।<br>
-            • কোনো সমস্যা হলে TrxID সহ আমাদের টেলিগ্রাম সাপোর্টে মেসেজ দিন।
-        </div>
-    </div>
-
-    <!-- VIEW 3: MY ORDERS -->
-    <div id="ordersView" class="page-view">
-        <div class="section-title">My Orders</div>
-        <div id="historyList">
-            <p style="text-align: center; color: #94a3b8; font-size: 13px; margin-top: 30px;">কোনো অর্ডার ডেটা পাওয়া যায়নি!</p>
-        </div>
-    </div>
-
-</div>
-
-<!-- FOOTER SECTION -->
-<footer>
-    <div class="footer-section">
-        <div class="footer-title">STAY CONNECTED</div>
-        <div class="footer-desc">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</div>
-        <div class="social-icons">
-            <a href="https://t.me/amartopup" class="social-btn" target="_blank">🌐</a>
-            <a href="https://t.me/amartopup" class="social-btn" target="_blank">📷</a>
-            <a href="https://t.me/amartopup" class="social-btn" target="_blank">▶</a>
-            <a href="https://t.me/amartopup" class="social-btn" target="_blank">✉</a>
-        </div>
-    </div>
-
-    <div class="footer-section">
-        <div class="footer-title">SUPPORT CENTER</div>
-        <div class="support-card">
-            <div class="support-icon">✈</div>
             <div>
-                <div style="font-size: 12px; font-weight: bold; color: #ffffff;">Help line [9AM-12PM]</div>
-                <div style="font-size: 11px; color: #22c55e;">টেলিগ্রামে সাপোর্ট</div>
+                <h3 id="toast-title" class="font-bold text-gray-900 text-base">নোটিফিকেশন</h3>
+                <p id="toast-msg" class="text-xs text-gray-600 mt-1 leading-relaxed"></p>
             </div>
+            <button onclick="closeToast()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">
+                ঠিক আছে
+            </button>
         </div>
     </div>
 
-    <div class="footer-links">
-        <a href="#">About Us</a>
-        <a href="#">Terms & Conditions</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Refund & Return Policy</a>
-        <a href="#">Delete Account Policy</a>
-    </div>
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Data Packages with Updated Prices (25 Diamond = 22 TK, 50 Diamond = 35 TK)
+        const PackagesData = {
+            "Weekly Lite (BD Server)": [
+                { name: "1X Weekly Lite", price: 45 },
+                { name: "2X Weekly Lite", price: 89 },
+                { name: "3X Weekly Lite", price: 133 },
+                { name: "4X Weekly Lite", price: 180 },
+                { name: "5X Weekly Lite", price: 225 }
+            ],
+            "Level Up Pass": [
+                { name: "Level Up Package-Level 6 120💎", price: 43 },
+                { name: "Level Up Package-Level 10 200💎", price: 75 },
+                { name: "Level Up Package-Level 15 200💎", price: 75 },
+                { name: "Level Up Package-Level 20 200💎", price: 75 },
+                { name: "Level Up Package-Level 25 200💎", price: 75 },
+                { name: "Level Up Package-Level 30 350💎", price: 106 },
+                { name: "Full Level Up (1270 Diamond)", price: 425 }
+            ],
+            "Weekly/Monthly": [
+                { name: "Weekly", price: 153 },
+                { name: "Monthly", price: 758 },
+                { name: "2X Weekly", price: 306 },
+                { name: "3X Weekly", price: 459 },
+                { name: "5X Weekly", price: 765 },
+                { name: "2X Monthly", price: 1516 },
+                { name: "5X Monthly", price: 3950 },
+                { name: "1Weekly + 1Monthly", price: 911 },
+                { name: "2X Weekly + 2X Monthly", price: 1822 },
+                { name: "4Weekly + 1Monthly", price: 1370 }
+            ],
+            "Uid Topup [BD SERVER]": [
+                { name: "25 Diamond", price: 22 },
+                { name: "50 Diamond", price: 35 },
+                { name: "75 Diamond", price: 53 },
+                { name: "100 Diamond", price: 68 },
+                { name: "115 Diamond", price: 76 },
+                { name: "240 Diamond", price: 152 },
+                { name: "355 Diamond", price: 229 },
+                { name: "480 Diamond", price: 304 },
+                { name: "505 Diamond", price: 323 },
+                { name: "610 Diamond", price: 385 },
+                { name: "850 Diamond", price: 536 },
+                { name: "1090 Diamond", price: 688 },
+                { name: "1240 Diamond", price: 768 },
+                { name: "1850 Diamond", price: 1152 },
+                { name: "2530 Diamond", price: 1540 },
+                { name: "5060 Diamond", price: 3080 },
+                { name: "10120 Diamond", price: 6160 },
+                { name: "20240 Diamond", price: 12320 }
+            ],
+            "FF Like": [
+                { name: "200 Likes ➔ Instant Delivery", price: 25 }
+            ]
+        };
 
-    <div class="copyright">
-        © SERA TOP UP | All Rights Reserved | Developed by <a href="https://wa.me/8801997816786" target="_blank" style="color: #22c55e; font-weight: bold; text-decoration: underline;">GR TEAM</a>
-    </div>
-</footer>
+        // Telegram Bot Configs
+        const TELEGRAM_TOKEN = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
+        const TELEGRAM_CHAT_ID = "8598185365";
 
-<!-- Floating Telegram Support Button -->
-<a href="https://t.me/amartopup" target="_blank" class="floating-support" title="Telegram Support">🎧</a>
+        // Global State
+        let currentCategory = "";
+        let selectedPackage = null;
+        let selectedPayMethod = "bKash";
+        let selectedPayNumber = "01310518316";
+        let ordersList = [];
 
-<!-- Bottom Navigation Bar -->
-<div class="bottom-nav">
-    <div class="nav-item active" id="navHome" onclick="showView('homeView')">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        Home
-    </div>
-    <div class="nav-item" id="navOrders" onclick="showView('ordersView')">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-        My Orders
-    </div>
-</div>
+        window.onload = function() {
+            loadOrders();
+            renderOrdersList();
+        };
 
-<script>
-    let selectedPackage = null;
-    let selectedPaymentMethod = "bKash";
-    let selectedPaymentNumber = "01310518316";
+        // Navigation Controller
+        function navTo(viewName) {
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-details').classList.add('hidden');
+            document.getElementById('view-orders').classList.add('hidden');
 
-    const packagesData = {
-        "Weekly Lite (BD Server)": [
-            { name: "1X Weekly Lite", price: 45 },
-            { name: "2X Weekly Lite", price: 89 },
-            { name: "3X Weekly Lite", price: 133 },
-            { name: "4X Weekly Lite", price: 180 },
-            { name: "5X Weekly Lite", price: 225 }
-        ],
-        "Level Up Pass": [
-            { name: "Level Up Package-Level 6 (120💎)", price: 43 },
-            { name: "Level Up Package-Level 10 (200💎)", price: 75 },
-            { name: "Level Up Package-Level 15 (200💎)", price: 75 },
-            { name: "Level Up Package-Level 20 (200💎)", price: 75 },
-            { name: "Level Up Package-Level 25 (200💎)", price: 75 },
-            { name: "Level Up Package-Level 30 (350💎)", price: 106 },
-            { name: "Full Level Up (1270 Diamond)", price: 425 }
-        ],
-        "Weekly/Monthly": [
-            { name: "Weekly", price: 153 },
-            { name: "Monthly", price: 758 },
-            { name: "2X Weekly", price: 306 },
-            { name: "3X Weekly", price: 459 },
-            { name: "5X Weekly", price: 765 },
-            { name: "2X Monthly", price: 1516 },
-            { name: "5X Monthly", price: 3950 },
-            { name: "1Weekly + 1Monthly", price: 911 },
-            { name: "2X Weekly + 2X Monthly", price: 1822 },
-            { name: "4Weekly + 1Monthly", price: 1370 }
-        ],
-        "Uid Topup [BD SERVER]": [
-            { name: "25 Diamond", price: 22 },
-            { name: "50 Diamond", price: 35 },
-            { name: "75 Diamond", price: 53 },
-            { name: "100 Diamond", price: 68 },
-            { name: "115 Diamond", price: 76 },
-            { name: "240 Diamond", price: 152 },
-            { name: "355 Diamond", price: 229 },
-            { name: "480 Diamond", price: 304 },
-            { name: "505 Diamond", price: 323 },
-            { name: "610 Diamond", price: 385 },
-            { name: "850 Diamond", price: 536 },
-            { name: "1090 Diamond", price: 688 },
-            { name: "1240 Diamond", price: 768 },
-            { name: "1850 Diamond", price: 1152 },
-            { name: "2530 Diamond", price: 1540 },
-            { name: "5060 Diamond", price: 3080 },
-            { name: "10120 Diamond", price: 6160 },
-            { name: "20240 Diamond", price: 12320 }
-        ],
-        "FF Like": [
-            { name: "200 Likes ➔ Instant Delivery", price: 25 }
-        ]
-    };
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
-    function showView(viewId) {
-        document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active-view'));
-        document.getElementById(viewId).classList.add('active-view');
+            document.getElementById('nav-btn-home').classList.remove('text-brand-600');
+            document.getElementById('nav-btn-orders').classList.remove('text-brand-600');
 
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-        if(viewId === 'homeView') document.getElementById('navHome').classList.add('active');
-        if(viewId === 'ordersView') {
-            document.getElementById('navOrders').classList.add('active');
-            renderHistory();
-        }
-        window.scrollTo(0, 0);
-    }
-
-    function openCategory(catName) {
-        document.getElementById('catTitle').innerText = catName;
-        const grid = document.getElementById('pkgGridContainer');
-        grid.innerHTML = '';
-        selectedPackage = null;
-
-        const list = packagesData[catName] || [];
-        list.forEach((pkg) => {
-            const div = document.createElement('div');
-            div.className = 'pkg-item';
-            div.innerHTML = `<div class="pkg-name">${pkg.name}</div><div class="pkg-price">${pkg.price} TK</div>`;
-            div.onclick = function() {
-                document.querySelectorAll('.pkg-item').forEach(e => e.classList.remove('selected'));
-                div.classList.add('selected');
-                selectedPackage = pkg;
-            };
-            grid.appendChild(div);
-        });
-
-        showView('detailsView');
-    }
-
-    function selectPayment(method, number, element) {
-        selectedPaymentMethod = method;
-        selectedPaymentNumber = number;
-        document.querySelectorAll('.pay-card').forEach(e => e.classList.remove('selected'));
-        element.classList.add('selected');
-        document.getElementById('payMethodName').innerText = method;
-        document.getElementById('payNumber').innerText = number;
-    }
-
-    function copyNumber() {
-        navigator.clipboard.writeText(selectedPaymentNumber);
-        alert('নম্বর কপি হয়েছে!');
-    }
-
-    function submitOrder() {
-        const playerID = document.getElementById('playerIDInput').value.trim();
-        const trxID = document.getElementById('trxIDInput').value.trim();
-        const statusMsg = document.getElementById('orderStatusMsg');
-
-        if (!selectedPackage) {
-            alert('দয়া করে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন!');
-            return;
-        }
-        if (playerID === '') {
-            alert('দয়া করে আপনার গেমের Player ID দিন!');
-            return;
-        }
-        if (trxID === '') {
-            alert('দয়া করে পেমেন্টের TrxID দিন!');
-            return;
-        }
-
-        statusMsg.style.color = '#f59e0b';
-        statusMsg.innerHTML = 'অর্ডার প্রসেস হচ্ছে...';
-
-        const token = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
-        const chatId = "8598185365";
-
-        const message = `🚨 *নতুন টপ-আপ অর্ডার (SERA TOP UP)!*\n\n🎮 *Player ID:* ${playerID}\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n💳 *Payment:* ${selectedPaymentMethod} (${selectedPaymentNumber})\n🔑 *TrxID:* ${trxID}`;
-
-        fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`)
-        .then(res => {
-            if (res.ok) {
-                statusMsg.style.color = '#22c55e';
-                statusMsg.innerHTML = '✅ আপনার অর্ডার সফলভাবে জমা হয়েছে!';
-                saveOrder(playerID, selectedPackage.name, selectedPackage.price, trxID);
-                document.getElementById('playerIDInput').value = '';
-                document.getElementById('trxIDInput').value = '';
-            } else {
-                throw new Error();
+            if (viewName === 'home') document.getElementById('nav-btn-home').classList.add('text-brand-600');
+            if (viewName === 'orders') {
+                document.getElementById('nav-btn-orders').classList.add('text-brand-600');
+                renderOrdersList();
             }
-        })
-        .catch(() => {
-            statusMsg.style.color = '#ef4444';
-            statusMsg.innerHTML = '❌ কোনো সমস্যা হয়েছে, পুনরায় চেষ্টা করুন।';
-        });
-    }
 
-    function saveOrder(playerID, pkgName, price, trxID) {
-        let orders = JSON.parse(localStorage.getItem('seraOrders')) || [];
-        
-        const now = new Date();
-        const englishDate = now.toLocaleString('en-US', { 
-            year: 'numeric', 
-            month: 'numeric', 
-            day: 'numeric', 
-            hour: 'numeric', 
-            minute: 'numeric', 
-            second: 'numeric', 
-            hour12: true 
-        });
-
-        orders.unshift({
-            serial: orders.length + 1,
-            playerID: playerID,
-            pkgName: pkgName,
-            price: price,
-            trxID: trxID,
-            date: englishDate
-        });
-        localStorage.setItem('seraOrders', JSON.stringify(orders));
-    }
-
-    function renderHistory() {
-        const historyContainer = document.getElementById('historyList');
-        let orders = JSON.parse(localStorage.getItem('seraOrders')) || [];
-        if (orders.length === 0) {
-            historyContainer.innerHTML = '<p style="text-align: center; color: #94a3b8; font-size: 13px; margin-top: 30px;">কোনো অর্ডার ডেটা পাওয়া যায়নি!</p>';
-            return;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        let html = '';
-        orders.forEach(ord => {
-            html += `<div class="history-item">
-                🔥 <b>Order #${ord.serial}</b> | Player ID: ${ord.playerID}<br>
-                📦 Package: <b>${ord.pkgName}</b> (৳${ord.price})<br>
-                🔑 TrxID: ${ord.trxID} <span style="float:right; color:#f59e0b;">${ord.date}</span>
-            </div>`;
-        });
-        historyContainer.innerHTML = html;
-    }
-</script>
+        // Open Category Details
+        function openCategory(catName) {
+            currentCategory = catName;
+            document.getElementById('detail-title').innerText = catName;
+            selectedPackage = null;
 
+            const grid = document.getElementById('package-grid');
+            grid.innerHTML = '';
+
+            const list = PackagesData[catName] || [];
+            list.forEach((pkg, index) => {
+                const card = document.createElement('div');
+                card.id = `pkg-item-${index}`;
+                card.className = "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
+                card.onclick = () => selectPackage(pkg, index, list.length);
+
+                card.innerHTML = `
+                    <span class="font-semibold text-xs text-gray-800">${pkg.name}</span>
+                    <span class="text-brand-600 font-extrabold text-sm mt-1">${pkg.price} TK</span>
+                `;
+                grid.appendChild(card);
+            });
+
+            navTo('details');
+        }
+
+        // Package Selection
+        function selectPackage(pkg, index, total) {
+            selectedPackage = pkg;
+            for (let i = 0; i < total; i++) {
+                const el = document.getElementById(`pkg-item-${i}`);
+                if (el) el.className = "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
+            }
+            const activeEl = document.getElementById(`pkg-item-${index}`);
+            if (activeEl) activeEl.className = "p-3 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
+        }
+
+        // Payment Method Switcher (bKash, Nagad, Rocket, Upay)
+        function selectPaymentMethod(method, number) {
+            selectedPayMethod = method;
+            selectedPayNumber = number;
+            ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
+                const btn = document.getElementById(`pay-${m}`);
+                if (btn) {
+                    if (m === method) {
+                        btn.className = "p-2.5 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700";
+                    } else {
+                        btn.className = "p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700";
+                    }
+                }
+            });
+            document.getElementById('pay-method-name').innerText = method;
+            document.getElementById('pay-number-display').innerText = number;
+        }
+
+        // Submit Order
+        function submitOrder() {
+            const playerId = document.getElementById('player-id-input').value.trim();
+            const trxId = document.getElementById('trx-id-input').value.trim();
+
+            if (!selectedPackage) {
+                showToast('সতর্কতা', 'দয়া করে একটি প্যাকেজ সিলেক্ট করুন!', 'error');
+                return;
+            }
+            if (!playerId) {
+                showToast('সতর্কতা', 'দয়া করে আপনার Free Fire Player ID লিখুন!', 'error');
+                return;
+            }
+            if (!trxId) {
+                showToast('সতর্কতা', 'দয়া করে পেমেন্টের TrxID দিন!', 'error');
+                return;
+            }
+
+            // English Date Format
+            const now = new Date();
+            const englishDate = now.toLocaleString('en-US', { 
+                year: 'numeric', 
+                month: 'numeric', 
+                day: 'numeric', 
+                hour: 'numeric', 
+                minute: 'numeric', 
+                second: 'numeric', 
+                hour12: true 
+            });
+
+            const orderObj = {
+                serial: ordersList.length + 1,
+                id: "ORD" + Math.floor(10000 + Math.random() * 90000),
+                category: currentCategory,
+                package: selectedPackage.name,
+                price: selectedPackage.price,
+                playerId: playerId,
+                payMethod: selectedPayMethod,
+                payNumber: selectedPayNumber,
+                trxId: trxId,
+                date: englishDate
+            };
+
+            ordersList.unshift(orderObj);
+            saveOrders();
+
+            // Send Telegram Alert
+            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (SERA TOP UP)!*\n\n🔥 *Order:* #${orderObj.serial}\n🎮 *Player ID:* ${playerId}\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n💳 *Payment:* ${selectedPayMethod} (${selectedPayNumber})\n🔑 *TrxID:* ${trxId}`;
+
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`)
+            .then(res => res.json())
+            .catch(err => console.log(err));
+
+            document.getElementById('player-id-input').value = '';
+            document.getElementById('trx-id-input').value = '';
+
+            showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success');
+            navTo('orders');
+        }
+
+        // Render Orders List (Removed Processing Status & Bangla date per user request)
+        function renderOrdersList() {
+            const container = document.getElementById('orders-list-container');
+            document.getElementById('orders-count-badge').innerText = `${ordersList.length} Orders`;
+
+            if (ordersList.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-8 rounded-2xl shadow-sm text-center space-y-3">
+                        <i class="fa-solid fa-box-open text-4xl text-gray-300"></i>
+                        <h4 class="font-bold text-gray-700 text-sm">কোনো অর্ডার ডেটা পাওয়া যায়নি!</h4>
+                        <button onclick="navTo('home')" class="bg-brand-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md">
+                            ORDER NOW
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            ordersList.forEach(ord => {
+                html += `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-xs text-brand-600">Order #${ord.serial}</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <h4 class="font-extrabold text-gray-900">${ord.package}</h4>
+                            <span class="font-bold text-brand-600">৳ ${ord.price}</span>
+                        </div>
+                        <div class="text-xs text-gray-500 space-y-0.5 pt-1 border-t border-gray-100">
+                            <p>Player ID: <strong class="text-gray-800">${ord.playerId}</strong></p>
+                            <p>Payment: ${ord.payMethod} | TrxID: <span class="font-mono font-bold text-gray-700">${ord.trxId}</span></p>
+                            <span class="text-[10px] text-gray-400 block mt-1">${ord.date}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Copy Helper
+        function copyNumber() {
+            navigator.clipboard.writeText(selectedPayNumber);
+            showToast('কপি হয়েছে', `নম্বর কপি করা হয়েছে: ${selectedPayNumber}`, 'success');
+        }
+
+        // Local Storage
+        function saveOrders() {
+            localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList));
+        }
+
+        function loadOrders() {
+            const data = localStorage.getItem('sera_topup_orders');
+            if (data) ordersList = JSON.parse(data);
+        }
+
+        // Toast Helper
+        function showToast(title, msg, type = 'info') {
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-msg').innerText = msg;
+            
+            const iconBox = document.getElementById('toast-icon');
+            if (type === 'error') {
+                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-red-100 text-red-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+            } else {
+                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
+            }
+
+            document.getElementById('toast-modal').classList.remove('hidden');
+        }
+
+        function closeToast() {
+            document.getElementById('toast-modal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
