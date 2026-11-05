@@ -34,20 +34,18 @@
         body {
             font-family: 'Hind Siliguri', sans-serif;
             background-color: #f4f6f9;
-            user-select: none;
+            user-select: text;
             -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 pb-20 min-h-screen">
+<body class="bg-gray-100 text-gray-800 pb-24 min-h-screen">
 
     <!-- Top Sticky Header -->
     <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer" onclick="navTo('home', true)">
-                <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-md shadow-brand-500/30">
-                    <i class="fa-solid fa-gem"></i>
-                </div>
+                <img src="https://i.ibb.co.com/v4fLwZG1/logo.png" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-brand-500/30" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
                 <div>
                     <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-none">SERA <span class="text-brand-600">TOP UP</span></h1>
                     <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Fast & Trusted Game TopUp</span>
@@ -60,51 +58,43 @@
     </header>
 
     <!-- Main Dynamic View Container -->
-    <main class="max-w-md mx-auto px-4 pt-4">
+    <main class="max-w-4xl mx-auto px-4 pt-4">
 
         <!-- ========================================== -->
         <!-- VIEW 1: HOME PAGE -->
         <!-- ========================================== -->
-        <section id="view-home" class="space-y-5">
+        <section id="view-home" class="space-y-6">
             <!-- Notice Banner -->
             <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-sm">
                 <div class="flex items-start gap-2.5">
                     <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
-                    <p class="text-xs text-amber-900 leading-relaxed font-medium">
+                    <p class="text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
                         <strong>নোটিশ:</strong> মা-বাবা বা ফ্যামিলির কারো ফোন থেকে না বলে টাকা পাঠিয়ে টপ-আপ করলে তার অ্যাকাউন্ট স্থায়ীভাবে ব্লক করা হবে। যেকোনো সমস্যায় হেল্প পেতে টেলিগ্রাম চ্যাটে মেসেজ দিন।
                     </p>
                 </div>
             </div>
 
-            <!-- Banner Carousel / Static Banner -->
-            <div class="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-emerald-700 to-teal-900 text-white p-5">
-                <div class="relative z-10 space-y-2">
-                    <span class="bg-amber-400 text-gray-900 text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase">Instant Auto Delivery</span>
-                    <h2 class="text-2xl font-black leading-snug">ফ্রি ফায়ার ডায়মন্ড <br><span class="text-amber-300">ইনস্ট্যান্ট টপ-আপ</span></h2>
-                    <p class="text-xs text-emerald-100">বাংলাদেশ সার্ভারে সর্বনিম্ন দামে সর্বোচ্চ বিশ্বস্ততায় নিন ইউআইডি টপ-আপ!</p>
-                </div>
-                <div class="absolute right-[-10px] bottom-[-10px] opacity-20 text-8xl text-white">
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
+            <!-- Home Main Banner Carousel / Custom Image -->
+            <div class="relative rounded-2xl overflow-hidden shadow-lg bg-slate-900">
+                <img src="https://i.ibb.co.com/60tFtzwn/banner.png" alt="Main Banner" class="w-full h-44 sm:h-64 object-cover" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=80'">
             </div>
 
             <!-- Special Offer Category Section -->
             <div class="space-y-3">
-                <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Special Offer
                 </h3>
-                <div class="grid grid-cols-2 gap-3.5">
-                    <div onclick="openCategory('FF Like')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-amber-400 p-2">
-                            <i class="fa-solid fa-thumbs-up text-4xl mb-1"></i>
-                            <span class="text-xs font-bold text-white">200 Likes</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    <div onclick="openCategory('FF Like')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
+                            <img src="https://i.postimg.cc/Y9mJjdjr/214008759-1792732594249437.jpg" alt="FF Like" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             <span class="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">POPULAR</span>
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">FF Like</h4>
                         <p class="text-[11px] text-gray-500">200+ লাইক প্রতিদিন</p>
                     </div>
 
-                    <div onclick="alert('বর্তমানে কোনো ফ্রি টুর্নামেন্ট চালু নেই।')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                    <div onclick="alert('বর্তমানে কোনো ফ্রি টুর্নামেন্ট চালু নেই।')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
                         <div class="aspect-square bg-emerald-800 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
                             <i class="fa-solid fa-trophy text-4xl mb-1 text-amber-300"></i>
                             <span class="text-xs font-bold text-white">Tournament</span>
@@ -117,16 +107,15 @@
 
             <!-- Main FF TopUp Grid -->
             <div class="space-y-3">
-                <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
                 </h3>
-                <div class="grid grid-cols-2 gap-3.5">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
                     
                     <!-- Uid Topup BD SERVER -->
-                    <div onclick="openCategory('Uid Topup [BD SERVER]')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-gradient-to-br from-red-700 to-red-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
-                            <i class="fa-solid fa-gem text-4xl mb-1 text-cyan-300"></i>
-                            <span class="text-xs font-bold">UID Topup</span>
+                    <div onclick="openCategory('Uid Topup [BD SERVER]')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
+                            <img src="https://bdtopup.store/uploads/media/260/01KGAX7XFP7W8KXK4C4MY76297.jpg" alt="UID Topup" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             <span class="absolute top-2 left-2 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">⚡ INSTANT</span>
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Uid Topup [BD SERVER]</h4>
@@ -134,30 +123,27 @@
                     </div>
 
                     <!-- Weekly/Monthly -->
-                    <div onclick="openCategory('Weekly/Monthly')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-gradient-to-br from-blue-700 to-indigo-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
-                            <i class="fa-solid fa-calendar-check text-4xl mb-1 text-amber-300"></i>
-                            <span class="text-xs font-bold">Weekly/Monthly</span>
+                    <div onclick="openCategory('Weekly/Monthly')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
+                            <img src="https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Wekkly-monthly-membership-.webp" alt="Weekly/Monthly" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Weekly/Monthly</h4>
                         <p class="text-[11px] text-gray-500">বেস্ট অফার মেম্বারশিপ</p>
                     </div>
 
                     <!-- Level Up Pass -->
-                    <div onclick="openCategory('Level Up Pass')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-gradient-to-br from-amber-600 to-amber-800 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
-                            <i class="fa-solid fa-crown text-4xl mb-1 text-yellow-200"></i>
-                            <span class="text-xs font-bold">Level Up</span>
+                    <div onclick="openCategory('Level Up Pass')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
+                            <img src="https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Level-Up-Pass.webp" alt="Level Up Pass" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Level Up Pass</h4>
                         <p class="text-[11px] text-gray-500">লেভেল অনুযায়ী ডায়মন্ড</p>
                     </div>
 
                     <!-- Weekly Lite -->
-                    <div onclick="openCategory('Weekly Lite (BD Server)')" class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-gradient-to-br from-teal-700 to-emerald-900 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
-                            <i class="fa-solid fa-bolt-lightning text-4xl mb-1 text-yellow-300"></i>
-                            <span class="text-xs font-bold">Weekly Lite</span>
+                    <div onclick="openCategory('Weekly Lite (BD Server)')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
+                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
+                            <img src="https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Weekly-Lite.webp" alt="Weekly Lite" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Weekly Lite (BD Server)</h4>
                         <p class="text-[11px] text-gray-500">কম দামে উইকলি</p>
@@ -167,21 +153,21 @@
             </div>
 
             <!-- Professional Footer Section -->
-            <footer class="bg-slate-900 text-gray-300 rounded-2xl p-5 space-y-5 border border-slate-800 mt-8">
+            <footer class="bg-slate-900 text-gray-300 rounded-2xl p-6 space-y-6 border border-slate-800 mt-8">
                 <div>
                     <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-1">STAY CONNECTED</h4>
-                    <p class="text-[11px] text-gray-400 mb-3">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</p>
+                    <p class="text-xs text-gray-400 mb-3">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</p>
                     <div class="flex gap-2">
-                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
-                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://t.me/amartopup" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
                     </div>
                 </div>
 
                 <div class="border-t border-slate-800 pt-4">
                     <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">SUPPORT CENTER</h4>
-                    <div class="bg-slate-800/60 border border-slate-700/60 p-3 rounded-xl flex items-center gap-3">
+                    <div class="bg-slate-800/60 border border-slate-700/60 p-3.5 rounded-xl flex items-center gap-3 max-w-sm">
                         <div class="w-10 h-10 bg-brand-500 rounded-full flex items-center justify-center text-white text-lg">
                             <i class="fa-brands fa-telegram"></i>
                         </div>
@@ -192,7 +178,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-wrap gap-x-4 gap-y-2 text-[11px] text-gray-400 border-t border-slate-800 pt-4">
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400 border-t border-slate-800 pt-4">
                     <a href="#" class="hover:text-white">About Us</a>
                     <a href="#" class="hover:text-white">Terms & Conditions</a>
                     <a href="#" class="hover:text-white">Privacy Policy</a>
@@ -200,7 +186,7 @@
                     <a href="#" class="hover:text-white">Delete Account Policy</a>
                 </div>
 
-                <div class="border-t border-slate-800 pt-4 text-center text-[11px] text-gray-500">
+                <div class="border-t border-slate-800 pt-4 text-center text-xs text-gray-500">
                     © SERA TOP UP | All Rights Reserved | Developed by <a href="https://wa.me/8801997816786" target="_blank" class="text-brand-400 font-bold underline">GR TEAM</a>
                 </div>
             </footer>
@@ -209,36 +195,36 @@
         <!-- ========================================== -->
         <!-- VIEW 2: CATEGORY RECHARGE DETAILS PAGE -->
         <!-- ========================================== -->
-        <section id="view-details" class="hidden space-y-5">
+        <section id="view-details" class="hidden space-y-6 max-w-2xl mx-auto">
             <button onclick="navTo('home', true)" class="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 transition">
                 <i class="fa-solid fa-arrow-left"></i> হোম পেজে ফিরে যান
             </button>
 
             <!-- Product Header Banner -->
-            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="bg-emerald-50 border border-emerald-200 p-4 sm:p-5 rounded-2xl shadow-sm flex items-center gap-4">
                 <div class="w-14 h-14 bg-brand-600 text-white rounded-xl flex items-center justify-center text-2xl shadow-sm">
                     <i class="fa-solid fa-fire"></i>
                 </div>
                 <div>
-                    <h2 id="detail-title" class="font-extrabold text-gray-900 text-lg">Category Title</h2>
-                    <span class="bg-brand-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-block mt-1">⚡ ২ সেকেন্ডে টপআপ</span>
+                    <h2 id="detail-title" class="font-extrabold text-gray-900 text-lg sm:text-xl">Category Title</h2>
+                    <span class="bg-brand-500 text-white text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full inline-block mt-1">⚡ ২ সেকেন্ডে টপআপ</span>
                 </div>
             </div>
 
             <!-- Step 1: Select Recharge (Package Grid) -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                 <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
                     <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">1</span>
                     Select Recharge
                 </div>
 
-                <div id="package-grid" class="grid grid-cols-2 gap-2.5 pt-1">
+                <div id="package-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
                     <!-- Dynamically Rendered Packages -->
                 </div>
             </div>
 
             <!-- Step 2: Account Info (Player ID Input) -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                 <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
                     <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">2</span>
                     Account Info
@@ -246,28 +232,28 @@
                 
                 <div class="space-y-2">
                     <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Player ID Code</label>
-                    <input type="text" id="player-id-input" placeholder="এখানে আপনার গেমের আইডি কোড লিখুন" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none text-gray-900 font-semibold text-sm transition">
+                    <input type="text" id="player-id-input" placeholder="এখানে আপনার গেমের আইডি কোড লিখুন" class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none text-gray-900 font-semibold text-sm transition">
                 </div>
             </div>
 
             <!-- Step 3: Payment Method & Checkout -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
                 <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
                     <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">3</span>
                     Select Option & Payment
                 </div>
 
-                <div class="grid grid-cols-4 gap-1.5">
-                    <div id="pay-bKash" onclick="selectPaymentMethod('bKash', '01310518316')" class="p-2.5 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">
+                <div class="grid grid-cols-4 gap-2">
+                    <div id="pay-bKash" onclick="selectPaymentMethod('bKash', '01310518316')" class="p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">
                         bKash
                     </div>
-                    <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad', '01310518316')" class="p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                    <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad', '01310518316')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
                         Nagad
                     </div>
-                    <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket', '01310518316')" class="p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                    <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket', '01310518316')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
                         Rocket
                     </div>
-                    <div id="pay-Upay" onclick="selectPaymentMethod('Upay', '01843800533')" class="p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                    <div id="pay-Upay" onclick="selectPaymentMethod('Upay', '01843800533')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
                         Upay
                     </div>
                 </div>
@@ -275,9 +261,9 @@
                 <!-- Payment Instructions -->
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
                     <p class="font-semibold text-gray-700"><span id="pay-method-name">bKash</span> Send Money Number:</p>
-                    <div class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-300">
-                        <span id="pay-number-display" class="font-mono font-bold text-base text-gray-900">01310518316</span>
-                        <button onclick="copyNumber()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-3 py-1 rounded text-xs">
+                    <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-300">
+                        <span id="pay-number-display" class="font-mono font-bold text-base sm:text-lg text-gray-900">01310518316</span>
+                        <button onclick="copyNumber()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-4 py-1.5 rounded-lg text-xs">
                             <i class="fa-regular fa-copy"></i> কপি
                         </button>
                     </div>
@@ -286,17 +272,17 @@
                 <!-- TrxID Form Input -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-gray-700">TrxID (ট্রানজেকশন আইডি)</label>
-                    <input type="text" id="trx-id-input" placeholder="যেমন: 9N7A8B6C" class="w-full uppercase px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 outline-none font-mono text-sm font-bold">
+                    <input type="text" id="trx-id-input" placeholder="যেমন: 9N7A8B6C" class="w-full uppercase px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 outline-none font-mono text-sm font-bold">
                 </div>
 
                 <!-- Submit Button -->
-                <button onclick="submitOrder()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-xl text-base shadow-lg shadow-brand-500/30 transition flex items-center justify-center gap-2">
+                <button onclick="submitOrder()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl text-base shadow-lg shadow-brand-500/30 transition flex items-center justify-center gap-2">
                     Buy Now
                 </button>
             </div>
 
             <!-- Rules & Conditions -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-2">
                 <h4 class="font-bold text-xs text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
                     <i class="fa-solid fa-scroll text-brand-500"></i> Rules & Conditions
                 </h4>
@@ -312,7 +298,7 @@
         <!-- ========================================== -->
         <!-- VIEW 3: MY ORDERS PAGE -->
         <!-- ========================================== -->
-        <section id="view-orders" class="hidden space-y-4">
+        <section id="view-orders" class="hidden space-y-4 max-w-2xl mx-auto">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
                     <i class="fa-solid fa-box text-brand-500"></i> My Orders
@@ -335,7 +321,7 @@
 
     <!-- Fixed Bottom Bar Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-lg">
-        <div class="max-w-md mx-auto grid grid-cols-2 py-2.5 text-center text-xs font-semibold text-gray-500">
+        <div class="max-w-4xl mx-auto grid grid-cols-2 py-2.5 text-center text-xs font-semibold text-gray-500">
             <button id="nav-btn-home" onclick="navTo('home', true)" class="flex flex-col items-center gap-1 text-brand-600">
                 <i class="fa-solid fa-house text-lg"></i>
                 <span>Home</span>
@@ -432,7 +418,6 @@
             loadOrders();
             renderOrdersList();
             
-            // Handle browser back button
             window.onpopstate = function(event) {
                 if (event.state && event.state.view) {
                     navTo(event.state.view, false);
@@ -442,7 +427,6 @@
             };
         };
 
-        // Navigation Controller with History State
         function navTo(viewName, pushHistory = true) {
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-details').classList.add('hidden');
@@ -478,7 +462,7 @@
             list.forEach((pkg, index) => {
                 const card = document.createElement('div');
                 card.id = `pkg-item-${index}`;
-                card.className = "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
+                card.className = "p-3.5 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
                 card.onclick = () => selectPackage(pkg, index, list.length);
 
                 card.innerHTML = `
@@ -495,10 +479,10 @@
             selectedPackage = pkg;
             for (let i = 0; i < total; i++) {
                 const el = document.getElementById(`pkg-item-${i}`);
-                if (el) el.className = "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
+                if (el) el.className = "p-3.5 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
             }
             const activeEl = document.getElementById(`pkg-item-${index}`);
-            if (activeEl) activeEl.className = "p-3 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
+            if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
         }
 
         function selectPaymentMethod(method, number) {
@@ -508,9 +492,9 @@
                 const btn = document.getElementById(`pay-${m}`);
                 if (btn) {
                     if (m === method) {
-                        btn.className = "p-2.5 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700";
+                        btn.className = "p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700";
                     } else {
-                        btn.className = "p-2.5 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700";
+                        btn.className = "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700";
                     }
                 }
             });
