@@ -21,6 +21,10 @@
                             500: '#22c55e',
                             600: '#16a34a',
                             700: '#15803d',
+                        },
+                        telegram: {
+                            500: '#229ED9',
+                            600: '#1b8ac0'
                         }
                     },
                     fontFamily: {
@@ -114,9 +118,9 @@
                     <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-1">STAY CONNECTED</h4>
                     <p class="text-xs text-gray-400 mb-3">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</p>
                     <div class="flex gap-2">
-                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
-                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-telegram-500 hover:text-white transition"><i class="fa-brands fa-telegram text-telegram-500 hover:text-white"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-red-600 hover:text-white transition"><i class="fa-brands fa-youtube"></i></a>
                         <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
                     </div>
                 </div>
@@ -125,12 +129,12 @@
                     <div>
                         <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">SUPPORT CENTER</h4>
                         <div class="bg-slate-800/60 border border-slate-700/60 p-3.5 rounded-xl flex items-center gap-3 max-w-sm">
-                            <div class="w-10 h-10 bg-brand-500 rounded-full flex items-center justify-center text-white text-lg">
+                            <div class="w-10 h-10 bg-telegram-500 rounded-full flex items-center justify-center text-white text-lg shadow-md">
                                 <i class="fa-brands fa-telegram"></i>
                             </div>
                             <div>
                                 <div class="text-xs font-bold text-white">Help line [9AM-12PM]</div>
-                                <div class="text-[11px] text-brand-400">টেলিগ্রামে সাপোর্ট</div>
+                                <div class="text-[11px] text-telegram-400">টেলিগ্রামে সাপোর্ট</div>
                             </div>
                         </div>
                     </div>
@@ -306,7 +310,7 @@
                     <div class="flex-grow border-t border-gray-200"></div>
                 </div>
 
-                <!-- Google Disabled Button (Without Showpiece text) -->
+                <!-- Google Disabled Button -->
                 <button type="button" class="w-full border border-gray-300 bg-white text-gray-400 font-bold py-3 rounded-xl text-sm cursor-not-allowed flex items-center justify-center gap-3 shadow-sm opacity-80" title="বর্তমানে গুগল সাইন ইন নিস্ক্রিয় রয়েছে">
                     <svg class="w-5 h-5 opacity-50" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -457,14 +461,19 @@
                 </div>
             </div>
 
-            <!-- Admin Section 3: All Orders Tracker -->
+            <!-- Admin Section 3: All Orders Tracker with Serial Search -->
             <div id="admin-sec-orders" class="hidden space-y-4">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                     <div class="flex justify-between items-center">
                         <h3 class="font-extrabold text-sm text-gray-800 uppercase">সকল টপ-আপ অর্ডার</h3>
                         <span id="adm-total-orders-count" class="text-xs font-bold text-brand-600">0 Orders</span>
                     </div>
-                    <div id="adm-all-orders-container" class="space-y-3">
+                    <!-- Order Serial Search Bar -->
+                    <div class="flex gap-2 pt-2">
+                        <input type="text" id="adm-order-serial-search" placeholder="অর্ডার সিরিয়াল নম্বর দিয়ে সার্চ করুন (যেমন: 1, 2)" oninput="renderAdminOrdersList()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <button onclick="document.getElementById('adm-order-serial-search').value=''; renderAdminOrdersList();" class="bg-slate-200 text-gray-700 font-bold px-3 py-2.5 rounded-xl text-xs">ক্লিয়ার</button>
+                    </div>
+                    <div id="adm-all-orders-container" class="space-y-3 pt-2">
                         <!-- Dynamically rendered -->
                     </div>
                 </div>
@@ -475,7 +484,7 @@
     </main>
 
     <!-- Floating Telegram Support Button -->
-    <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
+    <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-telegram-500 text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
         <i class="fa-brands fa-telegram"></i>
     </a>
 
@@ -515,6 +524,7 @@
 
     <!-- JavaScript Application Logic -->
     <script>
+        // Exact Ordered Structure: UID Topup -> Weekly/Monthly -> Weekly Lite -> Level Up Pass
         const DefaultPackagesData = {
             "Uid Topup [BD SERVER]": {
                 type: "ff",
@@ -708,15 +718,7 @@
                 const el = document.getElementById(`pkg-item-${i}`);
                 if (el) el.className = "p-3.5 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer transition flex flex-col justify-between hover:border-brand-500";
             }
-            const activeEl = document.getElementById(`pkg-item-${index}`);
-            if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
-        }
-
-        function selectPaymentMethod(method, number) {
-            selectedPayMethod = method;
-            selectedPayNumber = number;
-            ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
-                const btn = document.getElementById(`pay-${m}`);
+            const activeEl = document.getElementById(`pkg-item-${index}`); if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between"; }  function selectPaymentMethod(method, number) { selectedPayMethod = method; selectedPayNumber = number; ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => { const btn = document.getElementById(`pay-${m}`);
                 if (btn) {
                     if (m === method) {
                         btn.className = "p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700";
@@ -790,30 +792,22 @@
                 trxId: trxId,
                 date: englishDate,
                 userEmail: currentUser.email,
-                userId: currentUser.userId
+                userId: currentUser.userId,
+                status: "Processing" // Default auto status
             };
 
             ordersList.unshift(orderObj);
             saveOrders();
             checkProfileState();
 
-            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (SERA TOP UP)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User:* ${currentUser.email} (ID: ${currentUser.userId})\n🎮 *Player ID:* ${playerId}\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n💳 *Payment:* ${selectedPayMethod} (${selectedPayNumber})\n🔑 *TrxID:* ${trxId}`;
-
-            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`)
+            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (SERA TOP UP)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User:* ${currentUser.email} (ID:${currentUser.userId})\n🎮 *Player ID:* ${playerId}\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n💳 *Payment:* ${selectedPayMethod} (${selectedPayNumber})\n🔑 *TrxID:* ${trxId}\n📌 *Status:* Processing`;  fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`)
             .then(res => res.json())
             .catch(err => console.log(err));
 
             document.getElementById('player-id-input').value = '';
             document.getElementById('trx-id-input').value = '';
 
-            showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success');
-            navTo('orders', true);
-        }
-
-        function renderOrdersList() {
-            const container = document.getElementById('orders-list-container');
-            const myOrders = currentUser ? ordersList.filter(o => o.userEmail === currentUser.email) : [];
-            document.getElementById('orders-count-badge').innerText = `${myOrders.length} Orders`;
+            showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success'); navTo('orders', true); }  function renderOrdersList() { const container = document.getElementById('orders-list-container'); const myOrders = currentUser ? ordersList.filter(o => o.userEmail === currentUser.email) : []; document.getElementById('orders-count-badge').innerText = `${myOrders.length} Orders`;
 
             if (myOrders.length === 0) {
                 container.innerHTML = `
@@ -830,10 +824,15 @@
 
             let html = '';
             myOrders.forEach(ord => {
+                let badgeColor = "bg-amber-100 text-amber-700 border-amber-300";
+                if (ord.status === "Completed") badgeColor = "bg-emerald-100 text-emerald-700 border-emerald-300";
+                if (ord.status === "Cancelled") badgeColor = "bg-red-100 text-red-700 border-red-300";
+
                 html += `
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
                         <div class="flex items-center justify-between">
                             <span class="font-bold text-xs text-brand-600">Order #${ord.serial}</span>
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${badgeColor}">${ord.status || 'Processing'}</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
                             <h4 class="font-extrabold text-gray-900">${ord.package}</h4>
@@ -841,364 +840,4 @@
                         </div>
                         <div class="text-xs text-gray-500 space-y-0.5 pt-1 border-t border-gray-100">
                             <p>Player ID: <strong class="text-gray-800">${ord.playerId}</strong></p>
-                            <p>Payment: ${ord.payMethod} | TrxID: <span class="font-mono font-bold text-gray-700">${ord.trxId}</span></p>
-                            <span class="text-[10px] text-gray-400 block mt-1">${ord.date}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function handleManualLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const pass = document.getElementById('login-pass').value;
-            let name = email.split('@')[0];
-            name = name.charAt(0).toUpperCase() + name.slice(1);
-
-            if (!usersStore[email]) {
-                const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
-                usersStore[email] = {
-                    name: name,
-                    email: email,
-                    pass: pass,
-                    userId: randomUserId,
-                    isBlocked: false
-                };
-            }
-
-            currentUser = usersStore[email];
-            saveUserData();
-            updateCheckoutButtonState();
-            checkProfileState();
-            showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
-            navTo('profile', true);
-        }
-
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('sera_topup_user');
-            checkProfileState();
-            updateCheckoutButtonState();
-            showToast('লগআউট', 'আপনার অ্যাকাউন্ট সফলভাবে লগআউট করা হয়েছে।', 'info');
-        }
-
-        function checkProfileState() {
-            if (currentUser) {
-                document.getElementById('auth-logged-out').classList.add('hidden');
-                document.getElementById('auth-logged-in').classList.remove('hidden');
-                
-                document.getElementById('user-info-name').innerText = currentUser.name;
-                document.getElementById('user-info-email').innerText = currentUser.email;
-                document.getElementById('user-info-id').innerText = currentUser.userId;
-
-                const myOrders = ordersList.filter(o => o.userEmail === currentUser.email);
-                const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
-
-                document.getElementById('user-total-orders').innerText = myOrders.length;
-                document.getElementById('user-total-spend').innerText = totalSpendTk + " Tk";
-
-                document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
-            } else {
-                document.getElementById('auth-logged-out').classList.remove('hidden');
-                document.getElementById('auth-logged-in').classList.add('hidden');
-                document.getElementById('user-avatar-text').innerText = 'S';
-            }
-        }
-
-        /* Full Power Admin Panel Functions with password Stp26GR */
-        function openAdminAuth() {
-            const pass = prompt("অ্যাডমিন প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন:");
-            if (pass === "Stp26GR") {
-                renderAdminCategories();
-                renderAdminUsersList();
-                renderAdminOrdersList();
-                navTo('admin', true);
-            } else if (pass !== null) {
-                alert("ভুল পাসওয়ার্ড!");
-            }
-        }
-
-        function switchAdminTab(tabName) {
-            document.getElementById('admin-sec-products').classList.add('hidden');
-            document.getElementById('admin-sec-users').classList.add('hidden');
-            document.getElementById('admin-sec-orders').classList.add('hidden');
-
-            document.getElementById('adm-tab-products').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
-            document.getElementById('adm-tab-users').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
-            document.getElementById('adm-tab-orders').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
-
-            document.getElementById(`admin-sec-${tabName}`).classList.remove('hidden');
-            document.getElementById(`adm-tab-${tabName}`).className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white";
-        }
-
-        function renderAdminCategories() {
-            const container = document.getElementById('adm-categories-list');
-            container.innerHTML = '';
-
-            for (let catKey in PackagesData) {
-                const cat = PackagesData[catKey];
-                const catBox = document.createElement('div');
-                catBox.className = "bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3";
-
-                let packagesHtml = '';
-                cat.packages.forEach((pkg, pIdx) => {
-                    packagesHtml += `
-                        <div class="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200 text-xs">
-                            <input type="text" value="${pkg.name}" onchange="adminUpdatePkgName('${catKey}', ${pIdx}, this.value)" class="flex-1 px-2 py-1 border rounded">
-                            <input type="number" value="${pkg.price}" onchange="adminUpdatePkgPrice('${catKey}', ${pIdx}, this.value)" class="w-20 px-2 py-1 border rounded">
-                            <span class="font-bold">TK</span>
-                            <button onclick="adminDeletePkg('${catKey}', ${pIdx})" class="text-red-500 font-bold px-2">X</button>
-                        </div>
-                    `;
-                });
-
-                catBox.innerHTML = `
-                    <div class="flex items-center justify-between border-b pb-2">
-                        <div class="flex items-center gap-2">
-                            <input type="text" value="${catKey}" onchange="adminRenameCat('${catKey}', this.value)" class="font-bold text-sm bg-white px-2 py-1 rounded border">
-                        </div>
-                        <button onclick="adminDeleteCat('${catKey}')" class="bg-red-500 text-white text-[10px] px-2.5 py-1 rounded-lg font-bold">Delete Category</button>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label>
-                        <input type="text" value="${cat.img}" onchange="adminUpdateCatImg('${catKey}', this.value)" class="w-full text-xs p-1.5 border rounded bg-white">
-                    </div>
-                    <div class="space-y-2 pt-2">
-                        <span class="text-xs font-bold text-gray-700">Packages:</span>
-                        ${packagesHtml}
-                        <button onclick="adminAddPkg('${catKey}')" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg">+ Add Package</button>
-                    </div>
-                `;
-
-                container.appendChild(catBox);
-            }
-        }
-
-        function adminAddCategory() {
-            const name = document.getElementById('adm-cat-name').value.trim();
-            const img = document.getElementById('adm-cat-img').value.trim();
-            const type = document.getElementById('adm-cat-type').value;
-
-            if (!name || !img) {
-                alert("নাম ও ছবির লিংক দিন!");
-                return;
-            }
-
-            PackagesData[name] = {
-                type: type,
-                img: img,
-                packages: []
-            };
-
-            saveStoreData();
-            renderHomeCategories();
-            renderAdminCategories();
-            document.getElementById('adm-cat-name').value = '';
-            document.getElementById('adm-cat-img').value = '';
-            showToast('সফল', 'নতুন ক্যাটাগরি তৈরি হয়েছে!', 'success');
-        }
-
-        function adminDeleteCat(catKey) {
-            if (confirm(`নিশ্চিত তো '${catKey}' ক্যাটাগরি ডিলিট করবেন?`)) {
-                delete PackagesData[catKey];
-                saveStoreData();
-                renderHomeCategories();
-                renderAdminCategories();
-            }
-        }
-
-        function adminRenameCat(oldKey, newKey) {
-            if (newKey && oldKey !== newKey) {
-                PackagesData[newKey] = PackagesData[oldKey];
-                delete PackagesData[oldKey];
-                saveStoreData();
-                renderHomeCategories();
-                renderAdminCategories();
-            }
-        }
-
-        function adminUpdateCatImg(catKey, newImg) {
-            PackagesData[catKey].img = newImg;
-            saveStoreData();
-            renderHomeCategories();
-        }
-
-        function adminUpdatePkgName(catKey, pIdx, newName) {
-            PackagesData[catKey].packages[pIdx].name = newName;
-            saveStoreData();
-        }
-
-        function adminUpdatePkgPrice(catKey, pIdx, newPrice) {
-            PackagesData[catKey].packages[pIdx].price = Number(newPrice);
-            saveStoreData();
-        }
-
-        function adminDeletePkg(catKey, pIdx) {
-            PackagesData[catKey].packages.splice(pIdx, 1);
-            saveStoreData();
-            renderAdminCategories();
-        }
-
-        function adminAddPkg(catKey) {
-            const name = prompt("প্যাকেজের নাম:");
-            const price = prompt("প্যাকেজের দাম (TK):");
-            if (name && price) {
-                PackagesData[catKey].packages.push({ name: name, price: Number(price) });
-                saveStoreData();
-                renderAdminCategories();
-            }
-        }
-
-        function renderAdminUsersList() {
-            const container = document.getElementById('adm-all-users-list');
-            container.innerHTML = '';
-
-            for (let email in usersStore) {
-                const u = usersStore[email];
-                const uOrders = ordersList.filter(o => o.userEmail === email);
-                const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
-
-                const item = document.createElement('div');
-                item.className = "flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs";
-                item.innerHTML = `
-                    <div>
-                        <div class="font-bold text-gray-900">${u.name} (ID: ${u.userId})</div>
-                        <div class="text-gray-500">${u.email} | Pass: <span class="font-mono text-brand-600">${u.pass}</span></div>
-                        <div class="text-[10px] text-gray-400 font-bold">Orders: ${uOrders.length} | Spend: ${uSpend} Tk</div>
-                    </div>
-                    <button onclick="adminToggleBlockUser('${email}')" class="${u.isBlocked ? 'bg-emerald-600' : 'bg-red-600'} text-white px-3 py-1.5 rounded-lg font-bold">
-                        ${u.isBlocked ? 'Unblock' : 'Block'}
-                    </button>
-                `;
-                container.appendChild(item);
-            }
-        }
-
-        function adminSearchUser() {
-            const input = document.getElementById('adm-user-search-input').value.trim().toLowerCase();
-            const output = document.getElementById('adm-user-search-result');
-
-            let foundUser = null;
-            for (let email in usersStore) {
-                const u = usersStore[email];
-                if (u.email.toLowerCase() === input || u.userId === input) {
-                    foundUser = u;
-                    break;
-                }
-            }
-
-            if (!foundUser) {
-                output.classList.remove('hidden');
-                output.innerHTML = `<p class="text-xs text-red-500 font-bold">কোনো ইউজার পাওয়া যায়নি!</p>`;
-                return;
-            }
-
-            const uOrders = ordersList.filter(o => o.userEmail === foundUser.email);
-            const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
-
-            output.classList.remove('hidden');
-            output.innerHTML = `
-                <div class="space-y-2 text-xs">
-                    <h4 class="font-bold text-gray-900">User Profile: ${foundUser.name}</h4>
-                    <p>User ID: <strong>${foundUser.userId}</strong></p>
-                    <p>Email: ${foundUser.email}</p>
-                    <p>Total Orders: <strong>${uOrders.length}</strong></p>
-                    <p>Total Spend: <strong class="text-brand-600">${uSpend} Tk</strong></p>
-                </div>
-            `;
-        }
-
-        function adminToggleBlockUser(email) {
-            usersStore[email].isBlocked = !usersStore[email].isBlocked;
-            saveStoreData();
-            renderAdminUsersList();
-            showToast('আপডেট', `ইউজার ${usersStore[email].isBlocked ? 'ব্লক' : 'আনব্লক'} করা হয়েছে`, 'info');
-        }
-
-        function renderAdminOrdersList() {
-            const container = document.getElementById('adm-all-orders-container');
-            document.getElementById('adm-total-orders-count').innerText = `${ordersList.length} Orders`;
-
-            container.innerHTML = '';
-            ordersList.forEach(ord => {
-                const box = document.createElement('div');
-                box.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1";
-                box.innerHTML = `
-                    <div class="flex justify-between font-bold text-gray-900">
-                        <span>Order #${ord.serial} - ${ord.package}</span>
-                        <span class="text-brand-600">৳ ${ord.price}</span>
-                    </div>
-                    <p class="text-gray-600">User: ${ord.userEmail} (ID: ${ord.userId})</p>
-                    <p class="text-gray-600">Player ID: <strong class="text-gray-900">${ord.playerId}</strong> | Method: ${ord.payMethod} (${ord.trxId})</p>
-                `;
-                container.appendChild(box);
-            });
-        }
-
-        /* Storage System */
-        function saveStoreData() {
-            localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
-            localStorage.setItem('sera_topup_users_store', JSON.stringify(usersStore));
-        }
-
-        function loadStoreData() {
-            const pData = localStorage.getItem('sera_topup_packages');
-            if (pData) PackagesData = JSON.parse(pData);
-            else PackagesData = DefaultPackagesData;
-
-            const uData = localStorage.getItem('sera_topup_users_store');
-            if (uData) usersStore = JSON.parse(uData);
-        }
-
-        function saveUserData() {
-            if(currentUser) {
-                localStorage.setItem('sera_topup_user', JSON.stringify(currentUser));
-                saveStoreData();
-            }
-        }
-
-        function loadUserData() {
-            const data = localStorage.getItem('sera_topup_user');
-            if (data) currentUser = JSON.parse(data);
-            checkProfileState();
-            updateCheckoutButtonState();
-        }
-
-        function copyNumber() {
-            navigator.clipboard.writeText(selectedPayNumber);
-            showToast('কপি হয়েছে', `নম্বর কপি করা হয়েছে: ${selectedPayNumber}`, 'success');
-        }
-
-        function saveOrders() {
-            localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList));
-        }
-
-        function loadOrders() {
-            const data = localStorage.getItem('sera_topup_orders');
-            if (data) ordersList = JSON.parse(data);
-        }
-
-        function showToast(title, msg, type = 'info') {
-            document.getElementById('toast-title').innerText = title;
-            document.getElementById('toast-msg').innerText = msg;
-            
-            const iconBox = document.getElementById('toast-icon');
-            if (type === 'error') {
-                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-red-100 text-red-600";
-                iconBox.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
-            } else {
-                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600";
-                iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
-            }
-
-            document.getElementById('toast-modal').classList.remove('hidden');
-        }
-
-        function closeToast() {
-            document.getElementById('toast-modal').classList.add('hidden');
-        }
-    </script>
-</body>
-</html>
+                            <p>Payment: ${ord.payMethod} | TrxID: <span class="font-mono font-bold text-gray-700">${ord
