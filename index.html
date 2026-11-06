@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <!-- Main FF TopUp Grid (Corrected Exact Sequence) -->
+            <!-- Main FF TopUp Grid (Correct Exact Sequence) -->
             <div class="space-y-3">
                 <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
@@ -206,16 +206,16 @@
                 </div>
 
                 <div class="grid grid-cols-4 gap-2">
-                    <div id="pay-bKash" onclick="selectPaymentMethod('bKash', '01310518316')" class="p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">
+                    <div id="pay-bKash" onclick="selectPaymentMethod('bKash')" class="p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">
                         bKash
                     </div>
-                    <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad', '01310518316')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                    <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
                         Nagad
                     </div>
-                    <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket', '01310518316')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                    <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
                         Rocket
                     </div>
-                    <div id="pay-Upay" onclick="selectPaymentMethod('Upay', '01843800533')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
+                    <div id="pay-Upay" onclick="selectPaymentMethod('Upay')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">
                         Upay
                     </div>
                 </div>
@@ -402,6 +402,7 @@
             <!-- Admin Control Tabs -->
             <div class="flex border-b border-gray-200 bg-white rounded-xl p-1 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
                 <button onclick="switchAdminTab('products')" id="adm-tab-products" class="flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white">প্যাকেজ ও ক্যাটাগরি</button>
+                <button onclick="switchAdminTab('payments')" id="adm-tab-payments" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100">পেমেন্ট নম্বর</button>
                 <button onclick="switchAdminTab('users')" id="adm-tab-users" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100">ইউজার ট্র্যাকিং</button>
                 <button onclick="switchAdminTab('orders')" id="adm-tab-orders" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100">সকল অর্ডার</button>
             </div>
@@ -429,6 +430,34 @@
                     <h3 class="font-extrabold text-sm text-gray-800 uppercase">ক্যাটাগরি ও প্যাকেজ এডিটর</h3>
                     <div id="adm-categories-list" class="space-y-4">
                         <!-- Dynamically Rendered -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Section 1.5: Payment Numbers Manager -->
+            <div id="admin-sec-payments" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর পরিবর্তন করুন</h3>
+                    <div class="space-y-3">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">bKash Number</label>
+                            <input type="text" id="adm-pay-bkash" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Nagad Number</label>
+                            <input type="text" id="adm-pay-nagad" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Rocket Number</label>
+                            <input type="text" id="adm-pay-rocket" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Upay Number</label>
+                            <input type="text" id="adm-pay-upay" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <button onclick="adminSavePaymentNumbers()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
+                            পেমেন্ট নম্বর সেভ করুন
+                        </button>
                     </div>
                 </div>
             </div>
@@ -482,7 +511,7 @@
     </main>
 
     <!-- Floating Telegram Support Button -->
-    <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
+    <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-[#229ED9] text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
         <i class="fa-brands fa-telegram"></i>
     </a>
 
@@ -522,7 +551,6 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Exact Correct Sequence: UID Topup -> Weekly/Monthly -> Weekly Lite -> Level Up Pass
         const DefaultPackagesData = {
             "Uid Topup [BD SERVER]": {
                 type: "ff",
@@ -597,10 +625,18 @@
             }
         };
 
+        const DefaultPaymentNumbers = {
+            bKash: "01310518316",
+            Nagad: "01310518316",
+            Rocket: "01310518316",
+            Upay: "01843800533"
+        };
+
         const TELEGRAM_TOKEN = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
         const TELEGRAM_CHAT_ID = "8598185365";
 
         let PackagesData = {};
+        let PaymentNumbers = {};
         let currentCategory = "";
         let selectedPackage = null;
         let selectedPayMethod = "bKash";
@@ -706,6 +742,7 @@
                 grid.appendChild(card);
             });
 
+            selectPaymentMethod('bKash');
             updateCheckoutButtonState();
             navTo('details', true);
         }
@@ -720,9 +757,10 @@
             if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
         }
 
-        function selectPaymentMethod(method, number) {
+        function selectPaymentMethod(method) {
             selectedPayMethod = method;
-            selectedPayNumber = number;
+            selectedPayNumber = PaymentNumbers[method] || "01310518316";
+
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
                 const btn = document.getElementById(`pay-${m}`);
                 if (btn) {
@@ -734,7 +772,7 @@
                 }
             });
             document.getElementById('pay-method-name').innerText = method;
-            document.getElementById('pay-number-display').innerText = number;
+            document.getElementById('pay-number-display').innerText = selectedPayNumber;
         }
 
         function updateCheckoutButtonState() {
@@ -799,7 +837,7 @@
                 date: englishDate,
                 userEmail: currentUser.email,
                 userId: currentUser.userId,
-                status: 'Processing' // Default Status
+                status: 'Processing'
             };
 
             ordersList.unshift(orderObj);
@@ -876,7 +914,14 @@
             let name = email.split('@')[0];
             name = name.charAt(0).toUpperCase() + name.slice(1);
 
-            if (!usersStore[email]) {
+            if (usersStore[email]) {
+                // Existing Account Password Check
+                if (usersStore[email].pass !== pass) {
+                    showToast('লগইন ব্যর্থ', 'আপনার দেওয়া পাসওয়ার্ড টি সঠিক নয়। পাসওয়ার্ড ভুলে গেলে সাপোর্টে যোগাযোগ করুন।', 'error');
+                    return;
+                }
+            } else {
+                // New Account Creation
                 const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
                 usersStore[email] = {
                     name: name,
@@ -931,6 +976,7 @@
             const pass = prompt("অ্যাডমিন প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন:");
             if (pass === "Stp26GR") {
                 renderAdminCategories();
+                loadAdminPaymentInputs();
                 renderAdminUsersList();
                 renderAdminOrdersList();
                 navTo('admin', true);
@@ -941,15 +987,34 @@
 
         function switchAdminTab(tabName) {
             document.getElementById('admin-sec-products').classList.add('hidden');
+            document.getElementById('admin-sec-payments').classList.add('hidden');
             document.getElementById('admin-sec-users').classList.add('hidden');
             document.getElementById('admin-sec-orders').classList.add('hidden');
 
             document.getElementById('adm-tab-products').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
+            document.getElementById('adm-tab-payments').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
             document.getElementById('adm-tab-users').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
             document.getElementById('adm-tab-orders').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
 
             document.getElementById(`admin-sec-${tabName}`).classList.remove('hidden');
             document.getElementById(`adm-tab-${tabName}`).className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white";
+        }
+
+        function loadAdminPaymentInputs() {
+            document.getElementById('adm-pay-bkash').value = PaymentNumbers.bKash || "";
+            document.getElementById('adm-pay-nagad').value = PaymentNumbers.nagad || "";
+            document.getElementById('adm-pay-rocket').value = PaymentNumbers.rocket || "";
+            document.getElementById('adm-pay-upay').value = PaymentNumbers.upay || "";
+        }
+
+        function adminSavePaymentNumbers() {
+            PaymentNumbers.bKash = document.getElementById('adm-pay-bkash').value.trim();
+            PaymentNumbers.nagad = document.getElementById('adm-pay-nagad').value.trim();
+            PaymentNumbers.rocket = document.getElementById('adm-pay-rocket').value.trim();
+            PaymentNumbers.upay = document.getElementById('adm-pay-upay').value.trim();
+
+            saveStoreData();
+            showToast('সফল', 'পেমেন্ট নম্বরগুলো সফলভাবে আপডেট করা হয়েছে!', 'success');
         }
 
         function renderAdminCategories() {
@@ -1189,6 +1254,7 @@
         /* Storage System */
         function saveStoreData() {
             localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
+            localStorage.setItem('sera_topup_payments', JSON.stringify(PaymentNumbers));
             localStorage.setItem('sera_topup_users_store', JSON.stringify(usersStore));
         }
 
@@ -1196,6 +1262,10 @@
             const pData = localStorage.getItem('sera_topup_packages');
             if (pData) PackagesData = JSON.parse(pData);
             else PackagesData = DefaultPackagesData;
+
+            const payData = localStorage.getItem('sera_topup_payments');
+            if (payData) PaymentNumbers = JSON.parse(payData);
+            else PaymentNumbers = DefaultPaymentNumbers;
 
             const uData = localStorage.getItem('sera_topup_users_store');
             if (uData) usersStore = JSON.parse(uData);
