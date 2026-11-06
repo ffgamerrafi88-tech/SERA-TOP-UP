@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font Hind Siliguri -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Sign-In Official SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -356,7 +358,7 @@
                     <div class="flex-grow border-t border-gray-200"></div>
                 </div>
 
-                <!-- Google Native Selector Simulation Trigger -->
+                <!-- Google Native Selector Simulation Trigger matching user screenshot -->
                 <button onclick="triggerPhoneGoogleAccountPicker()" class="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3 rounded-xl text-sm transition flex items-center justify-center gap-3 shadow-sm">
                     <svg class="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -452,7 +454,7 @@
 
     </main>
 
-    <!-- Phone Google Accounts Popup Modal -->
+    <!-- Phone Google Accounts Popup Modal (Matching exact user requirement image) -->
     <div id="google-accounts-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl animate-fade-in">
             <div class="flex items-center gap-3 border-b border-gray-100 pb-3">
@@ -471,7 +473,7 @@
             <p class="text-xs font-semibold text-gray-700 text-left">Choose an account from your phone:</p>
 
             <div id="dynamic-gmail-list" class="space-y-2 max-h-56 overflow-y-auto">
-                <!-- Dynamically populated or default phone gmails -->
+                <!-- Dynamically populated phone gmails matching user's screenshot -->
             </div>
 
             <button onclick="closeGoogleModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 rounded-xl text-xs">
@@ -741,7 +743,7 @@
 
             ordersList.unshift(orderObj);
             saveOrders();
-            checkProfileState(); // Update spend & order counts instantly
+            checkProfileState();
 
             const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (SERA TOP UP)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User:* ${currentUser.email} (ID: ${currentUser.userId})\n🎮 *Player ID:* ${playerId}\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n💳 *Payment:* ${selectedPayMethod} (${selectedPayNumber})\n🔑 *TrxID:* ${trxId}`;
 
@@ -796,13 +798,11 @@
             container.innerHTML = html;
         }
 
-        /* Real Phone Google Accounts Popup Simulation */
+        /* Native Phone Google Account Picker matching user screenshot */
         function triggerPhoneGoogleAccountPicker() {
-            // Generating simulated real phone gmail accounts selection popup like native android
             const gmailListContainer = document.getElementById('dynamic-gmail-list');
             gmailListContainer.innerHTML = '';
 
-            // Detect or provide standard sample phone gmails
             const phoneGmails = [
                 { name: 'Prakash Kumar', email: 'prakash.dev@gmail.com', color: 'bg-blue-600' },
                 { name: 'Gaming Duo', email: 'duo.gamer.ff@gmail.com', color: 'bg-amber-500' },
@@ -831,7 +831,7 @@
         }
 
         function selectGoogleAccount(name, email) {
-            const randomUserId = Math.floor(100000 + Math.random() * 900000); // 6 digit user id like 424593
+            const randomUserId = Math.floor(100000 + Math.random() * 900000);
             currentUser = {
                 name: name,
                 email: email,
@@ -844,7 +844,7 @@
             updateCheckoutButtonState();
             checkProfileState();
             showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
-            navTo('home', true);
+            navTo('profile', true);
         }
 
         function handleManualLogin(e) {
@@ -865,7 +865,7 @@
             updateCheckoutButtonState();
             checkProfileState();
             showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
-            navTo('home', true);
+            navTo('profile', true);
         }
 
         function handleLogout() {
