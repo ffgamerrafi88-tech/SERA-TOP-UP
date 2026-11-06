@@ -39,534 +39,551 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 pb-24 min-h-screen flex flex-col justify-between">
+<body class="bg-gray-100 text-gray-800 pb-24 min-h-screen">
 
-    <div>
-        <!-- Top Sticky Header -->
-        <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
-            <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between">
-                <div class="flex items-center gap-2 cursor-pointer" onclick="navTo('home', true)">
-                    <img id="site-logo-img" src="https://i.ibb.co.com/v4fLwZG1/logo.png" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-brand-500/30" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
-                    <div>
-                        <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-none">SERA <span class="text-brand-600">TOP UP</span></h1>
-                        <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Fast & Trusted Game TopUp</span>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <!-- Top Wallet Display Badge -->
-                    <div onclick="navTo('addmoney', true)" class="bg-brand-50 border border-brand-200 px-3 py-1.5 rounded-full flex items-center gap-2 cursor-pointer hover:bg-brand-100 transition shadow-sm">
-                        <i class="fa-solid fa-wallet text-brand-600 text-xs sm:text-sm"></i>
-                        <span id="header-wallet-balance" class="font-extrabold text-xs sm:text-sm text-brand-700">0 ৳</span>
-                        <span class="bg-brand-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold">+</span>
-                    </div>
-
-                    <div id="user-header-avatar" onclick="navTo('profile', true)" class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow-sm cursor-pointer overflow-hidden">
-                        <span id="user-avatar-text">S</span>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Dynamic View Container -->
-        <main class="max-w-4xl mx-auto px-4 pt-4">
-
-            <!-- ========================================== -->
-            <!-- VIEW 1: HOME PAGE -->
-            <!-- ========================================== -->
-            <section id="view-home" class="space-y-6">
-                <!-- Notice Banner -->
-                <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-sm">
-                    <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
-                        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
-                            <strong>নোটিশ:</strong> মা-বাবা বা ফ্যামিলির কারো ফোন থেকে না বলে টাকা পাঠিয়ে টপ-আপ করলে তার অ্যাকাউন্ট স্থায়ীভাবে ব্লক করা হবে। যেকোনো সমস্যায় হেল্প পেতে টেলিগ্রাম চ্যাটে মেসেজ দিন।
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Home Main Banner -->
-                <div id="home-banner-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-emerald-700 to-teal-900 text-white p-6 sm:p-8">
-                    <img id="home-banner-img" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Banner">
-                    <div id="home-banner-text" class="relative z-10 space-y-3 max-w-lg">
-                        <span class="bg-amber-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Instant Auto Delivery</span>
-                        <h2 class="text-2xl sm:text-4xl font-black leading-snug">ফ্রি ফায়ার ডায়মন্ড <br><span class="text-amber-300">ইনস্ট্যান্ট টপ-আপ</span></h2>
-                        <p class="text-xs sm:text-sm text-emerald-100">বাংলাদেশ সার্ভারে সর্বনিম্ন দামে সর্বোচ্চ বিশ্বস্ততায় নিন ইউআইডি টপ-আপ!</p>
-                    </div>
-                    <div class="absolute right-[-10px] bottom-[-10px] opacity-20 text-8xl sm:text-9xl text-white">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
-                </div>
-
-                <!-- Special Offer Category Section -->
-                <div class="space-y-3">
-                    <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Special Offer
-                    </h3>
-                    <div id="special-offers-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                        <!-- Rendered Dynamically -->
-                    </div>
-                </div>
-
-                <!-- Main FF TopUp Grid -->
-                <div class="space-y-3">
-                    <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
-                    </h3>
-                    <div id="ff-categories-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                        <!-- Rendered Dynamically -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- ========================================== -->
-            <!-- VIEW 2: CATEGORY RECHARGE DETAILS PAGE -->
-            <!-- ========================================== -->
-            <section id="view-details" class="hidden space-y-6 max-w-2xl mx-auto">
-                <button onclick="navTo('home', true)" class="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 transition">
-                    <i class="fa-solid fa-arrow-left"></i> হোম পেজে ফিরে যান
-                </button>
-
-                <!-- Product Header Banner -->
-                <div class="bg-emerald-50 border border-emerald-200 p-4 sm:p-5 rounded-2xl shadow-sm flex items-center gap-4">
-                    <div class="w-14 h-14 bg-brand-600 text-white rounded-xl flex items-center justify-center text-2xl shadow-sm">
-                        <i class="fa-solid fa-fire"></i>
-                    </div>
-                    <div>
-                        <h2 id="detail-title" class="font-extrabold text-gray-900 text-lg sm:text-xl">Category Title</h2>
-                        <span class="bg-brand-500 text-white text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full inline-block mt-1">⚡ ২ সেকেন্ডে টপআপ</span>
-                    </div>
-                </div>
-
-                <!-- Step 1: Select Recharge (Package Grid) -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                    <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
-                        <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">1</span>
-                        Select Recharge
-                    </div>
-
-                    <div id="package-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
-                        <!-- Dynamically Rendered Packages -->
-                    </div>
-                </div>
-
-                <!-- Step 2: Account Info -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                    <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
-                        <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">2</span>
-                        Account Info
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Player ID Code</label>
-                        <input type="number" id="player-id-input" placeholder="এখানে আইডি কোড দিন (যেমন: 7246745903)" class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none text-gray-900 font-bold text-sm transition">
-                        
-                        <button id="check-player-btn" onclick="checkPlayerName()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-magnifying-glass"></i> প্লেয়ারের নাম চেক করতে ক্লিক করুন
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Payment Method Selection -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                    <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
-                        <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">3</span>
-                        Payment Method
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div id="pay-type-wallet" onclick="selectPaymentType('wallet')" class="p-4 border-2 border-gray-200 bg-gray-50 rounded-2xl cursor-pointer transition text-center space-y-1 hover:border-blue-500">
-                            <div class="text-xl text-blue-600"><i class="fa-solid fa-wallet"></i></div>
-                            <div class="font-bold text-xs text-gray-900">Wallet Pay</div>
-                            <div id="wallet-card-balance" class="text-[10px] text-gray-500 font-semibold">Balance: 0 TK</div>
-                        </div>
-
-                        <div id="pay-type-instant" onclick="selectPaymentType('instant')" class="p-4 border-2 border-brand-500 bg-brand-50 rounded-2xl cursor-pointer transition text-center space-y-1">
-                            <div class="text-xl text-brand-600"><i class="fa-solid fa-bolt"></i></div>
-                            <div class="font-bold text-xs text-gray-900">Instant Pay (Auto)</div>
-                            <div class="text-[10px] text-brand-700 font-semibold">bKash / Nagad / Rocket</div>
-                        </div>
-                    </div>
-
-                    <div id="instant-pay-details" class="space-y-4 pt-2">
-                        <div class="grid grid-cols-4 gap-2">
-                            <div id="pay-bKash" onclick="selectPaymentMethod('bKash')" class="p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">bKash</div>
-                            <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">Nagad</div>
-                            <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">Rocket</div>
-                            <div id="pay-Upay" onclick="selectPaymentMethod('Upay')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">Upay</div>
-                        </div>
-
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
-                            <p class="font-semibold text-gray-700"><span id="pay-method-name">bKash</span> Send Money Number:</p>
-                            <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-300">
-                                <span id="pay-number-display" class="font-mono font-bold text-base sm:text-lg text-gray-900">01310518316</span>
-                                <button onclick="copyNumber()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-4 py-1.5 rounded-lg text-xs">
-                                    <i class="fa-regular fa-copy"></i> কপি
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-gray-700">TrxID (Transaction ID)</label>
-                            <input type="text" id="trx-id-input" placeholder="যেমন: 9N7A8B6C" class="w-full uppercase px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 outline-none font-mono text-sm font-bold">
-                        </div>
-                    </div>
-
-                    <button id="checkout-action-btn" onclick="submitOrder()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl text-base shadow-lg shadow-brand-500/30 transition flex items-center justify-center gap-2">
-                        Buy Now
-                    </button>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-2">
-                    <h4 class="font-bold text-xs text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
-                        <i class="fa-solid fa-scroll text-brand-500"></i> Rules & Conditions
-                    </h4>
-                    <ul class="text-xs text-gray-600 space-y-1.5 list-disc pl-4 leading-relaxed">
-                        <li>শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।</li>
-                        <li>Player ID Code ভুল দিয়ে ডায়মন্ড না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।</li>
-                        <li>পেমেন্ট সম্পন্ন করার ২ মিনিটের মধ্যে ডায়মন্ড অ্যাকাউন্টে চলে যাবে।</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- ========================================== -->
-            <!-- VIEW 3: ADD MONEY PAGE -->
-            <!-- ========================================== -->
-            <section id="view-addmoney" class="hidden space-y-6 max-w-xl mx-auto">
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 space-y-5">
-                    <div class="flex items-center justify-between border-b border-gray-100 pb-4">
-                        <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                            <i class="fa-solid fa-wallet text-brand-500"></i> Add Money to Wallet
-                        </h2>
-                        <span id="addmoney-current-bal" class="bg-brand-50 text-brand-700 font-extrabold text-xs px-3 py-1 rounded-full">Balance: 0 ৳</span>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-gray-700">Amount (TK)</label>
-                            <input type="number" id="addmoney-amount" placeholder="e.g. 500" class="w-full px-4 py-3 rounded-xl border border-gray-300 font-bold text-sm outline-none focus:ring-2 focus:ring-brand-500">
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-gray-700">Select Payment Method</label>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <button type="button" onclick="selectAddMoneyMethod('bKash')" id="addm-bkash" class="p-3 border-2 border-brand-500 bg-brand-50 font-bold text-xs rounded-xl text-brand-700">bKash</button>
-                                <button type="button" onclick="selectAddMoneyMethod('Nagad')" id="addm-nagad" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Nagad</button>
-                                <button type="button" onclick="selectAddMoneyMethod('Rocket')" id="addm-rocket" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Rocket</button>
-                                <button type="button" onclick="selectAddMoneyMethod('Upay')" id="addm-upay" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Upay</button>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
-                            <p class="font-semibold text-gray-700"><span id="addmoney-method-name">bKash</span> Send Money Number:</p>
-                            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-300">
-                                <span id="addmoney-num-display" class="font-mono font-bold text-base text-gray-900">01310518316</span>
-                                <button onclick="copyAddMoneyNum()" class="bg-brand-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs">Copy</button>
-                            </div>
-                        </div>
-
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-gray-700">TrxID (Transaction ID)</label>
-                            <input type="text" id="addmoney-trxid" placeholder="e.g. 9N7A8B6C" class="w-full uppercase px-4 py-3 rounded-xl border border-gray-300 font-mono font-bold text-sm outline-none focus:ring-2 focus:ring-brand-500">
-                        </div>
-
-                        <button onclick="submitAddMoneyRequest()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
-                            Submit Add Money Request
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ========================================== -->
-            <!-- VIEW 4: MY ORDERS PAGE -->
-            <!-- ========================================== -->
-            <section id="view-orders" class="hidden space-y-4 max-w-2xl mx-auto">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                        <i class="fa-solid fa-box text-brand-500"></i> My Orders
-                    </h2>
-                    <span class="text-xs text-gray-500 font-semibold" id="orders-count-badge">0 Orders</span>
-                </div>
-
-                <div id="orders-list-container" class="space-y-3">
-                    <!-- Rendered dynamically -->
-                </div>
-            </section>
-
-            <!-- ========================================== -->
-            <!-- VIEW 5: PROFILE PAGE -->
-            <!-- ========================================== -->
-            <section id="view-profile" class="hidden space-y-6 max-w-md mx-auto">
-                <div id="auth-logged-out" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-                    <div class="text-left space-y-1">
-                        <h2 class="text-2xl font-extrabold text-gray-900">Login</h2>
-                        <p class="text-xs text-gray-500">Sign in to continue or create a new account</p>
-                    </div>
-
-                    <form onsubmit="handleManualLogin(event)" class="space-y-4">
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-gray-700">Email Address</label>
-                            <input type="email" id="login-email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none text-sm">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-xs font-bold text-gray-700">Password</label>
-                            <input type="password" id="login-pass" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none text-sm">
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
-                            Sign In / Register
-                        </button>
-                    </form>
-
-                    <div class="relative flex py-1 items-center">
-                        <div class="flex-grow border-t border-gray-200"></div>
-                        <span class="flex-shrink mx-4 text-xs font-semibold text-gray-400">OR</span>
-                        <div class="flex-grow border-t border-gray-200"></div>
-                    </div>
-
-                    <button type="button" class="w-full border border-gray-300 bg-white text-gray-400 font-bold py-3 rounded-xl text-sm cursor-not-allowed flex items-center justify-center gap-3 shadow-sm opacity-80" title="Google Sign-In is disabled">
-                        <svg class="w-5 h-5 opacity-50" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                        </svg>
-                        Sign in with Google
-                    </button>
-                </div>
-
-                <div id="auth-logged-in" class="space-y-4 hidden">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase tracking-wider">USER INFORMATION</h3>
-                        
-                        <div class="space-y-3">
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
-                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[10px] text-gray-400 block font-bold uppercase">Name</span>
-                                    <span id="user-info-name" class="font-extrabold text-sm text-gray-900">User Name</span>
-                                </div>
-                            </div>
-
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
-                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[10px] text-gray-400 block font-bold uppercase">Email</span>
-                                    <span id="user-info-email" class="font-extrabold text-sm text-gray-900">user@gmail.com</span>
-                                </div>
-                            </div>
-
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
-                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
-                                    <i class="fa-solid fa-wallet"></i>
-                                </div>
-                                <div>
-                                    <span class="text-[10px] text-gray-400 block font-bold uppercase">Wallet Balance</span>
-                                    <span id="user-info-balance" class="font-extrabold text-sm text-brand-600">0 Tk</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-clipboard-list"></i>
-                            </div>
-                            <div>
-                                <span class="text-[10px] text-gray-400 font-bold block uppercase">Orders</span>
-                                <span id="user-total-orders" class="font-extrabold text-base text-gray-900">0</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                            <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg">
-                                <i class="fa-solid fa-dollar-sign"></i>
-                            </div>
-                            <div>
-                                <span class="text-[10px] text-gray-400 font-bold block uppercase">Total Spend</span>
-                                <span id="user-total-spend" class="font-extrabold text-base text-gray-900">0 Tk</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="handleLogout()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-md transition">
-                        Logout Account
-                    </button>
-                </div>
-            </section>
-
-            <!-- ========================================== -->
-            <!-- VIEW 6: ADMIN PANEL -->
-            <!-- ========================================== -->
-            <section id="view-admin" class="hidden space-y-6 max-w-3xl mx-auto pb-12">
-                <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-md">
-                    <h2 class="text-lg font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-brand-500"></i> SERA TOP UP Admin Panel
-                    </h2>
-                    <button onclick="navTo('home', true)" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-xl font-bold">
-                        Exit Admin
-                    </button>
-                </div>
-
-                <div class="flex border-b border-gray-200 bg-white rounded-xl p-1 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
-                    <button onclick="switchAdminTab('branding')" id="adm-tab-branding" class="flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap">Site Branding</button>
-                    <button onclick="switchAdminTab('products')" id="adm-tab-products" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">প্যাকেজ ও ক্যাটাগরি</button>
-                    <button onclick="switchAdminTab('payments')" id="adm-tab-payments" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">পেমেন্ট নম্বর</button>
-                    <button onclick="switchAdminTab('users')" id="adm-tab-users" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">ইউজার ট্র্যাকিং</button>
-                    <button onclick="switchAdminTab('orders')" id="adm-tab-orders" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">সকল অর্ডার</button>
-                </div>
-
-                <div id="admin-sec-branding" class="space-y-6">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">Logo & Banner Settings</h3>
-                        <div class="space-y-3">
-                            <div class="space-y-1">
-                                <label class="block text-xs font-bold text-gray-700">Website Logo Image URL</label>
-                                <input type="text" id="adm-branding-logo" placeholder="e.g. https://i.ibb.co/.../logo.png" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="block text-xs font-bold text-gray-700">Home Hero Banner Image URL</label>
-                                <input type="text" id="adm-branding-banner" placeholder="e.g. https://i.ibb.co/.../banner.png" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            </div>
-                            <button onclick="adminSaveBranding()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
-                                Save Logo & Banner
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="admin-sec-products" class="hidden space-y-6">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">নতুন সেকশন/ক্যাটাগরি যোগ করুন</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <input type="text" id="adm-cat-name" placeholder="ক্যাটাগরির নাম" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            <input type="text" id="adm-cat-img" placeholder="ইমেজ লিংক (URL)" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            <select id="adm-cat-type" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                                <option value="ff">FF Category</option>
-                                <option value="special">Special Offer</option>
-                            </select>
-                        </div>
-                        <button onclick="adminAddCategory()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
-                            + নতুন ক্যাটাগরি সেভ করুন
-                        </button>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">ক্যাটাগরি ও প্যাকেজ এডিটর</h3>
-                        <div id="adm-categories-list" class="space-y-4"></div>
-                    </div>
-                </div>
-
-                <div id="admin-sec-payments" class="hidden space-y-6">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর পরিবর্তন করুন</h3>
-                        <div class="space-y-3">
-                            <div class="space-y-1">
-                                <label class="block text-xs font-bold text-gray-700">bKash Number</label>
-                                <input type="text" id="adm-pay-bkash" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="block text-xs font-bold text-gray-700">Nagad Number</label>
-                                <input type="text" id="adm-pay-nagad" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="block text-xs font-bold text-gray-700">Rocket Number</label>
-                                <input type="text" id="adm-pay-rocket" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="block text-xs font-bold text-gray-700">Upay Number</label>
-                                <input type="text" id="adm-pay-upay" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
-                            </div>
-                            <button onclick="adminSavePaymentNumbers()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
-                                পেমেন্ট নম্বর সেভ করুন
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="admin-sec-users" class="hidden space-y-4">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">কাস্টমার অ্যাকাউন্ট ও এড মানি ম্যানেজমেন্ট</h3>
-                        <div class="flex gap-2">
-                            <input type="text" id="adm-user-search-input" placeholder="User ID অথবা Email লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
-                            <button onclick="adminSearchUser()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ</button>
-                        </div>
-                    </div>
-
-                    <div id="adm-user-search-result" class="hidden bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3"></div>
-
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                        <h4 class="font-bold text-xs text-gray-700 uppercase">রেজিস্টার্ড কাস্টমার তালিকা</h4>
-                        <div id="adm-all-users-list" class="space-y-2"></div>
-                    </div>
-                </div>
-
-                <div id="admin-sec-orders" class="hidden space-y-4">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-extrabold text-sm text-gray-800 uppercase">সকল টপ-আপ অর্ডার</h3>
-                            <span id="adm-total-orders-count" class="text-xs font-bold text-brand-600">0 Orders</span>
-                        </div>
-                        <div class="flex gap-2 pt-2">
-                            <input type="number" id="adm-order-serial-search" placeholder="অর্ডার সিরিয়াল নম্বর (যেমন: 1, 2)" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
-                            <button onclick="renderAdminOrdersList()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ / রিসেট</button>
-                        </div>
-                        <div id="adm-all-orders-container" class="space-y-3 pt-2"></div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-    </div>
-
-    <!-- Persistent Professional Black Footer (All Pages) -->
-    <footer class="max-w-4xl w-full mx-auto px-4 mt-12 mb-6">
-        <div class="bg-slate-900 text-gray-300 rounded-2xl p-6 space-y-6 border border-slate-800 shadow-lg">
-            <div>
-                <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-1">STAY CONNECTED</h4>
-                <p class="text-xs text-gray-400 mb-3">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</p>
-                <div class="flex gap-2">
-                    <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-[#229ED9]"><i class="fa-brands fa-telegram"></i></a>
-                    <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-blue-500"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-red-500"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-amber-400"><i class="fa-solid fa-envelope"></i></a>
-                </div>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 flex justify-between items-center">
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navTo('home', true)">
+                <img id="site-logo-img" src="https://i.ibb.co.com/v4fLwZG1/logo.png" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-brand-500/30" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
                 <div>
-                    <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">SUPPORT CENTER</h4>
-                    <div class="bg-slate-800/60 border border-slate-700/60 p-3.5 rounded-xl flex items-center gap-3 max-w-sm">
-                        <div class="w-10 h-10 bg-[#229ED9] rounded-full flex items-center justify-center text-white text-lg">
-                            <i class="fa-brands fa-telegram"></i>
-                        </div>
-                        <div>
-                            <div class="text-xs font-bold text-white">Help line [9AM-12PM]</div>
-                            <div class="text-[11px] text-brand-400">টেলিগ্রামে সাপোর্ট</div>
-                        </div>
-                    </div>
+                    <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-none">SERA <span class="text-brand-600">TOP UP</span></h1>
+                    <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Fast & Trusted Game TopUp</span>
                 </div>
-                <button onclick="openAdminAuth()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-brand-400 rounded-xl flex items-center justify-center border border-slate-700 transition shadow-md" title="Admin Panel">
-                    <i class="fa-solid fa-user-gear text-base"></i>
-                </button>
             </div>
+            
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Top Wallet Display Badge -->
+                <div onclick="navTo('addmoney', true)" class="bg-brand-50 border border-brand-200 px-3 py-1.5 rounded-full flex items-center gap-2 cursor-pointer hover:bg-brand-100 transition shadow-sm">
+                    <i class="fa-solid fa-wallet text-brand-600 text-xs sm:text-sm"></i>
+                    <span id="header-wallet-balance" class="font-extrabold text-xs sm:text-sm text-brand-700">0 ৳</span>
+                    <span class="bg-brand-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold">+</span>
+                </div>
 
-            <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400 border-t border-slate-800 pt-4">
-                <a href="#" class="hover:text-white">About Us</a>
-                <a href="#" class="hover:text-white">Terms & Conditions</a>
-                <a href="#" class="hover:text-white">Privacy Policy</a>
-                <a href="#" class="hover:text-white">Refund & Return Policy</a>
-            </div>
-
-            <div class="border-t border-slate-800 pt-4 text-center text-xs text-gray-500">
-                © SERA TOP UP | All Rights Reserved | Developed by <a href="https://wa.me/8801997816786" target="_blank" class="text-brand-400 font-bold underline">GR TEAM</a>
+                <div id="user-header-avatar" onclick="navTo('profile', true)" class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow-sm cursor-pointer overflow-hidden">
+                    <span id="user-avatar-text">S</span>
+                </div>
             </div>
         </div>
-    </footer>
+    </header>
+
+    <!-- Main Dynamic View Container -->
+    <main class="max-w-4xl mx-auto px-4 pt-4">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: HOME PAGE -->
+        <!-- ========================================== -->
+        <section id="view-home" class="space-y-6">
+            <!-- Notice Banner -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-sm">
+                <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
+                    <p class="text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
+                        <strong>নোটিশ:</strong> মা-বাবা বা ফ্যামিলির কারো ফোন থেকে না বলে টাকা পাঠিয়ে টপ-আপ করলে তার অ্যাকাউন্ট স্থায়ীভাবে ব্লক করা হবে। যেকোনো সমস্যায় হেল্প পেতে টেলিগ্রাম চ্যাটে মেসেজ দিন।
+                    </p>
+                </div>
+            </div>
+
+            <!-- Home Main Banner -->
+            <div id="home-banner-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-emerald-700 to-teal-900 text-white p-6 sm:p-8">
+                <img id="home-banner-img" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Banner">
+                <div id="home-banner-text" class="relative z-10 space-y-3 max-w-lg">
+                    <span class="bg-amber-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Instant Auto Delivery</span>
+                    <h2 class="text-2xl sm:text-4xl font-black leading-snug">ফ্রি ফায়ার ডায়মন্ড <br><span class="text-amber-300">ইনস্ট্যান্ট টপ-আপ</span></h2>
+                    <p class="text-xs sm:text-sm text-emerald-100">বাংলাদেশ সার্ভারে সর্বনিম্ন দামে সর্বোচ্চ বিশ্বস্ততায় নিন ইউআইডি টপ-আপ!</p>
+                </div>
+                <div class="absolute right-[-10px] bottom-[-10px] opacity-20 text-8xl sm:text-9xl text-white">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+            </div>
+
+            <!-- Special Offer Category Section -->
+            <div class="space-y-3">
+                <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> স্পেশাল অফার
+                </h3>
+                <div id="special-offers-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    <!-- Rendered Dynamically -->
+                </div>
+            </div>
+
+            <!-- Main FF TopUp Grid -->
+            <div class="space-y-3">
+                <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> ফ্রি ফায়ার ক্যাটাগরি
+                </h3>
+                <div id="ff-categories-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    <!-- Rendered Dynamically -->
+                </div>
+            </div>
+
+            <!-- Professional Footer Section -->
+            <footer class="bg-slate-900 text-gray-300 rounded-2xl p-6 space-y-6 border border-slate-800 mt-8">
+                <div>
+                    <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-1">যোগাযোগ রাখুন</h4>
+                    <p class="text-xs text-gray-400 mb-3">কোন সমস্যায় পড়লে টেলিগ্রাম এ যোগাযোগ করবেন। তাহলে দ্রুত সমাধান পেয়ে যাবেন।</p>
+                    <div class="flex gap-2">
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-[#229ED9]"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-blue-500"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-red-500"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://t.me/amartopup" target="_blank" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-brand-500 hover:text-white transition text-amber-400"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-4 flex justify-between items-center">
+                    <div>
+                        <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">সাপোর্ট সেন্টার</h4>
+                        <div class="bg-slate-800/60 border border-slate-700/60 p-3.5 rounded-xl flex items-center gap-3 max-w-sm">
+                            <div class="w-10 h-10 bg-[#229ED9] rounded-full flex items-center justify-center text-white text-lg">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-white">হেল্প লাইন [সকাল ৯টা - রাত ১২টা]</div>
+                                <div class="text-[11px] text-brand-400">টেলিগ্রামে সাপোর্ট</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="openAdminAuth()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-brand-400 rounded-xl flex items-center justify-center border border-slate-700 transition shadow-md" title="Admin Panel">
+                        <i class="fa-solid fa-user-gear text-base"></i>
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400 border-t border-slate-800 pt-4">
+                    <a href="#" class="hover:text-white">আমাদের সম্পর্কে</a>
+                    <a href="#" class="hover:text-white">শর্তাবলী</a>
+                    <a href="#" class="hover:text-white">প্রাইভেসি পলিসি</a>
+                    <a href="#" class="hover:text-white">রিফান্ড পলিসি</a>
+                </div>
+
+                <div class="border-t border-slate-800 pt-4 text-center text-xs text-gray-500">
+                    © SERA TOP UP | সর্বস্বত্ব সংরক্ষিত | ডেভেলপ করেছে <a href="https://wa.me/8801997816786" target="_blank" class="text-brand-400 font-bold underline">GR TEAM</a>
+                </div>
+            </footer>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: CATEGORY RECHARGE DETAILS PAGE -->
+        <!-- ========================================== -->
+        <section id="view-details" class="hidden space-y-6 max-w-2xl mx-auto">
+            <button onclick="navTo('home', true)" class="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 transition">
+                <i class="fa-solid fa-arrow-left"></i> হোম পেজে ফিরে যান
+            </button>
+
+            <!-- Product Header Banner -->
+            <div class="bg-emerald-50 border border-emerald-200 p-4 sm:p-5 rounded-2xl shadow-sm flex items-center gap-4">
+                <div class="w-14 h-14 bg-brand-600 text-white rounded-xl flex items-center justify-center text-2xl shadow-sm">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div>
+                    <h2 id="detail-title" class="font-extrabold text-gray-900 text-lg sm:text-xl">Category Title</h2>
+                    <span class="bg-brand-500 text-white text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full inline-block mt-1">⚡ ২ সেকেন্ডে টপআপ</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Select Recharge -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
+                    <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">1</span>
+                    প্যাকেজ নির্বাচন করুন
+                </div>
+
+                <div id="package-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                    <!-- Dynamically Rendered Packages -->
+                </div>
+            </div>
+
+            <!-- Step 2: Account Info -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
+                    <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">2</span>
+                    Account Info
+                </div>
+                
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Player ID Code</label>
+                    <input type="number" id="player-id-input" placeholder="এখানে আইডি কোড দিন (যেমন: 7246745903)" class="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none text-gray-900 font-bold text-sm transition">
+                    
+                    <!-- Player Name Check Button / Result Display -->
+                    <button id="check-player-btn" onclick="checkPlayerName()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> প্লেয়ারের নাম চেক করতে ক্লিক করুন
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment Method -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
+                    <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">3</span>
+                    Payment Method
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Wallet Pay Card -->
+                    <div id="pay-type-wallet" onclick="selectPaymentType('wallet')" class="p-4 border-2 border-gray-200 bg-gray-50 rounded-2xl cursor-pointer transition text-center space-y-1 hover:border-blue-500">
+                        <div class="text-xl text-blue-600"><i class="fa-solid fa-wallet"></i></div>
+                        <div class="font-bold text-xs text-gray-900">Wallet Pay</div>
+                        <div id="wallet-card-balance" class="text-[10px] text-gray-500 font-semibold">Balance: 0 TK</div>
+                    </div>
+
+                    <!-- Instant Pay Card -->
+                    <div id="pay-type-instant" onclick="selectPaymentType('instant')" class="p-4 border-2 border-brand-500 bg-brand-50 rounded-2xl cursor-pointer transition text-center space-y-1">
+                        <div class="text-xl text-brand-600"><i class="fa-solid fa-bolt"></i></div>
+                        <div class="font-bold text-xs text-gray-900">Instant Pay (Auto)</div>
+                        <div class="text-[10px] text-brand-700 font-semibold">bKash / Nagad / Rocket</div>
+                    </div>
+                </div>
+
+                <!-- Instant Pay Sub-Options -->
+                <div id="instant-pay-details" class="space-y-4 pt-2">
+                    <div class="grid grid-cols-4 gap-2">
+                        <div id="pay-bKash" onclick="selectPaymentMethod('bKash')" class="p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700">bKash</div>
+                        <div id="pay-Nagad" onclick="selectPaymentMethod('Nagad')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">Nagad</div>
+                        <div id="pay-Rocket" onclick="selectPaymentMethod('Rocket')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">Rocket</div>
+                        <div id="pay-Upay" onclick="selectPaymentMethod('Upay')" class="p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700">Upay</div>
+                    </div>
+
+                    <!-- Payment Instructions -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
+                        <p class="font-semibold text-gray-700"><span id="pay-method-name">bKash</span> Send Money Number:</p>
+                        <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-300">
+                            <span id="pay-number-display" class="font-mono font-bold text-base sm:text-lg text-gray-900">01310518316</span>
+                            <button onclick="copyNumber()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-4 py-1.5 rounded-lg text-xs">
+                                <i class="fa-regular fa-copy"></i> কপি
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- TrxID Form Input -->
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-700">TrxID (Transaction ID)</label>
+                        <input type="text" id="trx-id-input" placeholder="যেমন: 9N7A8B6C" class="w-full uppercase px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-500 outline-none font-mono text-sm font-bold">
+                    </div>
+                </div>
+
+                <!-- Submit / Checkout Action Button -->
+                <button id="checkout-action-btn" onclick="submitOrder()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl text-base shadow-lg shadow-brand-500/30 transition flex items-center justify-center gap-2">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Rules & Conditions -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+                <h4 class="font-bold text-xs text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-scroll text-brand-500"></i> নিয়মাবলী ও শর্তসমূহ
+                </h4>
+                <ul class="text-xs text-gray-600 space-y-1.5 list-disc pl-4 leading-relaxed">
+                    <li>শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।</li>
+                    <li>Player ID Code ভুল দিয়ে ডায়মন্ড না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।</li>
+                    <li>পেমেন্ট সম্পন্ন করার ২ মিনিটের মধ্যে ডায়মন্ড অ্যাকাউন্টে চলে যাবে।</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: ADD MONEY PAGE (WALLET TOP UP) -->
+        <!-- ========================================== -->
+        <section id="view-addmoney" class="hidden space-y-6 max-w-xl mx-auto">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 space-y-5">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                    <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-brand-500"></i> Add Money to Wallet
+                    </h2>
+                    <span id="addmoney-current-bal" class="bg-brand-50 text-brand-700 font-extrabold text-xs px-3 py-1 rounded-full">Balance: 0 ৳</span>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">Amount (TK)</label>
+                        <input type="number" id="addmoney-amount" placeholder="e.g. 500" class="w-full px-4 py-3 rounded-xl border border-gray-300 font-bold text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-700">Select Payment Method</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <button type="button" onclick="selectAddMoneyMethod('bKash')" id="addm-bkash" class="p-3 border-2 border-brand-500 bg-brand-50 font-bold text-xs rounded-xl text-brand-700">bKash</button>
+                            <button type="button" onclick="selectAddMoneyMethod('Nagad')" id="addm-nagad" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Nagad</button>
+                            <button type="button" onclick="selectAddMoneyMethod('Rocket')" id="addm-rocket" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Rocket</button>
+                            <button type="button" onclick="selectAddMoneyMethod('Upay')" id="addm-upay" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Upay</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
+                        <p class="font-semibold text-gray-700"><span id="addmoney-method-name">bKash</span> Send Money Number:</p>
+                        <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-300">
+                            <span id="addmoney-num-display" class="font-mono font-bold text-base text-gray-900">01310518316</span>
+                            <button onclick="copyAddMoneyNum()" class="bg-brand-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">TrxID (Transaction ID)</label>
+                        <input type="text" id="addmoney-trxid" placeholder="e.g. 9N7A8B6C" class="w-full uppercase px-4 py-3 rounded-xl border border-gray-300 font-mono font-bold text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+
+                    <button onclick="submitAddMoneyRequest()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
+                        Submit Add Money Request
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: MY ORDERS PAGE -->
+        <!-- ========================================== -->
+        <section id="view-orders" class="hidden space-y-4 max-w-2xl mx-auto">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <i class="fa-solid fa-box text-brand-500"></i> My Orders
+                </h2>
+                <span class="text-xs text-gray-500 font-semibold" id="orders-count-badge">0 Orders</span>
+            </div>
+
+            <!-- Orders Container -->
+            <div id="orders-list-container" class="space-y-3">
+                <!-- Rendered dynamically -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 5: MY ACCOUNT / PROFILE PAGE -->
+        <!-- ========================================== -->
+        <section id="view-profile" class="hidden space-y-6 max-w-md mx-auto">
+            
+            <!-- Logged Out Container -->
+            <div id="auth-logged-out" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
+                <div class="text-left space-y-1">
+                    <h2 class="text-2xl font-extrabold text-gray-900">Login</h2>
+                    <p class="text-xs text-gray-500">Sign in to continue or create a new account</p>
+                </div>
+
+                <form onsubmit="handleManualLogin(event)" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">Email Address</label>
+                        <input type="email" id="login-email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none text-sm">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-bold text-gray-700">Password</label>
+                        <input type="password" id="login-pass" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none text-sm">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
+                        Sign In / Register
+                    </button>
+                </form>
+
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-gray-200"></div>
+                    <span class="flex-shrink mx-4 text-xs font-semibold text-gray-400">OR</span>
+                    <div class="flex-grow border-t border-gray-200"></div>
+                </div>
+
+                <button type="button" class="w-full border border-gray-300 bg-white text-gray-400 font-bold py-3 rounded-xl text-sm cursor-not-allowed flex items-center justify-center gap-3 shadow-sm opacity-80" title="Google Sign-In is disabled">
+                    <svg class="w-5 h-5 opacity-50" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    Sign in with Google
+                </button>
+            </div>
+
+            <!-- Logged In My Account Container -->
+            <div id="auth-logged-in" class="space-y-4 hidden">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase tracking-wider">Account Information</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-bold uppercase">Name</span>
+                                <span id="user-info-name" class="font-extrabold text-sm text-gray-900">User Name</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-bold uppercase">Email</span>
+                                <span id="user-info-email" class="font-extrabold text-sm text-gray-900">user@gmail.com</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 block font-bold uppercase">Wallet Balance</span>
+                                <span id="user-info-balance" class="font-extrabold text-sm text-brand-600">0 Tk</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders & Total Spend Boxes -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 font-bold block uppercase">Orders</span>
+                            <span id="user-total-orders" class="font-extrabold text-base text-gray-900">0</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 font-bold block uppercase">Total Spend</span>
+                            <span id="user-total-spend" class="font-extrabold text-base text-gray-900">0 Tk</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="handleLogout()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-md transition">
+                    Logout Account
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 6: FULL POWER ADMIN PANEL -->
+        <!-- ========================================== -->
+        <section id="view-admin" class="hidden space-y-6 max-w-3xl mx-auto pb-12">
+            <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-md">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-brand-500"></i> SERA TOP UP Admin Panel
+                </h2>
+                <button onclick="navTo('home', true)" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-xl font-bold">
+                    Exit Admin
+                </button>
+            </div>
+
+            <!-- Admin Control Tabs -->
+            <div class="flex border-b border-gray-200 bg-white rounded-xl p-1 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
+                <button onclick="switchAdminTab('branding')" id="adm-tab-branding" class="flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap">Site Branding</button>
+                <button onclick="switchAdminTab('products')" id="adm-tab-products" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">প্যাকেজ ও ক্যাটাগরি</button>
+                <button onclick="switchAdminTab('payments')" id="adm-tab-payments" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">পেমেন্ট নম্বর</button>
+                <button onclick="switchAdminTab('users')" id="adm-tab-users" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">ইউজার ট্র্যাকিং</button>
+                <button onclick="switchAdminTab('orders')" id="adm-tab-orders" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">সকল অর্ডার</button>
+            </div>
+
+            <!-- Admin Section 0: Site Branding -->
+            <div id="admin-sec-branding" class="space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">Logo & Banner Settings</h3>
+                    <div class="space-y-3">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Website Logo Image URL</label>
+                            <input type="text" id="adm-branding-logo" placeholder="e.g. https://i.ibb.co/.../logo.png" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Home Hero Banner Image URL</label>
+                            <input type="text" id="adm-branding-banner" placeholder="e.g. https://i.ibb.co/.../banner.png" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <button onclick="adminSaveBranding()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
+                            Save Logo & Banner
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Section 1: Package & Category Manager -->
+            <div id="admin-sec-products" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">নতুন সেকশন/ক্যাটাগরি যোগ করুন</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" id="adm-cat-name" placeholder="ক্যাটাগরির নাম" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <input type="text" id="adm-cat-img" placeholder="ইমেজ লিংক (URL)" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <select id="adm-cat-type" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <option value="ff">FF Category</option>
+                            <option value="special">Special Offer</option>
+                        </select>
+                    </div>
+                    <button onclick="adminAddCategory()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
+                        + নতুন ক্যাটাগরি সেভ করুন
+                    </button>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">ক্যাটাগরি ও প্যাকেজ এডিটর</h3>
+                    <div id="adm-categories-list" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- Admin Section 1.5: Payment Numbers Manager -->
+            <div id="admin-sec-payments" class="hidden space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর পরিবর্তন করুন</h3>
+                    <div class="space-y-3">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">bKash Number</label>
+                            <input type="text" id="adm-pay-bkash" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Nagad Number</label>
+                            <input type="text" id="adm-pay-nagad" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Rocket Number</label>
+                            <input type="text" id="adm-pay-rocket" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Upay Number</label>
+                            <input type="text" id="adm-pay-upay" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        </div>
+                        <button onclick="adminSavePaymentNumbers()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
+                            পেমেন্ট নম্বর সেভ করুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Section 2: User Tracking -->
+            <div id="admin-sec-users" class="hidden space-y-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">কাস্টমার অ্যাকাউন্ট ও এড মানি ম্যানেজমেন্ট</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="adm-user-search-input" placeholder="User ID অথবা Email লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <button onclick="adminSearchUser()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ</button>
+                    </div>
+                </div>
+
+                <div id="adm-user-search-result" class="hidden bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3"></div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h4 class="font-bold text-xs text-gray-700 uppercase">রেজিস্টার্ড কাস্টমার তালিকা</h4>
+                    <div id="adm-all-users-list" class="space-y-2"></div>
+                </div>
+            </div>
+
+            <!-- Admin Section 3: All Orders -->
+            <div id="admin-sec-orders" class="hidden space-y-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">সকল টপ-আপ অর্ডার</h3>
+                        <span id="adm-total-orders-count" class="text-xs font-bold text-brand-600">0 Orders</span>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <input type="number" id="adm-order-serial-search" placeholder="অর্ডার সিরিয়াল নম্বর (যেমন: 1, 2)" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <button onclick="renderAdminOrdersList()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ / রিসেট</button>
+                    </div>
+                    <div id="adm-all-orders-container" class="space-y-3 pt-2"></div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
 
     <!-- Floating Telegram Support Button -->
     <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-[#229ED9] text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
@@ -849,6 +866,7 @@
             if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
         }
 
+        // Improved UID Player Name Checker
         function checkPlayerName() {
             const uidInput = document.getElementById('player-id-input').value.trim();
             const btn = document.getElementById('check-player-btn');
@@ -985,14 +1003,13 @@
                 date: englishDate,
                 userEmail: currentUser.email,
                 userId: currentUser.userId,
-                status: 'Pending'
+                status: 'Processing'
             };
 
             ordersList.unshift(orderObj);
             saveOrders();
             checkProfileState();
 
-            // Telegram Notification for BOTH Wallet Pay & Instant Pay
             const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (SERA TOP UP)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User:* ${currentUser.email} (ID: ${currentUser.userId})\n🎮 *Player ID:* ${playerId}\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n💳 *Payment:* ${payMethodText}\n🔑 *TrxID:* ${trxId}`;
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`)
@@ -1005,6 +1022,7 @@
             navTo('orders', true);
         }
 
+        // Add Money Handling
         function updateAddMoneyView() {
             const bal = currentUser ? (currentUser.balance || 0) : 0;
             document.getElementById('addmoney-current-bal').innerText = `Balance: ${bal} ৳`;
@@ -1053,3 +1071,502 @@
                 showToast('সতর্কতা', 'ট্রানজেকশন আইডি (TrxID) প্রদান করুন!', 'error');
                 return;
             }
+
+            const msg = `💰 *নতুন এড মানি রিকোয়েস্ট!*\n\n👤 *User:* ${currentUser.email} (ID: ${currentUser.userId})\n💵 *Amount:* ৳${amount}\n💳 *Method:* ${selectedAddMoneyMethod}\n🔑 *TrxID:* ${trxid}`;
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
+
+            document.getElementById('addmoney-amount').value = '';
+            document.getElementById('addmoney-trxid').value = '';
+
+            showToast('এড মানি রিকোয়েস্ট জমা হয়েছে', 'আপনার এড মানি রিকোয়েস্ট অ্যাডমিন ট্র্যাকিংয়ে পাঠানো হয়েছে। দ্রুত ব্যালেন্স এড হবে।', 'success');
+        }
+
+        function renderOrdersList() {
+            const container = document.getElementById('orders-list-container');
+            const myOrders = currentUser ? ordersList.filter(o => o.userEmail === currentUser.email) : [];
+            document.getElementById('orders-count-badge').innerText = `${myOrders.length} Orders`;
+
+            if (myOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-8 rounded-2xl shadow-sm text-center space-y-3">
+                        <i class="fa-solid fa-box-open text-4xl text-gray-300"></i>
+                        <h4 class="font-bold text-gray-700 text-sm">কোনো অর্ডার ডেটা পাওয়া যায়নি!</h4>
+                        <button onclick="navTo('home', true)" class="bg-brand-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md">ORDER NOW</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            myOrders.forEach(ord => {
+                let statusBadge = '';
+                if (ord.status === 'Completed') {
+                    statusBadge = `<span class="bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Completed</span>`;
+                } else if (ord.status === 'Cancelled') {
+                    statusBadge = `<span class="bg-red-100 text-red-700 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Cancelled</span>`;
+                } else {
+                    statusBadge = `<span class="bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Processing</span>`;
+                }
+
+                html += `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-xs text-brand-600">Order #${ord.serial}</span>
+                            ${statusBadge}
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <h4 class="font-extrabold text-gray-900">${ord.package}</h4>
+                            <span class="font-bold text-brand-600">৳ ${ord.price}</span>
+                        </div>
+                        <div class="text-xs text-gray-500 space-y-0.5 pt-1 border-t border-gray-100">
+                            <p>Player ID: <strong class="text-gray-800">${ord.playerId}</strong></p>
+                            <p>Payment: ${ord.payMethod} | TrxID: <span class="font-mono font-bold text-gray-700">${ord.trxId}</span></p>
+                            <span class="text-[10px] text-gray-400 block mt-1">${ord.date}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function handleManualLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-pass').value;
+            let name = email.split('@')[0];
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+
+            if (usersStore[email]) {
+                if (usersStore[email].pass !== pass) {
+                    showToast('লগইন ব্যর্থ', 'আপনার দেওয়া পাসওয়ার্ড টি সঠিক নয়। পাসওয়ার্ড ভুলে গেলে সাপোর্টে যোগাযোগ করুন।', 'error');
+                    return;
+                }
+            } else {
+                const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
+                usersStore[email] = {
+                    name: name,
+                    email: email,
+                    pass: pass,
+                    userId: randomUserId,
+                    balance: 0,
+                    isBlocked: false
+                };
+            }
+
+            currentUser = usersStore[email];
+            saveUserData();
+            updateCheckoutButtonState();
+            checkProfileState();
+            showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
+            navTo('profile', true);
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('sera_topup_user');
+            checkProfileState();
+            updateCheckoutButtonState();
+            showToast('লগআউট', 'আপনার অ্যাকাউন্ট সফলভাবে লগআউট করা হয়েছে।', 'info');
+        }
+
+        function checkProfileState() {
+            const walletHeader = document.getElementById('header-wallet-balance');
+            if (currentUser) {
+                document.getElementById('auth-logged-out').classList.add('hidden');
+                document.getElementById('auth-logged-in').classList.remove('hidden');
+                
+                document.getElementById('user-info-name').innerText = currentUser.name;
+                document.getElementById('user-info-email').innerText = currentUser.email;
+                document.getElementById('user-info-balance').innerText = (currentUser.balance || 0) + " Tk";
+                walletHeader.innerText = (currentUser.balance || 0) + " ৳";
+
+                const myOrders = ordersList.filter(o => o.userEmail === currentUser.email);
+                const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
+
+                document.getElementById('user-total-orders').innerText = myOrders.length;
+                document.getElementById('user-total-spend').innerText = totalSpendTk + " Tk";
+                document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
+            } else {
+                document.getElementById('auth-logged-out').classList.remove('hidden');
+                document.getElementById('auth-logged-in').classList.add('hidden');
+                document.getElementById('user-avatar-text').innerText = 'S';
+                walletHeader.innerText = "0 ৳";
+            }
+        }
+
+        /* Full Power Admin Panel Functions */
+        function openAdminAuth() {
+            const pass = prompt("অ্যাডমিন প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন:");
+            if (pass === "Stp26GR") {
+                loadAdminBrandingInputs();
+                renderAdminCategories();
+                loadAdminPaymentInputs();
+                renderAdminUsersList();
+                renderAdminOrdersList();
+                navTo('admin', true);
+            } else if (pass !== null) {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        }
+
+        function switchAdminTab(tabName) {
+            ['branding', 'products', 'payments', 'users', 'orders'].forEach(t => {
+                document.getElementById(`admin-sec-${t}`).classList.add('hidden');
+                document.getElementById(`adm-tab-${t}`).className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap";
+            });
+
+            document.getElementById(`admin-sec-${tabName}`).classList.remove('hidden');
+            document.getElementById(`adm-tab-${tabName}`).className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap";
+        }
+
+        function loadAdminBrandingInputs() {
+            document.getElementById('adm-branding-logo').value = SiteBranding.logo || "";
+            document.getElementById('adm-branding-banner').value = SiteBranding.banner || "";
+        }
+
+        function adminSaveBranding() {
+            SiteBranding.logo = document.getElementById('adm-branding-logo').value.trim();
+            SiteBranding.banner = document.getElementById('adm-branding-banner').value.trim();
+
+            saveStoreData();
+            applyBranding();
+            showToast('Branding Saved', 'Logo & Banner updated successfully!', 'success');
+        }
+
+        function loadAdminPaymentInputs() {
+            document.getElementById('adm-pay-bkash').value = PaymentNumbers.bKash || "";
+            document.getElementById('adm-pay-nagad').value = PaymentNumbers.Nagad || "";
+            document.getElementById('adm-pay-rocket').value = PaymentNumbers.Rocket || "";
+            document.getElementById('adm-pay-upay').value = PaymentNumbers.Upay || "";
+        }
+
+        function adminSavePaymentNumbers() {
+            PaymentNumbers.bKash = document.getElementById('adm-pay-bkash').value.trim();
+            PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim();
+            PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim();
+            PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim();
+
+            saveStoreData();
+            showToast('সফল', 'পেমেন্ট নম্বরগুলো সফলভাবে আপডেট করা হয়েছে!', 'success');
+        }
+
+        function renderAdminCategories() {
+            const container = document.getElementById('adm-categories-list');
+            container.innerHTML = '';
+
+            for (let catKey in PackagesData) {
+                const cat = PackagesData[catKey];
+                const catBox = document.createElement('div');
+                catBox.className = "bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3";
+
+                let packagesHtml = '';
+                cat.packages.forEach((pkg, pIdx) => {
+                    packagesHtml += `
+                        <div class="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200 text-xs">
+                            <input type="text" value="${pkg.name}" onchange="adminUpdatePkgName('${catKey}', ${pIdx}, this.value)" class="flex-1 px-2 py-1 border rounded">
+                            <input type="number" value="${pkg.price}" onchange="adminUpdatePkgPrice('${catKey}', ${pIdx}, this.value)" class="w-20 px-2 py-1 border rounded">
+                            <span class="font-bold">TK</span>
+                            <button onclick="adminDeletePkg('${catKey}', ${pIdx})" class="text-red-500 font-bold px-2">X</button>
+                        </div>
+                    `;
+                });
+
+                catBox.innerHTML = `
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <input type="text" value="${catKey}" onchange="adminRenameCat('${catKey}', this.value)" class="font-bold text-sm bg-white px-2 py-1 rounded border">
+                        <button onclick="adminDeleteCat('${catKey}')" class="bg-red-500 text-white text-[10px] px-2.5 py-1 rounded-lg font-bold">Delete Category</button>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label>
+                        <input type="text" value="${cat.img}" onchange="adminUpdateCatImg('${catKey}', this.value)" class="w-full text-xs p-1.5 border rounded bg-white">
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        <span class="text-xs font-bold text-gray-700">Packages:</span>
+                        ${packagesHtml}
+                        <button onclick="adminAddPkg('${catKey}')" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg">+ Add Package</button>
+                    </div>
+                `;
+
+                container.appendChild(catBox);
+            }
+        }
+
+        function adminAddCategory() {
+            const name = document.getElementById('adm-cat-name').value.trim();
+            const img = document.getElementById('adm-cat-img').value.trim();
+            const type = document.getElementById('adm-cat-type').value;
+
+            if (!name || !img) {
+                alert("নাম ও ছবির লিংক দিন!");
+                return;
+            }
+
+            PackagesData[name] = { type: type, img: img, packages: [] };
+            saveStoreData();
+            renderHomeCategories();
+            renderAdminCategories();
+            document.getElementById('adm-cat-name').value = '';
+            document.getElementById('adm-cat-img').value = '';
+            showToast('সফল', 'নতুন ক্যাটাগরি তৈরি হয়েছে!', 'success');
+        }
+
+        function adminDeleteCat(catKey) {
+            if (confirm(`নিশ্চিত তো '${catKey}' ক্যাটাগরি ডিলিট করবেন?`)) {
+                delete PackagesData[catKey];
+                saveStoreData();
+                renderHomeCategories();
+                renderAdminCategories();
+            }
+        }
+
+        function adminRenameCat(oldKey, newKey) {
+            if (newKey && oldKey !== newKey) {
+                PackagesData[newKey] = PackagesData[oldKey];
+                delete PackagesData[oldKey];
+                saveStoreData();
+                renderHomeCategories();
+                renderAdminCategories();
+            }
+        }
+
+        function adminUpdateCatImg(catKey, newImg) {
+            PackagesData[catKey].img = newImg;
+            saveStoreData();
+            renderHomeCategories();
+        }
+
+        function adminUpdatePkgName(catKey, pIdx, newName) {
+            PackagesData[catKey].packages[pIdx].name = newName;
+            saveStoreData();
+        }
+
+        function adminUpdatePkgPrice(catKey, pIdx, newPrice) {
+            PackagesData[catKey].packages[pIdx].price = Number(newPrice);
+            saveStoreData();
+        }
+
+        function adminDeletePkg(catKey, pIdx) {
+            PackagesData[catKey].packages.splice(pIdx, 1);
+            saveStoreData();
+            renderAdminCategories();
+        }
+
+        function adminAddPkg(catKey) {
+            const name = prompt("প্যাকেজের নাম:");
+            const price = prompt("প্যাকেজের দাম (TK):");
+            if (name && price) {
+                PackagesData[catKey].packages.push({ name: name, price: Number(price) });
+                saveStoreData();
+                renderAdminCategories();
+            }
+        }
+
+        function renderAdminUsersList() {
+            const container = document.getElementById('adm-all-users-list');
+            container.innerHTML = '';
+
+            for (let email in usersStore) {
+                const u = usersStore[email];
+                const uOrders = ordersList.filter(o => o.userEmail === email);
+                const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
+
+                const item = document.createElement('div');
+                item.className = "flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs gap-2";
+                item.innerHTML = `
+                    <div>
+                        <div class="font-bold text-gray-900">${u.name} (ID: ${u.userId})</div>
+                        <div class="text-gray-500">${u.email} | Pass: <span class="font-mono text-brand-600">${u.pass}</span></div>
+                        <div class="text-[10px] text-gray-400 font-bold">Balance: <span class="text-brand-600">${u.balance || 0} Tk</span> | Spend: ${uSpend} Tk</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adminAddUserBalance('${email}')" class="bg-blue-600 text-white px-2.5 py-1 rounded-lg font-bold text-[11px]">+ Add Balance</button>
+                        <button onclick="adminToggleBlockUser('${email}')" class="${u.isBlocked ? 'bg-emerald-600' : 'bg-red-600'} text-white px-2.5 py-1 rounded-lg font-bold text-[11px]">
+                            ${u.isBlocked ? 'Unblock' : 'Block'}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            }
+        }
+
+        function adminAddUserBalance(email) {
+            const addBal = prompt(`ইউজার (${email}) এর অ্যাকাউন্টে কত টাকা যোগ করতে চান?`);
+            if (addBal && !isNaN(addBal)) {
+                usersStore[email].balance = (Number(usersStore[email].balance) || 0) + Number(addBal);
+                if (currentUser && currentUser.email === email) {
+                    currentUser.balance = usersStore[email].balance;
+                }
+                saveStoreData();
+                renderAdminUsersList();
+                checkProfileState();
+                showToast('ব্যালেন্স আপডেট', `ইউজারের অ্যাকাউন্টে ${addBal} Tk যোগ করা হয়েছে।`, 'success');
+            }
+        }
+
+        function adminSearchUser() {
+            const input = document.getElementById('adm-user-search-input').value.trim().toLowerCase();
+            const output = document.getElementById('adm-user-search-result');
+
+            let foundUser = null;
+            for (let email in usersStore) {
+                const u = usersStore[email];
+                if (u.email.toLowerCase() === input || u.userId === input) {
+                    foundUser = u;
+                    break;
+                }
+            }
+
+            if (!foundUser) {
+                output.classList.remove('hidden');
+                output.innerHTML = `<p class="text-xs text-red-500 font-bold">কোনো ইউজার পাওয়া যায়নি!</p>`;
+                return;
+            }
+
+            const uOrders = ordersList.filter(o => o.userEmail === foundUser.email);
+            const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
+
+            output.classList.remove('hidden');
+            output.innerHTML = `
+                <div class="space-y-2 text-xs">
+                    <h4 class="font-bold text-gray-900">User Profile: ${foundUser.name}</h4>
+                    <p>User ID: <strong>${foundUser.userId}</strong></p>
+                    <p>Email: ${foundUser.email}</p>
+                    <p>Wallet Balance: <strong class="text-brand-600">${foundUser.balance || 0} Tk</strong></p>
+                    <p>Total Orders: <strong>${uOrders.length}</strong> | Spend: <strong>${uSpend} Tk</strong></p>
+                    <button onclick="adminAddUserBalance('${foundUser.email}')" class="bg-blue-600 text-white font-bold px-3 py-1 rounded-lg text-xs">+ Add Balance</button>
+                </div>
+            `;
+        }
+
+        function adminToggleBlockUser(email) {
+            usersStore[email].isBlocked = !usersStore[email].isBlocked;
+            saveStoreData();
+            renderAdminUsersList();
+            showToast('আপডেট', `ইউজার ${usersStore[email].isBlocked ? 'ব্লক' : 'আনব্লক'} করা হয়েছে`, 'info');
+        }
+
+        function renderAdminOrdersList() {
+            const container = document.getElementById('adm-all-orders-container');
+            const searchSerial = document.getElementById('adm-order-serial-search').value.trim();
+            
+            let filteredOrders = ordersList;
+            if (searchSerial !== "") {
+                filteredOrders = ordersList.filter(o => o.serial.toString() === searchSerial);
+            }
+
+            document.getElementById('adm-total-orders-count').innerText = `${filteredOrders.length} Orders`;
+
+            if (filteredOrders.length === 0) {
+                container.innerHTML = `<p class="text-xs text-red-500 font-bold">কোনো অর্ডার পাওয়া যায়নি!</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            filteredOrders.forEach(ord => {
+                const box = document.createElement('div');
+                box.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-2";
+                box.innerHTML = `
+                    <div class="flex justify-between items-center font-bold text-gray-900">
+                        <span>Order #${ord.serial} - ${ord.package}</span>
+                        <span class="text-brand-600">৳ ${ord.price}</span>
+                    </div>
+                    <p class="text-gray-600">User: ${ord.userEmail} (ID: ${ord.userId})</p>
+                    <p class="text-gray-600">Player ID: <strong class="text-gray-900">${ord.playerId}</strong> | Method: ${ord.payMethod} (${ord.trxId})</p>
+                    <div class="flex items-center justify-between pt-1 border-t border-slate-200">
+                        <span class="font-bold text-gray-500">Status:</span>
+                        <select onchange="adminUpdateOrderStatus(${ord.serial}, this.value)" class="px-2 py-1 rounded border text-xs font-bold ${ord.status === 'Completed' ? 'bg-emerald-100 text-emerald-800' : ord.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'}">
+                            <option value="Processing" ${ord.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Completed" ${ord.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                            <option value="Cancelled" ${ord.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function adminUpdateOrderStatus(serial, newStatus) {
+            const ord = ordersList.find(o => o.serial === serial);
+            if (ord) {
+                ord.status = newStatus;
+                saveOrders();
+                renderAdminOrdersList();
+                showToast('স্ট্যাটাস আপডেট', `অর্ডার #${serial} এর স্ট্যাটাস ${newStatus} করা হয়েছে।`, 'success');
+            }
+        }
+
+        /* Storage System */
+        function saveStoreData() {
+            localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
+            localStorage.setItem('sera_topup_payments', JSON.stringify(PaymentNumbers));
+            localStorage.setItem('sera_topup_branding', JSON.stringify(SiteBranding));
+            localStorage.setItem('sera_topup_users_store', JSON.stringify(usersStore));
+        }
+
+        function loadStoreData() {
+            const pData = localStorage.getItem('sera_topup_packages');
+            if (pData) PackagesData = JSON.parse(pData);
+            else PackagesData = DefaultPackagesData;
+
+            const payData = localStorage.getItem('sera_topup_payments');
+            if (payData) PaymentNumbers = JSON.parse(payData);
+            else PaymentNumbers = DefaultPaymentNumbers;
+
+            const brandData = localStorage.getItem('sera_topup_branding');
+            if (brandData) SiteBranding = JSON.parse(brandData);
+            else SiteBranding = DefaultBranding;
+
+            const uData = localStorage.getItem('sera_topup_users_store');
+            if (uData) usersStore = JSON.parse(uData);
+        }
+
+        function saveUserData() {
+            if(currentUser) {
+                localStorage.setItem('sera_topup_user', JSON.stringify(currentUser));
+                saveStoreData();
+            }
+        }
+
+        function loadUserData() {
+            const data = localStorage.getItem('sera_topup_user');
+            if (data) currentUser = JSON.parse(data);
+            checkProfileState();
+            updateCheckoutButtonState();
+        }
+
+        function copyNumber() {
+            navigator.clipboard.writeText(selectedPayNumber);
+            showToast('কপি হয়েছে', `নম্বর কপি করা হয়েছে: ${selectedPayNumber}`, 'success');
+        }
+
+        function saveOrders() {
+            localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList));
+        }
+
+        function loadOrders() {
+            const data = localStorage.getItem('sera_topup_orders');
+            if (data) ordersList = JSON.parse(data);
+        }
+
+        function showToast(title, msg, type = 'info') {
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-msg').innerText = msg;
+            
+            const iconBox = document.getElementById('toast-icon');
+            if (type === 'error') {
+                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-red-100 text-red-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+            } else {
+                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600";
+                iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
+            }
+
+            document.getElementById('toast-modal').classList.remove('hidden');
+        }
+
+        function closeToast() {
+            document.getElementById('toast-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
