@@ -45,7 +45,7 @@
     <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer" onclick="navTo('home', true)">
-                <img src="https://i.ibb.co.com/v4fLwZG1/logo.png" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-brand-500/30" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
+                <img id="site-logo-img" src="https://i.ibb.co.com/v4fLwZG1/logo.png" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-brand-500/30" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
                 <div>
                     <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-none">SERA <span class="text-brand-600">TOP UP</span></h1>
                     <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Fast & Trusted Game TopUp</span>
@@ -96,24 +96,8 @@
                 <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Special Offer
                 </h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                    <div onclick="openCategory('FF Like')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                            <img src="https://i.postimg.cc/Y9mJjdjr/214008759-1792732594249437.jpg" alt="FF Like" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                            <span class="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">POPULAR</span>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">FF Like</h4>
-                        <p class="text-[11px] text-gray-500">220+ লাইক প্রতিদিন</p>
-                    </div>
-
-                    <div onclick="alert('বর্তমানে কোনো ফ্রি টুর্নামেন্ট চালু নেই।')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-emerald-800 rounded-xl overflow-hidden mb-2 relative flex flex-col items-center justify-center text-white p-2">
-                            <i class="fa-solid fa-trophy text-4xl mb-1 text-amber-300"></i>
-                            <span class="text-xs font-bold text-white">Tournament</span>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Free Tournament</h4>
-                        <p class="text-[11px] text-gray-500">টুর্নামেন্ট খেলে জিতুন</p>
-                    </div>
+                <div id="special-offers-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    <!-- Rendered Dynamically -->
                 </div>
             </div>
 
@@ -122,45 +106,8 @@
                 <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
                 </h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                    
-                    <!-- Uid Topup BD SERVER -->
-                    <div onclick="openCategory('Uid Topup [BD SERVER]')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                            <img src="https://bdtopup.store/uploads/media/260/01KGAX7XFP7W8KXK4C4MY76297.jpg" alt="UID Topup" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                            <span class="absolute top-2 left-2 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">⚡ INSTANT</span>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Uid Topup [BD SERVER]</h4>
-                        <p class="text-[11px] text-brand-600 font-semibold">⚡ ২ সেকেন্ডে টপআপ</p>
-                    </div>
-
-                    <!-- Weekly/Monthly -->
-                    <div onclick="openCategory('Weekly/Monthly')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                            <img src="https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Wekkly-monthly-membership-.webp" alt="Weekly/Monthly" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Weekly/Monthly</h4>
-                        <p class="text-[11px] text-gray-500">বেস্ট অফার মেম্বারশিপ</p>
-                    </div>
-
-                    <!-- Level Up Pass -->
-                    <div onclick="openCategory('Level Up Pass')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                            <img src="https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Level-Up-Pass.webp" alt="Level Up Pass" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Level Up Pass</h4>
-                        <p class="text-[11px] text-gray-500">লেভেল অনুযায়ী ডায়মন্ড</p>
-                    </div>
-
-                    <!-- Weekly Lite -->
-                    <div onclick="openCategory('Weekly Lite (BD Server)')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group">
-                        <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                            <img src="https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Weekly-Lite.webp" alt="Weekly Lite" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">Weekly Lite (BD Server)</h4>
-                        <p class="text-[11px] text-gray-500">কম দামে উইকলি</p>
-                    </div>
-
+                <div id="ff-categories-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                    <!-- Rendered Dynamically -->
                 </div>
             </div>
 
@@ -177,17 +124,23 @@
                     </div>
                 </div>
 
-                <div class="border-t border-slate-800 pt-4">
-                    <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">SUPPORT CENTER</h4>
-                    <div class="bg-slate-800/60 border border-slate-700/60 p-3.5 rounded-xl flex items-center gap-3 max-w-sm">
-                        <div class="w-10 h-10 bg-brand-500 rounded-full flex items-center justify-center text-white text-lg">
-                            <i class="fa-brands fa-telegram"></i>
-                        </div>
-                        <div>
-                            <div class="text-xs font-bold text-white">Help line [9AM-12PM]</div>
-                            <div class="text-[11px] text-brand-400">টেলিগ্রামে সাপোর্ট</div>
+                <div class="border-t border-slate-800 pt-4 flex justify-between items-center">
+                    <div>
+                        <h4 class="text-xs font-bold text-white tracking-widest uppercase mb-2">SUPPORT CENTER</h4>
+                        <div class="bg-slate-800/60 border border-slate-700/60 p-3.5 rounded-xl flex items-center gap-3 max-w-sm">
+                            <div class="w-10 h-10 bg-brand-500 rounded-full flex items-center justify-center text-white text-lg">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-white">Help line [9AM-12PM]</div>
+                                <div class="text-[11px] text-brand-400">টেলিগ্রামে সাপোর্ট</div>
+                            </div>
                         </div>
                     </div>
+                    <!-- Secret Admin Panel Trigger Button -->
+                    <button onclick="openAdminAuth()" class="bg-slate-800 hover:bg-slate-700 text-gray-400 hover:text-white px-3 py-2 rounded-xl text-xs font-bold border border-slate-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-user-gear"></i> Admin Panel
+                    </button>
                 </div>
 
                 <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400 border-t border-slate-800 pt-4">
@@ -301,7 +254,7 @@
                 <ul class="text-xs text-gray-600 space-y-1.5 list-disc pl-4 leading-relaxed">
                     <li>শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।</li>
                     <li>Player ID Code ভুল দিয়ে লাইক না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।</li>
-                    <li>প্রতি ২৪ ঘণ্টায় শুধুমাত্র একবার অর্ডার করা যাবে। ২৪ ঘণ্টায় বার বার অর্ডার করলে লাইک না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।</li>
+                    <li>প্রতি ২৪ ঘণ্টায় শুধুমাত্র একবার অর্ডার করা যাবে। ২৪ ঘণ্টায় বার বার অর্ডার করলে লাইক না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।</li>
                     <li>কোনো সমস্যা হলে TrxID সহ আমাদের টেলিগ্রাম সাপোর্টে মেসেজ দিন।</li>
                 </ul>
             </div>
@@ -346,7 +299,7 @@
                         <input type="password" id="login-pass" placeholder="পাসওয়ার্ড" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-600 outline-none text-sm">
                     </div>
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
-                        সাইন ইন
+                        সাইন ইন / রেজিস্টার
                     </button>
                 </form>
 
@@ -356,20 +309,16 @@
                     <div class="flex-grow border-t border-gray-200"></div>
                 </div>
 
-                <!-- Google Official Redirect Native Trigger Button matching user screenshot -->
-                <button onclick="triggerRealGoogleOAuthPopup()" class="w-full border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3 rounded-xl text-sm transition flex items-center justify-center gap-3 shadow-sm">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                <!-- Google Showpiece Button (Disabled Click) -->
+                <button type="button" class="w-full border border-gray-300 bg-white text-gray-400 font-bold py-3 rounded-xl text-sm cursor-not-allowed flex items-center justify-center gap-3 shadow-sm opacity-80" title="বর্তমানে গুগল সাইন ইন নিস্ক্রিয় রয়েছে">
+                    <svg class="w-5 h-5 opacity-50" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                     </svg>
-                    Google দিয়ে সাইন ইন
+                    Google দিয়ে সাইন ইন (Temporarily Disabled)
                 </button>
-
-                <div class="text-center text-xs text-gray-600 pt-2">
-                    নতুন ব্যবহারকারী? <a href="#" onclick="triggerRealGoogleOAuthPopup()" class="text-blue-600 font-bold">রেজিস্টার এখন</a>
-                </div>
             </div>
 
             <!-- Logged In My Account Container -->
@@ -385,16 +334,6 @@
                             <div>
                                 <span class="text-[10px] text-gray-400 block font-bold uppercase">Name</span>
                                 <span id="user-info-name" class="font-extrabold text-sm text-gray-900">User Name</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
-                            <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base">
-                                <i class="fa-solid fa-phone"></i>
-                            </div>
-                            <div>
-                                <span class="text-[10px] text-gray-400 block font-bold uppercase">Phone</span>
-                                <span id="user-info-phone" class="font-extrabold text-sm text-gray-900">+8801997816786</span>
                             </div>
                         </div>
 
@@ -450,35 +389,93 @@
 
         </section>
 
-    </main>
+        <!-- ========================================== -->
+        <!-- VIEW 5: FULL POWER ADMIN PANEL -->
+        <!-- ========================================== -->
+        <section id="view-admin" class="hidden space-y-6 max-w-3xl mx-auto pb-12">
+            <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-md">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-brand-500"></i> SERA TOP UP Admin Panel
+                </h2>
+                <button onclick="navTo('home', true)" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-xl font-bold">
+                    Exit Admin
+                </button>
+            </div>
 
-    <!-- Google Accounts Selector Popup Simulation/OAuth Redirect Simulator matching exact user request -->
-    <div id="google-accounts-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl animate-fade-in">
-            <div class="flex items-center gap-3 border-b border-gray-100 pb-3">
-                <svg class="w-6 h-6" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <div class="text-left">
-                    <h4 class="font-bold text-sm text-gray-800">Sign in with Google</h4>
-                    <p class="text-[10px] text-gray-500">to continue to seratopup.com</p>
+            <!-- Admin Control Tabs -->
+            <div class="flex border-b border-gray-200 bg-white rounded-xl p-1 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
+                <button onclick="switchAdminTab('products')" id="adm-tab-products" class="flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white">প্যাকেজ ও ক্যাটাগরি</button>
+                <button onclick="switchAdminTab('users')" id="adm-tab-users" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100">ইউজার ট্র্যাকিং</button>
+                <button onclick="switchAdminTab('orders')" id="adm-tab-orders" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100">সকল অর্ডার</button>
+            </div>
+
+            <!-- Admin Section 1: Package & Category Manager -->
+            <div id="admin-sec-products" class="space-y-6">
+                <!-- Add New Category Form -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">নতুন সেকশন/ক্যাটাগরি যোগ করুন</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" id="adm-cat-name" placeholder="ক্যাটাগরির নাম" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <input type="text" id="adm-cat-img" placeholder="ইমেজ লিংক (URL)" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <select id="adm-cat-type" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <option value="ff">FF Category</option>
+                            <option value="special">Special Offer</option>
+                        </select>
+                    </div>
+                    <button onclick="adminAddCategory()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">
+                        + নতুন ক্যাটাগরি সেভ করুন
+                    </button>
+                </div>
+
+                <!-- Existing Categories & Package Editor -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">ক্যাটাগরি ও প্যাকেজ এডিটর</h3>
+                    <div id="adm-categories-list" class="space-y-4">
+                        <!-- Dynamically Rendered -->
+                    </div>
                 </div>
             </div>
 
-            <p class="text-xs font-semibold text-gray-700 text-left">Choose an account from your phone:</p>
+            <!-- Admin Section 2: User Tracking & Control -->
+            <div id="admin-sec-users" class="hidden space-y-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="font-extrabold text-sm text-gray-800 uppercase">কাস্টমার অ্যাকাউন্ট ও গতিবিধি</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="adm-user-search-input" placeholder="User ID অথবা Email লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                        <button onclick="adminSearchUser()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">
+                            সার্চ
+                        </button>
+                    </div>
+                </div>
 
-            <div id="dynamic-gmail-list" class="space-y-2 max-h-56 overflow-y-auto">
-                <!-- Dynamically populated to match browser device accounts -->
+                <div id="adm-user-search-result" class="hidden bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <!-- Dynamic User Search Output -->
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <h4 class="font-bold text-xs text-gray-700 uppercase">রেজিস্টার্ড কাস্টমার তালিকা</h4>
+                    <div id="adm-all-users-list" class="space-y-2">
+                        <!-- Dynamic list -->
+                    </div>
+                </div>
             </div>
 
-            <button onclick="closeGoogleModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2 rounded-xl text-xs">
-                Cancel
-            </button>
-        </div>
-    </div>
+            <!-- Admin Section 3: All Orders Tracker -->
+            <div id="admin-sec-orders" class="hidden space-y-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">সকল টপ-আপ অর্ডার</h3>
+                        <span id="adm-total-orders-count" class="text-xs font-bold text-brand-600">0 Orders</span>
+                    </div>
+                    <div id="adm-all-orders-container" class="space-y-3">
+                        <!-- Dynamically rendered -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
 
     <!-- Floating Telegram Support Button -->
     <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
@@ -521,73 +518,97 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        const PackagesData = {
-            "Weekly Lite (BD Server)": [
-                { name: "1X Weekly Lite", price: 45 },
-                { name: "2X Weekly Lite", price: 89 },
-                { name: "3X Weekly Lite", price: 133 },
-                { name: "4X Weekly Lite", price: 180 },
-                { name: "5X Weekly Lite", price: 225 }
-            ],
-            "Level Up Pass": [
-                { name: "Level Up Package-Level 6 120💎", price: 43 },
-                { name: "Level Up Package-Level 10 200💎", price: 75 },
-                { name: "Level Up Package-Level 15 200💎", price: 75 },
-                { name: "Level Up Package-Level 20 200💎", price: 75 },
-                { name: "Level Up Package-Level 25 200💎", price: 75 },
-                { name: "Level Up Package-Level 30 350💎", price: 106 },
-                { name: "Full Level Up (1270 Diamond)", price: 425 }
-            ],
-            "Weekly/Monthly": [
-                { name: "Weekly", price: 153 },
-                { name: "Monthly", price: 758 },
-                { name: "2X Weekly", price: 306 },
-                { name: "3X Weekly", price: 459 },
-                { name: "5X Weekly", price: 765 },
-                { name: "2X Monthly", price: 1516 },
-                { name: "5X Monthly", price: 3950 },
-                { name: "1Weekly + 1Monthly", price: 911 },
-                { name: "2X Weekly + 2X Monthly", price: 1822 },
-                { name: "4Weekly + 1Monthly", price: 1370 }
-            ],
-            "Uid Topup [BD SERVER]": [
-                { name: "25 Diamond", price: 22 },
-                { name: "50 Diamond", price: 35 },
-                { name: "75 Diamond", price: 53 },
-                { name: "100 Diamond", price: 68 },
-                { name: "115 Diamond", price: 76 },
-                { name: "240 Diamond", price: 152 },
-                { name: "355 Diamond", price: 229 },
-                { name: "480 Diamond", price: 304 },
-                { name: "505 Diamond", price: 323 },
-                { name: "610 Diamond", price: 385 },
-                { name: "850 Diamond", price: 536 },
-                { name: "1090 Diamond", price: 688 },
-                { name: "1240 Diamond", price: 768 },
-                { name: "1850 Diamond", price: 1152 },
-                { name: "2530 Diamond", price: 1540 },
-                { name: "5060 Diamond", price: 3080 },
-                { name: "10120 Diamond", price: 6160 },
-                { name: "20240 Diamond", price: 12320 }
-            ],
-            "FF Like": [
-                { name: "220 Likes ➔ Instant Delivery", price: 25 }
-            ]
+        const DefaultPackagesData = {
+            "Weekly Lite (BD Server)": {
+                type: "ff",
+                img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Weekly-Lite.webp",
+                packages: [
+                    { name: "1X Weekly Lite", price: 45 },
+                    { name: "2X Weekly Lite", price: 89 },
+                    { name: "3X Weekly Lite", price: 133 },
+                    { name: "4X Weekly Lite", price: 180 },
+                    { name: "5X Weekly Lite", price: 225 }
+                ]
+            },
+            "Level Up Pass": {
+                type: "ff",
+                img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Level-Up-Pass.webp",
+                packages: [
+                    { name: "Level Up Package-Level 6 120💎", price: 43 },
+                    { name: "Level Up Package-Level 10 200💎", price: 75 },
+                    { name: "Level Up Package-Level 15 200💎", price: 75 },
+                    { name: "Level Up Package-Level 20 200💎", price: 75 },
+                    { name: "Level Up Package-Level 25 200💎", price: 75 },
+                    { name: "Level Up Package-Level 30 350💎", price: 106 },
+                    { name: "Full Level Up (1270 Diamond)", price: 425 }
+                ]
+            },
+            "Weekly/Monthly": {
+                type: "ff",
+                img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Wekkly-monthly-membership-.webp",
+                packages: [
+                    { name: "Weekly", price: 153 },
+                    { name: "Monthly", price: 758 },
+                    { name: "2X Weekly", price: 306 },
+                    { name: "3X Weekly", price: 459 },
+                    { name: "5X Weekly", price: 765 },
+                    { name: "2X Monthly", price: 1516 },
+                    { name: "5X Monthly", price: 3950 },
+                    { name: "1Weekly + 1Monthly", price: 911 },
+                    { name: "2X Weekly + 2X Monthly", price: 1822 },
+                    { name: "4Weekly + 1Monthly", price: 1370 }
+                ]
+            },
+            "Uid Topup [BD SERVER]": {
+                type: "ff",
+                img: "https://bdtopup.store/uploads/media/260/01KGAX7XFP7W8KXK4C4MY76297.jpg",
+                packages: [
+                    { name: "25 Diamond", price: 22 },
+                    { name: "50 Diamond", price: 35 },
+                    { name: "75 Diamond", price: 53 },
+                    { name: "100 Diamond", price: 68 },
+                    { name: "115 Diamond", price: 76 },
+                    { name: "240 Diamond", price: 152 },
+                    { name: "355 Diamond", price: 229 },
+                    { name: "480 Diamond", price: 304 },
+                    { name: "505 Diamond", price: 323 },
+                    { name: "610 Diamond", price: 385 },
+                    { name: "850 Diamond", price: 536 },
+                    { name: "1090 Diamond", price: 688 },
+                    { name: "1240 Diamond", price: 768 },
+                    { name: "1850 Diamond", price: 1152 },
+                    { name: "2530 Diamond", price: 1540 },
+                    { name: "5060 Diamond", price: 3080 },
+                    { name: "10120 Diamond", price: 6160 },
+                    { name: "20240 Diamond", price: 12320 }
+                ]
+            },
+            "FF Like": {
+                type: "special",
+                img: "https://i.postimg.cc/Y9mJjdjr/214008759-1792732594249437.jpg",
+                packages: [
+                    { name: "220 Likes ➔ Instant Delivery", price: 25 }
+                ]
+            }
         };
 
         const TELEGRAM_TOKEN = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
         const TELEGRAM_CHAT_ID = "8598185365";
 
+        let PackagesData = {};
         let currentCategory = "";
         let selectedPackage = null;
         let selectedPayMethod = "bKash";
         let selectedPayNumber = "01310518316";
         let ordersList = [];
+        let usersStore = {};
         let currentUser = null;
 
         window.onload = function() {
+            loadStoreData();
             loadOrders();
             loadUserData();
+            renderHomeCategories();
             renderOrdersList();
             
             window.onpopstate = function(event) {
@@ -604,6 +625,7 @@
             document.getElementById('view-details').classList.add('hidden');
             document.getElementById('view-orders').classList.add('hidden');
             document.getElementById('view-profile').classList.add('hidden');
+            document.getElementById('view-admin').classList.add('hidden');
 
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
@@ -628,6 +650,35 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function renderHomeCategories() {
+            const ffContainer = document.getElementById('ff-categories-grid');
+            const specialContainer = document.getElementById('special-offers-grid');
+
+            ffContainer.innerHTML = '';
+            specialContainer.innerHTML = '';
+
+            for (let catKey in PackagesData) {
+                const cat = PackagesData[catKey];
+                const card = document.createElement('div');
+                card.className = "bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group";
+                card.onclick = () => openCategory(catKey);
+
+                card.innerHTML = `
+                    <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
+                        <img src="${cat.img}" alt="${catKey}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">${catKey}</h4>
+                    <p class="text-[11px] text-gray-500">ইনস্ট্যান্ট টপআপ</p>
+                `;
+
+                if (cat.type === 'special') {
+                    specialContainer.appendChild(card);
+                } else {
+                    ffContainer.appendChild(card);
+                }
+            }
+        }
+
         function openCategory(catName) {
             currentCategory = catName;
             document.getElementById('detail-title').innerText = catName;
@@ -636,7 +687,7 @@
             const grid = document.getElementById('package-grid');
             grid.innerHTML = '';
 
-            const list = PackagesData[catName] || [];
+            const list = (PackagesData[catName] && PackagesData[catName].packages) ? PackagesData[catName].packages : [];
             list.forEach((pkg, index) => {
                 const card = document.createElement('div');
                 card.id = `pkg-item-${index}`;
@@ -699,6 +750,11 @@
                 return;
             }
 
+            if (currentUser.isBlocked) {
+                showToast('অ্যাকাউন্ট ব্লকড', 'আপনার অ্যাকাউন্ট ব্লক করা রয়েছে! টেলিগ্রাম সাপোর্টে কথা বলুন।', 'error');
+                return;
+            }
+
             const playerId = document.getElementById('player-id-input').value.trim();
             const trxId = document.getElementById('trx-id-input').value.trim();
 
@@ -736,7 +792,8 @@
                 payNumber: selectedPayNumber,
                 trxId: trxId,
                 date: englishDate,
-                userEmail: currentUser.email
+                userEmail: currentUser.email,
+                userId: currentUser.userId
             };
 
             ordersList.unshift(orderObj);
@@ -796,71 +853,25 @@
             container.innerHTML = html;
         }
 
-        /* Real Google OAuth Selector UI Matching Screen */
-        function triggerRealGoogleOAuthPopup() {
-            const gmailListContainer = document.getElementById('dynamic-gmail-list');
-            gmailListContainer.innerHTML = '';
-
-            // Detect user active browser profile or local accounts
-            const activeDeviceGmails = [
-                { name: 'Prakash Kumar', email: 'prakash.dev@gmail.com', color: 'bg-blue-600' },
-                { name: 'Gaming Duo', email: 'duo.gamer.ff@gmail.com', color: 'bg-amber-500' },
-                { name: 'Sera Topup Official', email: 'seratopup.bd@gmail.com', color: 'bg-emerald-600' },
-                { name: 'Rashedul Islam', email: 'rashedul.ff99@gmail.com', color: 'bg-indigo-600' }
-            ];
-
-            activeDeviceGmails.forEach(acc => {
-                const item = document.createElement('div');
-                item.className = "flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 cursor-pointer transition border border-gray-100";
-                item.onclick = () => selectGoogleAccount(acc.name, acc.email);
-                item.innerHTML = `
-                    <div class="w-9 h-9 rounded-full ${acc.color} text-white font-bold flex items-center justify-center text-xs shadow-sm">${acc.name.charAt(0)}</div>
-                    <div class="text-left">
-                        <div class="font-bold text-xs text-gray-800">${acc.name}</div>
-                        <div class="text-[10px] text-gray-500">${acc.email}</div>
-                    </div>
-                `;
-                gmailListContainer.appendChild(item);
-            });
-
-            document.getElementById('google-accounts-modal').classList.remove('hidden');
-        }
-
-        function closeGoogleModal() {
-            document.getElementById('google-accounts-modal').classList.add('hidden');
-        }
-
-        function selectGoogleAccount(name, email) {
-            const randomUserId = Math.floor(100000 + Math.random() * 900000);
-            currentUser = {
-                name: name,
-                email: email,
-                phone: "+8801997816786",
-                userId: randomUserId.toString(),
-                pic: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + email
-            };
-            saveUserData();
-            closeGoogleModal();
-            updateCheckoutButtonState();
-            checkProfileState();
-            showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
-            navTo('profile', true);
-        }
-
         function handleManualLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('login-email').value;
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-pass').value;
             let name = email.split('@')[0];
             name = name.charAt(0).toUpperCase() + name.slice(1);
-            const randomUserId = Math.floor(100000 + Math.random() * 900000);
 
-            currentUser = { 
-                name: name, 
-                email: email, 
-                phone: "+8801997816786",
-                userId: randomUserId.toString(),
-                pic: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + email 
-            };
+            if (!usersStore[email]) {
+                const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
+                usersStore[email] = {
+                    name: name,
+                    email: email,
+                    pass: pass,
+                    userId: randomUserId,
+                    isBlocked: false
+                };
+            }
+
+            currentUser = usersStore[email];
             saveUserData();
             updateCheckoutButtonState();
             checkProfileState();
@@ -883,7 +894,6 @@
                 document.getElementById('header-wallet-badge').classList.remove('hidden');
                 
                 document.getElementById('user-info-name').innerText = currentUser.name;
-                document.getElementById('user-info-phone').innerText = currentUser.phone || "+8801997816786";
                 document.getElementById('user-info-email').innerText = currentUser.email;
                 document.getElementById('user-info-id').innerText = currentUser.userId;
 
@@ -903,9 +913,255 @@
             }
         }
 
+        /* Full Power Admin Panel Functions */
+        function openAdminAuth() {
+            const pass = prompt("অ্যাডমিন প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন:");
+            if (pass === "1234") {
+                renderAdminCategories();
+                renderAdminUsersList();
+                renderAdminOrdersList();
+                navTo('admin', true);
+            } else if (pass !== null) {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        }
+
+        function switchAdminTab(tabName) {
+            document.getElementById('admin-sec-products').classList.add('hidden');
+            document.getElementById('admin-sec-users').classList.add('hidden');
+            document.getElementById('admin-sec-orders').classList.add('hidden');
+
+            document.getElementById('adm-tab-products').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
+            document.getElementById('adm-tab-users').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
+            document.getElementById('adm-tab-orders').className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100";
+
+            document.getElementById(`admin-sec-${tabName}`).classList.remove('hidden');
+            document.getElementById(`adm-tab-${tabName}`).className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white";
+        }
+
+        function renderAdminCategories() {
+            const container = document.getElementById('adm-categories-list');
+            container.innerHTML = '';
+
+            for (let catKey in PackagesData) {
+                const cat = PackagesData[catKey];
+                const catBox = document.createElement('div');
+                catBox.className = "bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3";
+
+                let packagesHtml = '';
+                cat.packages.forEach((pkg, pIdx) => {
+                    packagesHtml += `
+                        <div class="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200 text-xs">
+                            <input type="text" value="${pkg.name}" onchange="adminUpdatePkgName('${catKey}', ${pIdx}, this.value)" class="flex-1 px-2 py-1 border rounded">
+                            <input type="number" value="${pkg.price}" onchange="adminUpdatePkgPrice('${catKey}', ${pIdx}, this.value)" class="w-20 px-2 py-1 border rounded">
+                            <span class="font-bold">TK</span>
+                            <button onclick="adminDeletePkg('${catKey}', ${pIdx})" class="text-red-500 font-bold px-2">X</button>
+                        </div>
+                    `;
+                });
+
+                catBox.innerHTML = `
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <div class="flex items-center gap-2">
+                            <input type="text" value="${catKey}" onchange="adminRenameCat('${catKey}', this.value)" class="font-bold text-sm bg-white px-2 py-1 rounded border">
+                        </div>
+                        <button onclick="adminDeleteCat('${catKey}')" class="bg-red-500 text-white text-[10px] px-2.5 py-1 rounded-lg font-bold">Delete Category</button>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">Image URL</label>
+                        <input type="text" value="${cat.img}" onchange="adminUpdateCatImg('${catKey}', this.value)" class="w-full text-xs p-1.5 border rounded bg-white">
+                    </div>
+                    <div class="space-y-2 pt-2">
+                        <span class="text-xs font-bold text-gray-700">Packages:</span>
+                        ${packagesHtml}
+                        <button onclick="adminAddPkg('${catKey}')" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg">+ Add Package</button>
+                    </div>
+                `;
+
+                container.appendChild(catBox);
+            }
+        }
+
+        function adminAddCategory() {
+            const name = document.getElementById('adm-cat-name').value.trim();
+            const img = document.getElementById('adm-cat-img').value.trim();
+            const type = document.getElementById('adm-cat-type').value;
+
+            if (!name || !img) {
+                alert("নাম ও ছবির লিংক দিন!");
+                return;
+            }
+
+            PackagesData[name] = {
+                type: type,
+                img: img,
+                packages: []
+            };
+
+            saveStoreData();
+            renderHomeCategories();
+            renderAdminCategories();
+            document.getElementById('adm-cat-name').value = '';
+            document.getElementById('adm-cat-img').value = '';
+            showToast('সফল', 'নতুন ক্যাটাগরি তৈরি হয়েছে!', 'success');
+        }
+
+        function adminDeleteCat(catKey) {
+            if (confirm(`নিশ্চিত তো '${catKey}' ক্যাটাগরি ডিলিট করবেন?`)) {
+                delete PackagesData[catKey];
+                saveStoreData();
+                renderHomeCategories();
+                renderAdminCategories();
+            }
+        }
+
+        function adminRenameCat(oldKey, newKey) {
+            if (newKey && oldKey !== newKey) {
+                PackagesData[newKey] = PackagesData[oldKey];
+                delete PackagesData[oldKey];
+                saveStoreData();
+                renderHomeCategories();
+                renderAdminCategories();
+            }
+        }
+
+        function adminUpdateCatImg(catKey, newImg) {
+            PackagesData[catKey].img = newImg;
+            saveStoreData();
+            renderHomeCategories();
+        }
+
+        function adminUpdatePkgName(catKey, pIdx, newName) {
+            PackagesData[catKey].packages[pIdx].name = newName;
+            saveStoreData();
+        }
+
+        function adminUpdatePkgPrice(catKey, pIdx, newPrice) {
+            PackagesData[catKey].packages[pIdx].price = Number(newPrice);
+            saveStoreData();
+        }
+
+        function adminDeletePkg(catKey, pIdx) {
+            PackagesData[catKey].packages.splice(pIdx, 1);
+            saveStoreData();
+            renderAdminCategories();
+        }
+
+        function adminAddPkg(catKey) {
+            const name = prompt("প্যাকেজের নাম:");
+            const price = prompt("প্যাকেজের দাম (TK):");
+            if (name && price) {
+                PackagesData[catKey].packages.push({ name: name, price: Number(price) });
+                saveStoreData();
+                renderAdminCategories();
+            }
+        }
+
+        function renderAdminUsersList() {
+            const container = document.getElementById('adm-all-users-list');
+            container.innerHTML = '';
+
+            for (let email in usersStore) {
+                const u = usersStore[email];
+                const uOrders = ordersList.filter(o => o.userEmail === email);
+                const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
+
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs";
+                item.innerHTML = `
+                    <div>
+                        <div class="font-bold text-gray-900">${u.name} (ID: ${u.userId})</div>
+                        <div class="text-gray-500">${u.email} | Pass: <span class="font-mono text-brand-600">${u.pass}</span></div>
+                        <div class="text-[10px] text-gray-400 font-bold">Orders: ${uOrders.length} | Spend: ${uSpend} Tk</div>
+                    </div>
+                    <button onclick="adminToggleBlockUser('${email}')" class="${u.isBlocked ? 'bg-emerald-600' : 'bg-red-600'} text-white px-3 py-1.5 rounded-lg font-bold">
+                        ${u.isBlocked ? 'Unblock' : 'Block'}
+                    </button>
+                `;
+                container.appendChild(item);
+            }
+        }
+
+        function adminSearchUser() {
+            const input = document.getElementById('adm-user-search-input').value.trim().toLowerCase();
+            const output = document.getElementById('adm-user-search-result');
+
+            let foundUser = null;
+            for (let email in usersStore) {
+                const u = usersStore[email];
+                if (u.email.toLowerCase() === input || u.userId === input) {
+                    foundUser = u;
+                    break;
+                }
+            }
+
+            if (!foundUser) {
+                output.classList.remove('hidden');
+                output.innerHTML = `<p class="text-xs text-red-500 font-bold">কোনো ইউজার পাওয়া যায়নি!</p>`;
+                return;
+            }
+
+            const uOrders = ordersList.filter(o => o.userEmail === foundUser.email);
+            const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
+
+            output.classList.remove('hidden');
+            output.innerHTML = `
+                <div class="space-y-2 text-xs">
+                    <h4 class="font-bold text-gray-900">User Profile: ${foundUser.name}</h4>
+                    <p>User ID: <strong>${foundUser.userId}</strong></p>
+                    <p>Email: ${foundUser.email}</p>
+                    <p>Total Orders: <strong>${uOrders.length}</strong></p>
+                    <p>Total Spend: <strong class="text-brand-600">${uSpend} Tk</strong></p>
+                </div>
+            `;
+        }
+
+        function adminToggleBlockUser(email) {
+            usersStore[email].isBlocked = !usersStore[email].isBlocked;
+            saveStoreData();
+            renderAdminUsersList();
+            showToast('আপডেট', `ইউজার ${usersStore[email].isBlocked ? 'ব্লক' : 'আনব্লক'} করা হয়েছে`, 'info');
+        }
+
+        function renderAdminOrdersList() {
+            const container = document.getElementById('adm-all-orders-container');
+            document.getElementById('adm-total-orders-count').innerText = `${ordersList.length} Orders`;
+
+            container.innerHTML = '';
+            ordersList.forEach(ord => {
+                const box = document.createElement('div');
+                box.className = "bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1";
+                box.innerHTML = `
+                    <div class="flex justify-between font-bold text-gray-900">
+                        <span>Order #${ord.serial} - ${ord.package}</span>
+                        <span class="text-brand-600">৳ ${ord.price}</span>
+                    </div>
+                    <p class="text-gray-600">User: ${ord.userEmail} (ID: ${ord.userId})</p>
+                    <p class="text-gray-600">Player ID: <strong class="text-gray-900">${ord.playerId}</strong> | Method: ${ord.payMethod} (${ord.trxId})</p>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        /* Storage System */
+        function saveStoreData() {
+            localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
+            localStorage.setItem('sera_topup_users_store', JSON.stringify(usersStore));
+        }
+
+        function loadStoreData() {
+            const pData = localStorage.getItem('sera_topup_packages');
+            if (pData) PackagesData = JSON.parse(pData);
+            else PackagesData = DefaultPackagesData;
+
+            const uData = localStorage.getItem('sera_topup_users_store');
+            if (uData) usersStore = JSON.parse(uData);
+        }
+
         function saveUserData() {
             if(currentUser) {
                 localStorage.setItem('sera_topup_user', JSON.stringify(currentUser));
+                saveStoreData();
             }
         }
 
@@ -943,7 +1199,7 @@
                 iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
             }
 
-            document.getElementById('toast-modal').classList.add('hidden');
+            document.getElementById('toast-modal').classList.remove('hidden');
         }
 
         function closeToast() {
