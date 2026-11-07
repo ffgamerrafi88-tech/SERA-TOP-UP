@@ -529,7 +529,6 @@
             updateCheckoutButtonState();
         };
 
-        // Point 3: Admin button in footer ONLY on Home page
         function renderFooter(viewName) {
             const footerContainer = document.getElementById('footer-container');
             if (viewName === 'admin') {
@@ -675,7 +674,6 @@
             if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
         }
 
-        // Point 1: Spinner and Processing text while fetching player name
         async function checkPlayerName() {
             const uidInput = document.getElementById('player-id-input').value.trim();
             const btn = document.getElementById('check-player-btn');
@@ -812,7 +810,6 @@
             document.getElementById('player-id-input').value = '';
             document.getElementById('trx-id-input').value = '';
 
-            // Point 2: Changed success toast title to "অর্ডার জমা হয়েছে!"
             showToast('অর্ডার জমা হয়েছে!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success');
             navTo('orders', true);
         }
@@ -1110,10 +1107,37 @@
             for (let catKey in PackagesData) {
                 const cat = PackagesData[catKey];
                 let pkgHtml = '';
-                cat.packages.forEach((p, idx) => {
-                    pkgHtml += `<div class="flex items-center gap-2 bg-white p-2 rounded border text-xs"><span class="flex-1 font-bold">${p.name} - ৳${p.price}</span><button onclick="adminDeletePkg('${catKey}', ${idx})" class="text-red-500 font-bold px-2">X</button></div>`;
-                });
-                container.innerHTML += `<div class="bg-slate-50 p-4 rounded-xl border space-y-2"><div class="flex justify-between items-center"><strong class="text-sm">${catKey}</strong><button onclick="adminDeleteCat('${catKey}')" class="bg-red-500 text-white text-[10px] px-2 py-1 rounded">Delete</button></div>${pkgHtml}<button onclick="adminAddPkg('${catKey}')" class="bg-slate-900 text-white text-xs px-3 py-1 rounded">+ Package</button></div>`;
+                if (cat.packages) {
+                    cat.packages.forEach((p, idx) => {
+                        pkgHtml += `<div class="flex items-center gap-2 bg-white p-2 rounded border text-xs"><span class="flex-1 font-bold">${p.name} - ৳${p.price}</span><button onclick="adminDeletePkg('${catKey}', ${idx})" class="text-red-500 font-bold px-2">X</button></div>`;
+                    });
+                }
+                container.innerHTML += `
+                    <div class="bg-slate-50 p-4 rounded-xl border space-y-3">
+                        <div class="flex justify-between items-center">
+                            <strong class="text-sm font-bold text-gray-900">${catKey}</strong>
+                            <button onclick="adminDeleteCat('${catKey}')" class="bg-red-500 text-white text-[10px] px-2.5 py-1 rounded font-bold">Delete Category</button>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[11px] font-bold text-gray-700">নিয়মাবলী ও শর্তসমূহ (Rules)</label>
+                            <textarea id="adm-rules-${CSS.escape(catKey)}" rows="3" class="w-full p-2.5 rounded-xl border border-gray-300 text-xs font-medium focus:ring-2 focus:ring-brand-500 outline-none">${cat.rules || ''}</textarea>
+                            <button onclick="adminSaveCategoryRules('${CSS.escape(catKey)}')" class="bg-brand-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">নিয়ম সেভ করুন</button>
+                        </div>
+                        <div class="space-y-2 pt-2 border-t border-gray-200">
+                            <span class="text-xs font-bold text-gray-700 block">প্যাকেজসমূহ:</span>
+                            ${pkgHtml}
+                            <button onclick="adminAddPkg('${catKey}')" class="bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">+ Package</button>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        function adminSaveCategoryRules(catKey) {
+            const textarea = document.getElementById(`adm-rules-${catKey}`);
+            if (textarea && PackagesData[catKey]) {
+                PackagesData[catKey].rules = textarea.value;
+                saveStoreData();
+                showToast('সফল', `${catKey} ক্যাটাগরির নিয়মাবলী আপডেট করা হয়েছে!`, 'success');
             }
         }
 
@@ -1122,7 +1146,7 @@
             const img = document.getElementById('adm-cat-img').value.trim();
             const type = document.getElementById('adm-cat-type').value;
             if(!name) return;
-            PackagesData[name] = { type: type, img: img || "https://i.ibb.co.com/v4fLwZG1/logo.png", rules: "Rules here", packages: [] };
+            PackagesData[name] = { type: type, img: img || "https://i.ibb.co.com/v4fLwZG1/logo.png", rules: "নিয়মাবলী এখানে লিখুন...", packages: [] };
             saveStoreData(); renderHomeCategories(); renderAdminCategories();
             showToast('সফল', 'ক্যাটাগরি তৈরি হয়েছে!', 'success');
         }
