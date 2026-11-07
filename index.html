@@ -527,6 +527,15 @@
             renderOrdersList();
             renderFooter('home');
             updateCheckoutButtonState();
+
+            // Handle browser back/forward buttons
+            window.onpopstate = function(event) {
+                if (event.state && event.state.view) {
+                    navTo(event.state.view, false);
+                } else {
+                    navTo('home', false);
+                }
+            };
         };
 
         function renderFooter(viewName) {
@@ -588,6 +597,10 @@
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
             renderFooter(viewName);
+
+            if (pushHistory) {
+                history.pushState({ view: viewName }, "", `#${viewName}`);
+            }
 
             if (viewName === 'admin') {
                 renderAdminUsersList();
