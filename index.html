@@ -591,9 +591,9 @@
         }
 
         function navTo(viewName, pushHistory = true) {
-            // প্রতিবার পেজ পরিবর্তন বা অ্যাডমিন প্যানেলে ঢুকলে সিঙ্ক করা ডেটা রিলোড হবে
             loadStoreData();
             loadOrders();
+            loadUserData();
 
             ['home', 'details', 'orders', 'addmoney', 'profile', 'admin'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
@@ -761,7 +761,6 @@
         }
 
         async function submitOrder() {
-            // রিয়েলটাইম ডেটা লোড করে নিশ্চিত হওয়া
             loadStoreData();
             loadOrders();
             loadUserData();
@@ -796,7 +795,7 @@
                     return;
                 }
                 currentUser.balance = userBal - pkgPrice;
-                usersStore[currentUser.email].balance = currentUser.balance;
+                usersStore[currentUser.email] = currentUser;
                 saveUserData();
                 payMethodText = "Wallet Pay";
                 trxId = "WALLET_PAY";
@@ -845,7 +844,6 @@
 
                 } catch (err) {
                     console.error(err);
-                    // সার্ভার API না থাকলে বা অফলাইন মোডেও যাতে অর্ডার আটকে না যায়, ফেইলসেইফ টলারেন্স রাখা হলো
                 }
 
                 payMethodText = `${selectedPayMethod} (${selectedPayNumber})`;
@@ -854,7 +852,6 @@
             const now = new Date();
             const englishDate = now.toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
 
-            // সব ডিভাইসের জন্য সিরিয়াল নম্বর সুনির্দিষ্টভাবে মেইনটেইন করা
             const nextSerial = ordersList.length > 0 ? Math.max(...ordersList.map(o => Number(o.serial) || 0)) + 1 : 1;
 
             const orderObj = {
@@ -876,7 +873,7 @@
             saveUserData();
             checkProfileState();
 
-            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (Verified Auto)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
+            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
 
             document.getElementById('player-id-input').value = '';
@@ -988,7 +985,7 @@
         function renderOrdersList() {
             loadOrders();
             const container = document.getElementById('orders-list-container');
-            const myOrders = currentUser ? ordersList.filter(o => o.userEmail === currentUser.email) : [];
+            const myOrders = currentUser ? ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase()) : [];
             document.getElementById('orders-count-badge').innerText = `${myOrders.length} Orders`;
 
             if (myOrders.length === 0) {
@@ -1021,6 +1018,9 @@
             } else {
                 const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
                 usersStore[email] = { name: name, email: email, pass: pass, userId: randomUserId, balance: 0, isBlocked: false };
+                
+                const regMsg = `👤 *নতুন ইউজার রেজিস্ট্রেশন!*\n\n📌 *Name:* ${name}\n📧 *Email:* ${email}\n🆔 *User ID:* ${randomUserId}`;
+                fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(regMsg)}&parse_mode=Markdown`);
             }
 
             currentUser = usersStore[email];
@@ -1060,7 +1060,7 @@
                 walletHeader.innerText = (currentUser.balance || 0) + " ৳";
                 document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
 
-                const myOrders = ordersList.filter(o => o.userEmail === currentUser.email);
+                const myOrders = ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase());
                 const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
                 document.getElementById('user-total-orders').innerText = myOrders.length;
                 document.getElementById('user-total-spend').innerText = totalSpendTk + " Tk";
@@ -1296,7 +1296,7 @@
                         <div class="space-y-2 pt-2 border-t border-gray-200">
                             <span class="text-xs font-bold text-gray-700 block">প্যাকেজসমূহ:</span>
                             ${pkgHtml}
-                            <button onclick="adminAddPkg('${catKey}')" class="b-9 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1 bg-slate-900">+ Package</button>
+                            <button onclick="adminAddPkg('${catKey}')" class="bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">+ Package</button>
                         </div>
                     </div>`;
             }
@@ -1329,7 +1329,7 @@
         }
         function adminDeletePkg(catKey, idx) { PackagesData[catKey].packages.splice(idx, 1); saveStoreData(); renderAdminCategories(); }
 
-        /* Unified Global Storage Synchronization */
+        /* Local Storage & State Handlers */
         function saveStoreData() {
             try {
                 localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
@@ -1363,7 +1363,7 @@
                 if(u) {
                     currentUser = JSON.parse(u);
                     if(currentUser && currentUser.email && usersStore[currentUser.email]) {
-                        currentUser = usersStore[currentUser.email]; // Sync latest balance/status
+                        currentUser = usersStore[currentUser.email];
                     }
                 }
             } catch(e) {}
