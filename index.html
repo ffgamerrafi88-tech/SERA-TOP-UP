@@ -475,7 +475,7 @@
             "Uid Topup [BD SERVER]": {
                 type: "ff",
                 img: "https://bdtopup.store/uploads/media/260/01KGAX7XFP7W8KXK4C4MY76297.jpg",
-                rules: "শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\nPlayer ID Code ভুল দিয়ে ডায়মন্ড না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।",
+                rules: "শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে。\nPlayer ID Code ভুল দিয়ে ডায়মন্ড না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।",
                 packages: [
                     { name: "25 Diamond", price: 22 },
                     { name: "50 Diamond", price: 35 },
@@ -752,7 +752,7 @@
             }
         }
 
-        function submitOrder() {
+        async function submitOrder() {
             if (!currentUser) {
                 showToast('লগইন প্রয়োজন', 'অর্ডার করতে চাইলে প্রথমে লগইন করুন!', 'error');
                 navTo('profile', true);
@@ -788,11 +788,29 @@
                 payMethodText = "Wallet Pay";
                 trxId = "WALLET_PAY";
             } else {
-                trxId = document.getElementById('trx-id-input').value.trim();
+                trxId = document.getElementById('trx-id-input').value.trim().toUpperCase();
                 if (!trxId || trxId.length < 6) {
                     showToast('ট্রানজেকশন আইডি ভুল', 'সঠিক TrxID প্রদান করুন!', 'error');
                     return;
                 }
+
+                // ইনস্ট্যান্ট পেমেন্টের ক্ষেত্রে ব্যাকএন্ডে এসএমএস ভেরিফাই করা
+                showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID চেক করা হচ্ছে...', 'info');
+                
+                try {
+                    const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxId}`);
+                    const result = await response.json();
+
+                    if (!result.valid) {
+                        showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
+                        return;
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showToast('এরর', 'পেমেন্ট ভেরিফিকেশন সার্ভারে সমস্যা হয়েছে। একটু পর আবার চেষ্টা করুন।', 'error');
+                    return;
+                }
+
                 payMethodText = `${selectedPayMethod} (${selectedPayNumber})`;
             }
 
@@ -817,13 +835,13 @@
             saveOrders();
             checkProfileState();
 
-            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
+            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (Verified Auto)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
 
             document.getElementById('player-id-input').value = '';
             document.getElementById('trx-id-input').value = '';
 
-            showToast('অর্ডার জমা হয়েছে!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success');
+            showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} পেমেন্ট ভেরিফাই হয়ে অর্ডার জমা হয়েছে।`, 'success');
             navTo('orders', true);
         }
 
