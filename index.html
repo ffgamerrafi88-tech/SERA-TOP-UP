@@ -269,7 +269,7 @@
                 <div id="orders-list-container" class="space-y-3"></div>
             </section>
 
-            <!-- ================= VIEW 5: PROFILE PAGE (Restored Orders & Total Spend Boxes) ================= -->
+            <!-- ================= VIEW 5: PROFILE PAGE ================= -->
             <section id="view-profile" class="hidden space-y-6 max-w-md mx-auto">
                 <div id="auth-logged-out" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
                     <div class="text-left space-y-1">
@@ -311,7 +311,6 @@
                         </div>
                     </div>
 
-                    <!-- Restored Orders & Total Spend Boxes -->
                     <div class="grid grid-cols-2 gap-3">
                         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
                             <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-clipboard-list"></i></div>
@@ -335,7 +334,7 @@
                 </div>
             </section>
 
-            <!-- ================= VIEW 6: ADMIN PANEL (No Footer, Detailed Payment Inputs, Right-aligned Buttons, Combined Serial/UserID Search) ================= -->
+            <!-- ================= VIEW 6: ADMIN PANEL ================= -->
             <section id="view-admin" class="hidden space-y-6 max-w-3xl mx-auto pb-12">
                 <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-md">
                     <h2 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-sliders text-brand-500"></i> Admin Panel</h2>
@@ -382,7 +381,7 @@
                     </div>
                 </div>
 
-                <!-- Payments Tab (Restored 4 distinct fields with names: bKash, Nagad, Rocket, Upay) -->
+                <!-- Payments Tab -->
                 <div id="admin-sec-payments" class="hidden space-y-6">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
                         <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর পরিবর্তন করুন</h3>
@@ -396,7 +395,7 @@
                     </div>
                 </div>
 
-                <!-- Users Tracking Tab (Right-aligned + Add Money & Block Buttons) -->
+                <!-- Users Tracking Tab -->
                 <div id="admin-sec-users" class="hidden space-y-4">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                         <h3 class="font-extrabold text-sm text-gray-800 uppercase">ইউজার ট্র্যাকিং ও সার্চ</h3>
@@ -412,7 +411,7 @@
                     </div>
                 </div>
 
-                <!-- Orders Tab (Combined Serial/UserID Search & User ID in display) -->
+                <!-- Orders Tab -->
                 <div id="admin-sec-orders" class="hidden space-y-4">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                         <div class="flex gap-2">
@@ -456,7 +455,7 @@
         </div>
     </div>
 
-    <!-- Logout Confirmation Modal (Point 6) -->
+    <!-- Logout Confirmation Modal -->
     <div id="logout-confirm-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
             <div class="bg-amber-100 text-amber-700 font-extrabold text-xs py-1 px-3 rounded-full inline-block uppercase">সতর্কতা</div>
@@ -526,17 +525,19 @@
             loadUserData();
             renderHomeCategories();
             renderOrdersList();
-            renderFooter(true);
+            renderFooter('home');
             updateCheckoutButtonState();
         };
 
-        function renderFooter(isAdminButtonVisible) {
+        // Point 3: Admin button in footer ONLY on Home page
+        function renderFooter(viewName) {
             const footerContainer = document.getElementById('footer-container');
-            // Ensure footer is completely absent when admin panel is active (Point 4)
-            if (!isAdminButtonVisible) {
+            if (viewName === 'admin') {
                 footerContainer.innerHTML = '';
                 return;
             }
+
+            let adminBtnHtml = (viewName === 'home') ? `<button onclick="openAdminAuth()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-brand-400 rounded-xl flex items-center justify-center border border-slate-700 transition shadow-md" title="Admin Panel"><i class="fa-solid fa-user-gear text-base"></i></button>` : '';
 
             footerContainer.innerHTML = `
                 <footer class="max-w-4xl mx-auto px-4 mt-12 mb-6">
@@ -556,7 +557,7 @@
                                     <div><div class="text-xs font-bold text-white">Help line [9AM-12PM]</div><div class="text-[11px] text-brand-400">Telegram Support</div></div>
                                 </div>
                             </div>
-                            <button onclick="openAdminAuth()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-brand-400 rounded-xl flex items-center justify-center border border-slate-700 transition shadow-md" title="Admin Panel"><i class="fa-solid fa-user-gear text-base"></i></button>
+                            ${adminBtnHtml}
                         </div>
                         <div class="border-t border-slate-800 pt-4 text-center text-xs text-gray-500">
                             © SERA TOP UP | All Rights Reserved | Developed by <a href="https://wa.me/8801997816786" target="_blank" class="text-brand-400 font-bold underline">GR TEAM</a>
@@ -587,12 +588,11 @@
             });
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
+            renderFooter(viewName);
+
             if (viewName === 'admin') {
-                renderFooter(false); // No footer in admin panel (Point 4)
                 renderAdminUsersList();
                 renderAdminOrdersList();
-            } else {
-                renderFooter(true);
             }
 
             if (viewName === 'orders') renderOrdersList();
@@ -675,6 +675,7 @@
             if (activeEl) activeEl.className = "p-3.5 border-2 border-brand-500 bg-brand-50 rounded-xl cursor-pointer transition flex flex-col justify-between";
         }
 
+        // Point 1: Spinner and Processing text while fetching player name
         async function checkPlayerName() {
             const uidInput = document.getElementById('player-id-input').value.trim();
             const btn = document.getElementById('check-player-btn');
@@ -682,6 +683,10 @@
                 showToast('সতর্কতা', 'দয়া করে প্লেয়ার আইডি কোড লিখুন!', 'error');
                 return;
             }
+
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> প্রসেসিং...`;
+            btn.className = "w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2";
+
             try {
                 const response = await fetch(`https://auraffxserverinfocheckerapi.onrender.com/api/player?uid=${uidInput}`);
                 const data = await response.json();
@@ -690,6 +695,7 @@
                     btn.innerHTML = `<i class="fa-solid fa-check-circle text-emerald-400"></i> ${playerName}`;
                 } else {
                     showToast('ফলাফল', 'প্লেয়ার পাওয়া যায়নি', 'error');
+                    btn.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> প্লেয়ারের নাম চেক করতে ক্লিক করুন`;
                 }
             } catch (err) {
                 btn.innerHTML = `<i class="fa-solid fa-check-circle text-emerald-400"></i> PLAYER_${uidInput.substring(0,4)}`;
@@ -806,7 +812,8 @@
             document.getElementById('player-id-input').value = '';
             document.getElementById('trx-id-input').value = '';
 
-            showToast('পেমেন্ট সফল হয়েছে!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success');
+            // Point 2: Changed success toast title to "অর্ডার জমা হয়েছে!"
+            showToast('অর্ডার জমা হয়েছে!', `আপনার ${selectedPackage.name} অর্ডারটি সফলভাবে জমা হয়েছে।`, 'success');
             navTo('orders', true);
         }
 
@@ -893,7 +900,6 @@
             navTo('profile', true);
         }
 
-        // Point 6: Logout Confirmation Modal triggers
         function promptLogoutConfirmation() {
             document.getElementById('logout-confirm-modal').classList.remove('hidden');
         }
@@ -922,7 +928,6 @@
                 walletHeader.innerText = (currentUser.balance || 0) + " ৳";
                 document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
 
-                // Point 1: Update Orders and Total Spend in Profile
                 const myOrders = ordersList.filter(o => o.userEmail === currentUser.email);
                 const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
                 document.getElementById('user-total-orders').innerText = myOrders.length;
@@ -969,7 +974,6 @@
             showToast('সফল', 'ব্র্যান্ডিং সেভ হয়েছে!', 'success');
         }
 
-        // Point 2: Distinct 4 payment input fields
         function loadAdminPaymentInputs() {
             document.getElementById('adm-pay-bkash').value = PaymentNumbers.bKash || "";
             document.getElementById('adm-pay-nagad').value = PaymentNumbers.Nagad || "";
@@ -986,7 +990,6 @@
             showToast('সফল', 'পেমেন্ট নম্বর সেভ হয়েছে!', 'success');
         }
 
-        // Point 3: Right-aligned buttons (+ Add Money & Block)
         function renderAdminUsersList() {
             const container = document.getElementById('adm-all-users-list');
             container.innerHTML = '';
@@ -1051,7 +1054,6 @@
             }
         }
 
-        // Point 5: Combined Serial or UserID search, displaying User ID instead of Email
         function renderAdminOrdersList() {
             const container = document.getElementById('adm-all-orders-container');
             const searchQuery = document.getElementById('adm-order-query-search').value.trim().toLowerCase();
