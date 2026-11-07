@@ -54,7 +54,6 @@
                 </div>
                 
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <!-- Top Wallet Display Badge -->
                     <div onclick="navTo('addmoney', true)" class="bg-brand-50 border border-brand-200 px-3 py-1.5 rounded-full flex items-center gap-2 cursor-pointer hover:bg-brand-100 transition shadow-sm">
                         <i class="fa-solid fa-wallet text-brand-600 text-xs sm:text-sm"></i>
                         <span id="header-wallet-balance" class="font-extrabold text-xs sm:text-sm text-brand-700">0 ৳</span>
@@ -71,11 +70,8 @@
         <!-- Main Dynamic View Container -->
         <main class="max-w-4xl mx-auto px-4 pt-4 space-y-6">
 
-            <!-- ========================================== -->
-            <!-- VIEW 1: HOME PAGE -->
-            <!-- ========================================== -->
+            <!-- ================= VIEW 1: HOME PAGE ================= -->
             <section id="view-home" class="space-y-6">
-                <!-- Notice Banner -->
                 <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-sm">
                     <div class="flex items-start gap-2.5">
                         <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
@@ -85,7 +81,6 @@
                     </div>
                 </div>
 
-                <!-- Home Main Banner -->
                 <div id="home-banner-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-emerald-700 to-teal-900 text-white p-6 sm:p-8">
                     <img id="home-banner-img" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Banner">
                     <div id="home-banner-text" class="relative z-10 space-y-3 max-w-lg">
@@ -98,7 +93,6 @@
                     </div>
                 </div>
 
-                <!-- Special Offer Category Section -->
                 <div class="space-y-3">
                     <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Special Offer
@@ -106,7 +100,6 @@
                     <div id="special-offers-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5"></div>
                 </div>
 
-                <!-- Main FF TopUp Grid -->
                 <div class="space-y-3">
                     <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
@@ -114,7 +107,6 @@
                     <div id="ff-categories-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5"></div>
                 </div>
 
-                <!-- Others Category Section -->
                 <div class="space-y-3">
                     <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Others
@@ -123,9 +115,7 @@
                 </div>
             </section>
 
-            <!-- ========================================== -->
-            <!-- VIEW 2: CATEGORY RECHARGE DETAILS PAGE -->
-            <!-- ========================================== -->
+            <!-- ================= VIEW 2: DETAILS PAGE ================= -->
             <section id="view-details" class="hidden space-y-6 max-w-2xl mx-auto">
                 <button onclick="navTo('home', true)" class="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 transition">
                     <i class="fa-solid fa-arrow-left"></i> হোম পেজে ফিরে যান
@@ -141,7 +131,6 @@
                     </div>
                 </div>
 
-                <!-- Step 1 -->
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                     <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
                         <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">1</span>
@@ -150,7 +139,6 @@
                     <div id="package-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1"></div>
                 </div>
 
-                <!-- Step 2 -->
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                     <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
                         <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">2</span>
@@ -165,7 +153,6 @@
                     </div>
                 </div>
 
-                <!-- Step 3 -->
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
                     <div class="flex items-center gap-2 font-bold text-gray-900 text-base">
                         <span class="w-6 h-6 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold">3</span>
@@ -208,7 +195,6 @@
                         </div>
                     </div>
 
-                    <!-- Dynamic Checkout Action Button (Changes to Login Now if not logged in) -->
                     <div id="checkout-btn-container">
                         <button id="checkout-action-btn" onclick="submitOrder()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 rounded-xl text-base shadow-lg transition flex items-center justify-center gap-2">
                             Buy Now
@@ -226,9 +212,7 @@
                 </div>
             </section>
 
-            <!-- ========================================== -->
-            <!-- VIEW 3: ADD MONEY PAGE -->
-            <!-- ========================================== -->
+            <!-- ================= VIEW 3: ADD MONEY PAGE ================= -->
             <section id="view-addmoney" class="hidden space-y-6 max-w-xl mx-auto">
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 space-y-5">
                     <div class="flex items-center justify-between border-b border-gray-100 pb-4">
@@ -274,9 +258,7 @@
                 </div>
             </section>
 
-            <!-- ========================================== -->
-            <!-- VIEW 4: MY ORDERS PAGE -->
-            <!-- ========================================== -->
+            <!-- ================= VIEW 4: MY ORDERS PAGE ================= -->
             <section id="view-orders" class="hidden space-y-4 max-w-2xl mx-auto">
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
@@ -287,9 +269,7 @@
                 <div id="orders-list-container" class="space-y-3"></div>
             </section>
 
-            <!-- ========================================== -->
-            <!-- VIEW 5: PROFILE PAGE -->
-            <!-- ========================================== -->
+            <!-- ================= VIEW 5: PROFILE PAGE (Restored Orders & Total Spend Boxes) ================= -->
             <section id="view-profile" class="hidden space-y-6 max-w-md mx-auto">
                 <div id="auth-logged-out" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
                     <div class="text-left space-y-1">
@@ -321,7 +301,7 @@
                                 <div><span class="text-[10px] text-gray-400 block font-bold uppercase">Name</span><span id="user-info-name" class="font-extrabold text-sm text-gray-900">User</span></div>
                             </div>
                             <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
-                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base"><i class="fa-solid id-card"></i></div>
+                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base"><i class="fa-solid fa-id-card"></i></div>
                                 <div><span class="text-[10px] text-gray-400 block font-bold uppercase">User ID</span><span id="user-info-id" class="font-extrabold text-sm text-brand-600 font-mono">000000</span></div>
                             </div>
                             <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
@@ -331,15 +311,31 @@
                         </div>
                     </div>
 
-                    <button onclick="handleLogout()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-md transition">
+                    <!-- Restored Orders & Total Spend Boxes -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-clipboard-list"></i></div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 font-bold block uppercase">Orders</span>
+                                <span id="user-total-orders" class="font-extrabold text-base text-gray-900">0</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-dollar-sign"></i></div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 font-bold block uppercase">Total Spend</span>
+                                <span id="user-total-spend" class="font-extrabold text-base text-gray-900">0 Tk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="promptLogoutConfirmation()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-md transition">
                         Logout Account
                     </button>
                 </div>
             </section>
 
-            <!-- ========================================== -->
-            <!-- VIEW 6: ADMIN PANEL -->
-            <!-- ========================================== -->
+            <!-- ================= VIEW 6: ADMIN PANEL (No Footer, Detailed Payment Inputs, Right-aligned Buttons, Combined Serial/UserID Search) ================= -->
             <section id="view-admin" class="hidden space-y-6 max-w-3xl mx-auto pb-12">
                 <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-md">
                     <h2 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-sliders text-brand-500"></i> Admin Panel</h2>
@@ -386,19 +382,21 @@
                     </div>
                 </div>
 
-                <!-- Payments Tab -->
+                <!-- Payments Tab (Restored 4 distinct fields with names: bKash, Nagad, Rocket, Upay) -->
                 <div id="admin-sec-payments" class="hidden space-y-6">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর</h3>
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর পরিবর্তন করুন</h3>
                         <div class="space-y-3">
-                            <input type="text" id="adm-pay-bkash" placeholder="bKash" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs">
-                            <input type="text" id="adm-pay-nagad" placeholder="Nagad" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs">
-                            <button onclick="adminSavePaymentNumbers()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs">Save</button>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">bKash Number</label><input type="text" id="adm-pay-bkash" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">Nagad Number</label><input type="text" id="adm-pay-nagad" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">Rocket Number</label><input type="text" id="adm-pay-rocket" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">Upay Number</label><input type="text" id="adm-pay-upay" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <button onclick="adminSavePaymentNumbers()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">পেমেন্ট নম্বর সেভ করুন</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Users Tracking Tab (Fixed Search & Block/Unblock buttons) -->
+                <!-- Users Tracking Tab (Right-aligned + Add Money & Block Buttons) -->
                 <div id="admin-sec-users" class="hidden space-y-4">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                         <h3 class="font-extrabold text-sm text-gray-800 uppercase">ইউজার ট্র্যাকিং ও সার্চ</h3>
@@ -414,11 +412,11 @@
                     </div>
                 </div>
 
-                <!-- Orders Tab (Fixed Serial Search & Pending/Completed/Cancelled statuses) -->
+                <!-- Orders Tab (Combined Serial/UserID Search & User ID in display) -->
                 <div id="admin-sec-orders" class="hidden space-y-4">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                         <div class="flex gap-2">
-                            <input type="number" id="adm-order-serial-search" placeholder="অর্ডার সিরিয়াল নম্বর লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <input type="text" id="adm-order-query-search" placeholder="অর্ডার সিরিয়াল বা User ID লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
                             <button onclick="renderAdminOrdersList()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ / রিসেট</button>
                         </div>
                         <div id="adm-all-orders-container" class="space-y-3 pt-2"></div>
@@ -444,7 +442,7 @@
         </nav>
     </div>
 
-    <!-- Custom Notification Toast Modal with Correct Success/Error Icons -->
+    <!-- Custom Notification Toast Modal -->
     <div id="toast-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
             <div id="toast-icon" class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600">
@@ -455,6 +453,20 @@
                 <p id="toast-msg" class="text-xs text-gray-600 mt-1 leading-relaxed"></p>
             </div>
             <button onclick="closeToast()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal (Point 6) -->
+    <div id="logout-confirm-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
+            <div class="bg-amber-100 text-amber-700 font-extrabold text-xs py-1 px-3 rounded-full inline-block uppercase">সতর্কতা</div>
+            <div>
+                <p class="text-xs text-gray-700 leading-relaxed font-semibold">আপনি কি আপনার একাউন্ট থেকে লগআউট করতে চান? তাহলে নিশ্চিত চাপুন</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="closeLogoutModal()" class="bg-gray-200 text-gray-800 font-bold py-2.5 rounded-xl text-xs">বাতিল</button>
+                <button onclick="confirmLogout()" class="bg-red-500 text-white font-bold py-2.5 rounded-xl text-xs">নিশ্চিত</button>
+            </div>
         </div>
     </div>
 
@@ -520,7 +532,11 @@
 
         function renderFooter(isAdminButtonVisible) {
             const footerContainer = document.getElementById('footer-container');
-            let adminBtnHtml = isAdminButtonVisible ? `<button onclick="openAdminAuth()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-brand-400 rounded-xl flex items-center justify-center border border-slate-700 transition shadow-md" title="Admin Panel"><i class="fa-solid fa-user-gear text-base"></i></button>` : '';
+            // Ensure footer is completely absent when admin panel is active (Point 4)
+            if (!isAdminButtonVisible) {
+                footerContainer.innerHTML = '';
+                return;
+            }
 
             footerContainer.innerHTML = `
                 <footer class="max-w-4xl mx-auto px-4 mt-12 mb-6">
@@ -540,7 +556,7 @@
                                     <div><div class="text-xs font-bold text-white">Help line [9AM-12PM]</div><div class="text-[11px] text-brand-400">Telegram Support</div></div>
                                 </div>
                             </div>
-                            ${adminBtnHtml}
+                            <button onclick="openAdminAuth()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-brand-400 rounded-xl flex items-center justify-center border border-slate-700 transition shadow-md" title="Admin Panel"><i class="fa-solid fa-user-gear text-base"></i></button>
                         </div>
                         <div class="border-t border-slate-800 pt-4 text-center text-xs text-gray-500">
                             © SERA TOP UP | All Rights Reserved | Developed by <a href="https://wa.me/8801997816786" target="_blank" class="text-brand-400 font-bold underline">GR TEAM</a>
@@ -571,16 +587,17 @@
             });
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
 
-            if (viewName === 'home') renderFooter(true);
-            else renderFooter(false);
+            if (viewName === 'admin') {
+                renderFooter(false); // No footer in admin panel (Point 4)
+                renderAdminUsersList();
+                renderAdminOrdersList();
+            } else {
+                renderFooter(true);
+            }
 
             if (viewName === 'orders') renderOrdersList();
             if (viewName === 'profile') checkProfileState();
             if (viewName === 'addmoney') updateAddMoneyView();
-            if (viewName === 'admin') {
-                renderAdminUsersList();
-                renderAdminOrdersList();
-            }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -709,7 +726,6 @@
             document.getElementById('pay-number-display').innerText = selectedPayNumber;
         }
 
-        // Dynamic Checkout Button State (Shows Login Now if not logged in)
         function updateCheckoutButtonState() {
             const container = document.getElementById('checkout-btn-container');
             if (!currentUser) {
@@ -777,14 +793,14 @@
                 date: englishDate,
                 userEmail: currentUser.email,
                 userId: currentUser.userId,
-                status: 'Pending' // Default status is Pending
+                status: 'Pending'
             };
 
             ordersList.unshift(orderObj);
             saveOrders();
             checkProfileState();
 
-            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User:* ${currentUser.email} (ID: ${currentUser.userId})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
+            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
 
             document.getElementById('player-id-input').value = '';
@@ -827,7 +843,7 @@
                 showToast('সতর্কতা', 'সঠিক তথ্য দিন!', 'error');
                 return;
             }
-            const msg = `💰 *এড মানি রিকোয়েস্ট!*\n\n👤 *User:* ${currentUser.email}\n💵 *Amount:* ৳${amount}\n🔑 *TrxID:* \`${trxid}\``;
+            const msg = `💰 *এড মানি রিকোয়েস্ট!*\n\n👤 *User ID:* ${currentUser.userId}\n💵 *Amount:* ৳${amount}\n🔑 *TrxID:* \`${trxid}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
             document.getElementById('addmoney-amount').value = '';
             document.getElementById('addmoney-trxid').value = '';
@@ -852,7 +868,6 @@
             container.innerHTML = html;
         }
 
-        // 6-digit User ID Generation on Sign up / Login
         function handleManualLogin(e) {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
@@ -878,7 +893,17 @@
             navTo('profile', true);
         }
 
-        function handleLogout() {
+        // Point 6: Logout Confirmation Modal triggers
+        function promptLogoutConfirmation() {
+            document.getElementById('logout-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logout-confirm-modal').classList.add('hidden');
+        }
+
+        function confirmLogout() {
+            closeLogoutModal();
             currentUser = null;
             localStorage.removeItem('sera_topup_user');
             checkProfileState();
@@ -896,6 +921,12 @@
                 document.getElementById('user-info-balance').innerText = (currentUser.balance || 0) + " Tk";
                 walletHeader.innerText = (currentUser.balance || 0) + " ৳";
                 document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
+
+                // Point 1: Update Orders and Total Spend in Profile
+                const myOrders = ordersList.filter(o => o.userEmail === currentUser.email);
+                const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
+                document.getElementById('user-total-orders').innerText = myOrders.length;
+                document.getElementById('user-total-spend').innerText = totalSpendTk + " Tk";
             } else {
                 document.getElementById('auth-logged-out').classList.remove('hidden');
                 document.getElementById('auth-logged-in').classList.add('hidden');
@@ -938,19 +969,24 @@
             showToast('সফল', 'ব্র্যান্ডিং সেভ হয়েছে!', 'success');
         }
 
+        // Point 2: Distinct 4 payment input fields
         function loadAdminPaymentInputs() {
             document.getElementById('adm-pay-bkash').value = PaymentNumbers.bKash || "";
             document.getElementById('adm-pay-nagad').value = PaymentNumbers.Nagad || "";
+            document.getElementById('adm-pay-rocket').value = PaymentNumbers.Rocket || "";
+            document.getElementById('adm-pay-upay').value = PaymentNumbers.Upay || "";
         }
 
         function adminSavePaymentNumbers() {
             PaymentNumbers.bKash = document.getElementById('adm-pay-bkash').value.trim();
             PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim();
+            PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim();
+            PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim();
             saveStoreData();
             showToast('সফল', 'পেমেন্ট নম্বর সেভ হয়েছে!', 'success');
         }
 
-        // Users Tracking with Search & Block/Unblock buttons
+        // Point 3: Right-aligned buttons (+ Add Money & Block)
         function renderAdminUsersList() {
             const container = document.getElementById('adm-all-users-list');
             container.innerHTML = '';
@@ -965,8 +1001,8 @@
                             <strong>${u.name}</strong> (ID: <span class="font-mono">${u.userId}</span>)<br>
                             <span class="text-gray-500">${u.email}</span> | Orders: <strong>${uOrders.length}</strong> | Spend: <strong>৳${uSpend}</strong> | Bal: ৳${u.balance || 0}
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="adminAddBal('${email}')" class="bg-blue-600 text-white px-2.5 py-1 rounded font-bold">+ Bal</button>
+                        <div class="flex items-center gap-2 ml-auto">
+                            <button onclick="adminAddBal('${email}')" class="bg-blue-600 text-white px-2.5 py-1 rounded font-bold">+ Add Money</button>
                             <button onclick="adminToggleBlockUser('${email}')" class="${u.isBlocked ? 'bg-emerald-600' : 'bg-red-600'} text-white px-2.5 py-1 rounded font-bold">${u.isBlocked ? 'Unblock' : 'Block'}</button>
                         </div>
                     </div>`;
@@ -1015,12 +1051,19 @@
             }
         }
 
-        // Admin Orders List with Serial Search & Status changer (Pending, Completed, Cancelled)
+        // Point 5: Combined Serial or UserID search, displaying User ID instead of Email
         function renderAdminOrdersList() {
             const container = document.getElementById('adm-all-orders-container');
-            const searchSerial = document.getElementById('adm-order-serial-search').value.trim();
+            const searchQuery = document.getElementById('adm-order-query-search').value.trim().toLowerCase();
             let filtered = ordersList;
-            if (searchSerial) filtered = ordersList.filter(o => o.serial.toString() === searchSerial);
+
+            if (searchQuery) {
+                filtered = ordersList.filter(o => {
+                    const matchesSerial = o.serial.toString() === searchQuery;
+                    const matchesUserID = o.userId && o.userId.toLowerCase() === searchQuery;
+                    return matchesSerial || matchesUserID;
+                });
+            }
 
             if (filtered.length === 0) {
                 container.innerHTML = `<p class="text-xs text-red-500 font-bold">কোনো অর্ডার পাওয়া যায়নি!</p>`;
@@ -1036,7 +1079,7 @@
                             <span>Order #${ord.serial} - ${ord.package} (৳${ord.price})</span>
                             <span class="text-gray-500 font-normal">${ord.date}</span>
                         </div>
-                        <p class="text-gray-600">User Email: <strong>${ord.userEmail}</strong> | Player ID: <strong class="text-gray-900">${ord.playerId}</strong></p>
+                        <p class="text-gray-600">User ID: <strong class="text-brand-600 font-mono">${ord.userId || 'N/A'}</strong> | Player ID: <strong class="text-gray-900">${ord.playerId}</strong></p>
                         <p class="text-gray-600">TrxID: <span class="font-mono">${ord.trxId}</span></p>
                         <div class="flex items-center justify-between pt-1 border-t border-slate-200">
                             <span class="font-bold text-gray-500">Status:</span>
@@ -1113,7 +1156,6 @@
         function copyNumber() { navigator.clipboard.writeText(selectedPayNumber); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
         function copyAddMoneyNum() { navigator.clipboard.writeText(document.getElementById('addmoney-num-display').innerText); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
 
-        // Correct Toast Icon rendering (Green Check for Success, Red X for Error)
         function showToast(title, msg, type = 'info') {
             document.getElementById('toast-title').innerText = title;
             document.getElementById('toast-msg').innerText = msg;
