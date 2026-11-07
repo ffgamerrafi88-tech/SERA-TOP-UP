@@ -528,7 +528,6 @@
             renderFooter('home');
             updateCheckoutButtonState();
 
-            // Handle browser back/forward buttons
             window.onpopstate = function(event) {
                 if (event.state && event.state.view) {
                     navTo(event.state.view, false);
@@ -594,6 +593,7 @@
             loadStoreData();
             loadOrders();
             loadUserData();
+            renderHomeCategories();
 
             ['home', 'details', 'orders', 'addmoney', 'profile', 'admin'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
@@ -609,6 +609,7 @@
             if (viewName === 'admin') {
                 renderAdminUsersList();
                 renderAdminOrdersList();
+                renderAdminCategories();
             }
 
             if (viewName === 'orders') renderOrdersList();
@@ -619,11 +620,16 @@
         }
 
         function renderHomeCategories() {
+            loadStoreData();
             const ffContainer = document.getElementById('ff-categories-grid');
             const specialContainer = document.getElementById('special-offers-grid');
             const othersContainer = document.getElementById('others-categories-grid');
 
-            ffContainer.innerHTML = ''; specialContainer.innerHTML = ''; othersContainer.innerHTML = '';
+            if (!ffContainer || !specialContainer || !othersContainer) return;
+
+            ffContainer.innerHTML = ''; 
+            specialContainer.innerHTML = ''; 
+            othersContainer.innerHTML = '';
 
             for (let catKey in PackagesData) {
                 const cat = PackagesData[catKey];
@@ -633,7 +639,7 @@
 
                 card.innerHTML = `
                     <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                        <img src="${cat.img}" alt="${catKey}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="${cat.img || 'https://i.ibb.co.com/v4fLwZG1/logo.png'}" alt="${catKey}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
                     </div>
                     <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">${catKey}</h4>
                     <p class="text-[11px] text-gray-500">ইনস্ট্যান্ট টপআপ</p>
@@ -1097,6 +1103,7 @@
             
             if(tabName === 'users') renderAdminUsersList();
             if(tabName === 'orders') renderAdminOrdersList();
+            if(tabName === 'products') renderAdminCategories();
         }
 
         function loadAdminBrandingInputs() {
@@ -1131,6 +1138,7 @@
             loadStoreData();
             loadOrders();
             const container = document.getElementById('adm-all-users-list');
+            if(!container) return;
             container.innerHTML = '';
             
             let userKeys = Object.keys(usersStore);
@@ -1220,6 +1228,7 @@
         function renderAdminOrdersList() {
             loadOrders();
             const container = document.getElementById('adm-all-orders-container');
+            if(!container) return;
             const searchQuery = document.getElementById('adm-order-query-search').value.trim().toLowerCase();
             let filtered = ordersList;
 
@@ -1272,7 +1281,9 @@
         }
 
         function renderAdminCategories() {
+            loadStoreData();
             const container = document.getElementById('adm-categories-list');
+            if(!container) return;
             container.innerHTML = '';
             for (let catKey in PackagesData) {
                 const cat = PackagesData[catKey];
@@ -1291,7 +1302,7 @@
                         <div class="space-y-1">
                             <label class="block text-[11px] font-bold text-gray-700">নিয়মাবলী ও শর্তসমূহ (Rules)</label>
                             <textarea id="adm-rules-${CSS.escape(catKey)}" rows="3" class="w-full p-2.5 rounded-xl border border-gray-300 text-xs font-medium focus:ring-2 focus:ring-brand-500 outline-none">${cat.rules || ''}</textarea>
-                            <button onclick="adminSaveCategoryRules('${CSS.escape(catKey)}')" class="bg-brand-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">নিয়ম সেভ করুন</button>
+                            <button onclick="adminSaveCategoryRules('${catKey}')" class="bg-brand-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">নিয়ম সেভ করুন</button>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-gray-200">
                             <span class="text-xs font-bold text-gray-700 block">প্যাকেজসমূহ:</span>
@@ -1307,6 +1318,7 @@
             if (textarea && PackagesData[catKey]) {
                 PackagesData[catKey].rules = textarea.value;
                 saveStoreData();
+                renderHomeCategories();
                 showToast('সফল', `${catKey} ক্যাটাগরির নিয়মাবলী আপডেট করা হয়েছে!`, 'success');
             }
         }
@@ -1317,17 +1329,39 @@
             const type = document.getElementById('adm-cat-type').value;
             if(!name) return;
             PackagesData[name] = { type: type, img: img || "https://i.ibb.co.com/v4fLwZG1/logo.png", rules: "নিয়মাবলী এখানে লিখুন...", packages: [] };
-            saveStoreData(); renderHomeCategories(); renderAdminCategories();
+            saveStoreData(); 
+            renderHomeCategories(); 
+            renderAdminCategories();
+            document.getElementById('adm-cat-name').value = '';
+            document.getElementById('adm-cat-img').value = '';
             showToast('সফল', 'ক্যাটাগরি তৈরি হয়েছে!', 'success');
         }
 
-        function adminDeleteCat(key) { delete PackagesData[key]; saveStoreData(); renderHomeCategories(); renderAdminCategories(); }
+        function adminDeleteCat(key) { 
+            delete PackagesData[key]; 
+            saveStoreData(); 
+            renderHomeCategories(); 
+            renderAdminCategories(); 
+        }
+
         function adminAddPkg(catKey) {
             const name = prompt("প্যাকেজের নাম:");
             const price = prompt("দাম (TK):");
-            if(name && price) { PackagesData[catKey].packages.push({ name: name, price: Number(price) }); saveStoreData(); renderAdminCategories(); }
+            if(name && price) { 
+                if(!PackagesData[catKey].packages) PackagesData[catKey].packages = [];
+                PackagesData[catKey].packages.push({ name: name, price: Number(price) }); 
+                saveStoreData(); 
+                renderHomeCategories();
+                renderAdminCategories(); 
+            }
         }
-        function adminDeletePkg(catKey, idx) { PackagesData[catKey].packages.splice(idx, 1); saveStoreData(); renderAdminCategories(); }
+
+        function adminDeletePkg(catKey, idx) { 
+            PackagesData[catKey].packages.splice(idx, 1); 
+            saveStoreData(); 
+            renderHomeCategories();
+            renderAdminCategories(); 
+        }
 
         /* Local Storage & State Handlers */
         function saveStoreData() {
@@ -1341,11 +1375,25 @@
 
         function loadStoreData() {
             try {
-                const p = localStorage.getItem('sera_topup_packages'); if(p) PackagesData = JSON.parse(p); else PackagesData = DefaultPackagesData;
-                const pay = localStorage.getItem('sera_topup_payments'); if(pay) PaymentNumbers = JSON.parse(pay); else PaymentNumbers = DefaultPaymentNumbers;
-                const b = localStorage.getItem('sera_topup_branding'); if(b) SiteBranding = JSON.parse(b); else SiteBranding = DefaultBranding;
-                const u = localStorage.getItem('sera_topup_users_store'); if(u) usersStore = JSON.parse(u);
-            } catch(e) {}
+                const p = localStorage.getItem('sera_topup_packages'); 
+                if(p) PackagesData = JSON.parse(p); 
+                else { PackagesData = DefaultPackagesData; saveStoreData(); }
+
+                const pay = localStorage.getItem('sera_topup_payments'); 
+                if(pay) PaymentNumbers = JSON.parse(pay); 
+                else PaymentNumbers = DefaultPaymentNumbers;
+
+                const b = localStorage.getItem('sera_topup_branding'); 
+                if(b) SiteBranding = JSON.parse(b); 
+                else SiteBranding = DefaultBranding;
+
+                const u = localStorage.getItem('sera_topup_users_store'); 
+                if(u) usersStore = JSON.parse(u);
+            } catch(e) {
+                PackagesData = DefaultPackagesData;
+                PaymentNumbers = DefaultPaymentNumbers;
+                SiteBranding = DefaultBranding;
+            }
         }
 
         function saveUserData() { 
