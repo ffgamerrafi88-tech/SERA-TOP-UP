@@ -184,7 +184,7 @@
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
                             <p class="font-semibold text-gray-700"><span id="pay-method-name">bKash</span> Send Money Number:</p>
                             <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-300">
-                                <span id="pay-number-display" class="font-mono font-bold text-base sm:text-lg text-gray-900">01310518316</span>
+                                <span id="pay-number-display" class="font-mono font-bold text-base sm:text-lg text-gray-900">01843800533</span>
                                 <button onclick="copyNumber()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold px-4 py-1.5 rounded-lg text-xs">কপি</button>
                             </div>
                         </div>
@@ -241,7 +241,7 @@
                         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
                             <p class="font-semibold text-gray-700"><span id="addmoney-method-name">bKash</span> Send Money Number:</p>
                             <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-300">
-                                <span id="addmoney-num-display" class="font-mono font-bold text-base text-gray-900">01310518316</span>
+                                <span id="addmoney-num-display" class="font-mono font-bold text-base text-gray-900">01843800533</span>
                                 <button onclick="copyAddMoneyNum()" class="bg-brand-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs">Copy</button>
                             </div>
                         </div>
@@ -499,7 +499,7 @@
             }
         };
 
-        const DefaultPaymentNumbers = { bKash: "01310518316", Nagad: "01310518316", Rocket: "01310518316", Upay: "01843800533" };
+        const DefaultPaymentNumbers = { bKash: "01843800533", Nagad: "01843800533", Rocket: "01843800533", Upay: "01843800533" };
         const DefaultBranding = { logo: "https://i.ibb.co.com/v4fLwZG1/logo.png", banner: "" };
 
         const TELEGRAM_TOKEN = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
@@ -512,7 +512,7 @@
         let selectedPackage = null;
         let selectedPayType = "instant";
         let selectedPayMethod = "bKash";
-        let selectedPayNumber = "01310518316";
+        let selectedPayNumber = "01843800533";
         let selectedAddMoneyMethod = "bKash";
         let ordersList = [];
         let usersStore = {};
@@ -646,6 +646,10 @@
             document.getElementById('detail-title').innerText = catName;
             selectedPackage = null;
 
+            // পেমেন্ট নম্বর সিঙ্ক করা যাতে রিফ্রেশ করলে বা পেজে ঢুকলে সবসময় লেটেস্ট নম্বর দেখায়
+            loadStoreData();
+            selectPaymentMethod(selectedPayMethod);
+
             const grid = document.getElementById('package-grid');
             grid.innerHTML = '';
 
@@ -733,8 +737,9 @@
         }
 
         function selectPaymentMethod(method) {
+            loadStoreData();
             selectedPayMethod = method;
-            selectedPayNumber = PaymentNumbers[method] || "01310518316";
+            selectedPayNumber = PaymentNumbers[method] || "01843800533";
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
                 const btn = document.getElementById(`pay-${m}`);
                 if (btn) btn.className = (m === method) ? "p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700" : "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700";
@@ -794,8 +799,8 @@
                     return;
                 }
 
-                // ইনস্ট্যান্ট পেমেন্টের ক্ষেত্রে ব্যাকএন্ডে এসএমএস ভেরিফাই করা
-                showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID চেক করা হচ্ছে...', 'info');
+                // ইনস্ট্যান্ট পেমেন্টের ক্ষেত্রে ট্রানজেকশন আইডি ও সঠিক টাকার পরিমাণ যাচাই করা
+                showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
                 
                 try {
                     const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxId}`);
@@ -805,6 +810,37 @@
                         showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
                         return;
                     }
+
+                    // টাকার পরিমাণ ম্যাচিং চেক (সঠিক প্যাকেজ মূল্য এসেছে কি না)
+                    const requiredAmount = Number(selectedPackage.price);
+                    const smsText = result.sms.msg.toLowerCase();
+                    
+                    // এসএমএস থেকে টাকার পরিমাণ বের করার রেগুলার এক্সপ্রেশন
+                    const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i) || smsText.match(/cash\s*in\s*tk\.?\s*([0-9]+)/i);
+                    
+                    let detectedAmount = null;
+                    if (amountMatch) {
+                        detectedAmount = Number(amountMatch[1] || amountMatch[2]);
+                    } else {
+                        // সংখ্যাগুলো চেক করা
+                        const numbers = smsText.match(/\d+/g);
+                        if(numbers) {
+                            for(let numStr of numbers) {
+                                let val = Number(numStr);
+                                // যদি অ্যামাউন্ট প্যাকেজ মূল্যের কাছাকাছি বা সমান হয়
+                                if(val >= requiredAmount) {
+                                    detectedAmount = val;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (detectedAmount !== null && detectedAmount < requiredAmount) {
+                        showToast('টাকার পরিমাণ কম', `আপনার পেমেন্টে এসেছে ৳${detectedAmount}, কিন্তু প্যাকেজ মূল্য ৳${requiredAmount}! সঠিক পরিমাণে টাকা পাঠিয়ে আবার চেষ্টা করুন।`, 'error');
+                        return;
+                    }
+
                 } catch (err) {
                     console.error(err);
                     showToast('এরর', 'পেমেন্ট ভেরিফিকেশন সার্ভারে সমস্যা হয়েছে। একটু পর আবার চেষ্টা করুন।', 'error');
@@ -846,18 +882,20 @@
         }
 
         function updateAddMoneyView() {
+            loadStoreData();
             const bal = currentUser ? (currentUser.balance || 0) : 0;
             document.getElementById('addmoney-current-bal').innerText = `Balance: ${bal} ৳`;
-            selectAddMoneyMethod('bKash');
+            selectAddMoneyMethod(selectedAddMoneyMethod);
         }
 
         function selectAddMoneyMethod(method) {
+            loadStoreData();
             selectedAddMoneyMethod = method;
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
                 const btn = document.getElementById(`addm-${m.toLowerCase()}`);
                 if(btn) btn.className = (m === method) ? "p-3 border-2 border-brand-500 bg-brand-50 font-bold text-xs rounded-xl text-brand-700" : "p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700";
             });
-            document.getElementById('addmoney-num-display').innerText = PaymentNumbers[method] || "01310518316";
+            document.getElementById('addmoney-num-display').innerText = PaymentNumbers[method] || "01843800533";
             document.getElementById('addmoney-method-name').innerText = method;
         }
 
@@ -866,23 +904,81 @@
             showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success');
         }
 
-        function submitAddMoneyRequest() {
+        async function submitAddMoneyRequest() {
             if(!currentUser) {
                 showToast('লগইন প্রয়োজন', 'লগইন করুন!', 'error');
                 navTo('profile', true);
                 return;
             }
-            const amount = document.getElementById('addmoney-amount').value.trim();
-            const trxid = document.getElementById('addmoney-trxid').value.trim();
-            if(!amount || Number(amount) < 10 || !trxid) {
-                showToast('সতর্কতা', 'সঠিক তথ্য দিন!', 'error');
+            if (currentUser.isBlocked) {
+                showToast('অ্যাকাউন্ট ব্লকড', 'আপনার অ্যাকাউন্ট ব্লক করা রয়েছে!', 'error');
                 return;
             }
-            const msg = `💰 *এড মানি রিকোয়েস্ট!*\n\n👤 *User ID:* ${currentUser.userId}\n💵 *Amount:* ৳${amount}\n🔑 *TrxID:* \`${trxid}\``;
-            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
-            document.getElementById('addmoney-amount').value = '';
-            document.getElementById('addmoney-trxid').value = '';
-            showToast('রিকোয়েস্ট জমা হয়েছে', 'অ্যাডমিন দ্রুত ব্যালেন্স যুক্ত করবেন।', 'success');
+
+            const amountStr = document.getElementById('addmoney-amount').value.trim();
+            const trxid = document.getElementById('addmoney-trxid').value.trim().toUpperCase();
+            
+            const addAmount = Number(amountStr);
+            if(!amountStr || isNaN(addAmount) || addAmount < 10 || !trxid) {
+                showToast('সতর্কতা', 'সঠিক অ্যামাউন্ট (ন্যূনতম ১০ টাকা) ও TrxID প্রদান করুন!', 'error');
+                return;
+            }
+
+            // ওয়ালেট অটো পেমেন্ট ভেরিফিকেশন (অ্যামাউন্ট ও TrxID চেক)
+            showToast('যাচাই করা হচ্ছে...', 'দয়া করে অপেক্ষা করুন, পেমেন্ট ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
+
+            try {
+                const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxid}`);
+                const result = await response.json();
+
+                if (!result.valid) {
+                    showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
+                    return;
+                }
+
+                // এসএমএস থেকে টাকার পরিমাণ যাচাই করা
+                const smsText = result.sms.msg.toLowerCase();
+                const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i);
+                
+                let detectedAmount = null;
+                if (amountMatch) {
+                    detectedAmount = Number(amountMatch[1] || amountMatch[2]);
+                } else {
+                    const numbers = smsText.match(/\d+/g);
+                    if(numbers) {
+                        for(let numStr of numbers) {
+                            let val = Number(numStr);
+                            if(val >= addAmount) {
+                                detectedAmount = val;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (detectedAmount !== null && detectedAmount < addAmount) {
+                    showToast('টাকার পরিমাণ কম', `আপনার পেমেন্টে এসেছে ৳${detectedAmount}, কিন্তু আপনি অ্যাড করতে চেয়েছেন ৳${addAmount}! সঠিক পরিমাণে টাকা পাঠান।`, 'error');
+                    return;
+                }
+
+                // সব ঠিক থাকলে সরাসরি ইউজারের ওয়ালেটে ব্যালেন্স অ্যাড করে দেওয়া
+                currentUser.balance = Number(currentUser.balance || 0) + addAmount;
+                usersStore[currentUser.email].balance = currentUser.balance;
+                saveUserData();
+                checkProfileState();
+
+                const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
+                fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
+
+                document.getElementById('addmoney-amount').value = '';
+                document.getElementById('addmoney-trxid').value = '';
+                showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
+                navTo('profile', true);
+
+            } catch (err) {
+                console.error(err);
+                showToast('এরর', 'পেমেন্ট ভেরিফিকেশন সার্ভারে সমস্যা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।', 'error');
+            }
         }
 
         function renderOrdersList() {
@@ -1010,10 +1106,10 @@
         }
 
         function adminSavePaymentNumbers() {
-            PaymentNumbers.bKash = document.getElementById('adm-pay-bkash').value.trim();
-            PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim();
-            PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim();
-            PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim();
+            PaymentNumbers.bKash = document.getElementById('adm-pay-bkash').value.trim() || "01843800533";
+            PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim() || "01843800533";
+            PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim() || "01843800533";
+            PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim() || "01843800533";
             saveStoreData();
             showToast('সফল', 'পেমেন্ট নম্বর সেভ হয়েছে!', 'success');
         }
