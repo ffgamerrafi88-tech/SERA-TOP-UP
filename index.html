@@ -539,6 +539,7 @@
 
         function renderFooter(viewName) {
             const footerContainer = document.getElementById('footer-container');
+            if(!footerContainer) return;
             if (viewName === 'admin') {
                 footerContainer.innerHTML = '';
                 return;
@@ -576,16 +577,18 @@
 
         function applyBranding() {
             const logoImg = document.getElementById('site-logo-img');
-            if(SiteBranding.logo) logoImg.src = SiteBranding.logo;
+            if(logoImg && SiteBranding.logo) logoImg.src = SiteBranding.logo;
             const bannerImg = document.getElementById('home-banner-img');
             const bannerText = document.getElementById('home-banner-text');
-            if(SiteBranding.banner) {
-                bannerImg.src = SiteBranding.banner;
-                bannerImg.classList.remove('hidden');
-                bannerText.classList.add('hidden');
-            } else {
-                bannerImg.classList.add('hidden');
-                bannerText.classList.remove('hidden');
+            if(bannerImg && bannerText) {
+                if(SiteBranding.banner) {
+                    bannerImg.src = SiteBranding.banner;
+                    bannerImg.classList.remove('hidden');
+                    bannerText.classList.add('hidden');
+                } else {
+                    bannerImg.classList.add('hidden');
+                    bannerText.classList.remove('hidden');
+                }
             }
         }
 
@@ -596,9 +599,11 @@
             renderHomeCategories();
 
             ['home', 'details', 'orders', 'addmoney', 'profile', 'admin'].forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden');
+                const el = document.getElementById(`view-${v}`);
+                if(el) el.classList.add('hidden');
             });
-            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            const targetView = document.getElementById(`view-${viewName}`);
+            if(targetView) targetView.classList.remove('hidden');
 
             renderFooter(viewName);
 
@@ -632,7 +637,7 @@
             othersContainer.innerHTML = '';
 
             for (let catKey in PackagesData) {
-                const cat = PackagesData[catKey];
+                const cat = PackagesData[catKey] || {};
                 const card = document.createElement('div');
                 card.className = "bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition cursor-pointer group";
                 card.onclick = () => openCategory(catKey);
@@ -653,20 +658,22 @@
 
         function openCategory(catName) {
             currentCategory = catName;
-            document.getElementById('detail-title').innerText = catName;
+            const titleEl = document.getElementById('detail-title');
+            if(titleEl) titleEl.innerText = catName;
             selectedPackage = null;
 
             loadStoreData();
             selectPaymentMethod(selectedPayMethod);
 
             const grid = document.getElementById('package-grid');
+            if(!grid) return;
             grid.innerHTML = '';
 
             const catInfo = PackagesData[catName] || {};
             const list = catInfo.packages || [];
             
             const rulesListEl = document.getElementById('dynamic-rules-list');
-            if (catInfo.rules) {
+            if (catInfo.rules && rulesListEl) {
                 let rHtml = '';
                 catInfo.rules.split('\n').forEach(r => { if(r.trim()) rHtml += `<li>${r}</li>`; });
                 rulesListEl.innerHTML = rHtml;
@@ -701,8 +708,10 @@
         }
 
         async function checkPlayerName() {
-            const uidInput = document.getElementById('player-id-input').value.trim();
+            const uidInputEl = document.getElementById('player-id-input');
             const btn = document.getElementById('check-player-btn');
+            if(!uidInputEl || !btn) return;
+            const uidInput = uidInputEl.value.trim();
             if (!uidInput) {
                 showToast('সতর্কতা', 'দয়া করে প্লেয়ার আইডি কোড লিখুন!', 'error');
                 return;
@@ -731,17 +740,20 @@
             const walletBtn = document.getElementById('pay-type-wallet');
             const instantBtn = document.getElementById('pay-type-instant');
             const instantDetails = document.getElementById('instant-pay-details');
+            const walletBalEl = document.getElementById('wallet-card-balance');
             const bal = currentUser ? (currentUser.balance || 0) : 0;
-            document.getElementById('wallet-card-balance').innerText = `Balance: ${bal} TK`;
+            if(walletBalEl) walletBalEl.innerText = `Balance: ${bal} TK`;
 
-            if (type === 'wallet') {
-                walletBtn.className = "p-4 border-2 border-brand-600 bg-brand-50 rounded-2xl cursor-pointer transition text-center space-y-1 shadow-sm";
-                instantBtn.className = "p-4 border-2 border-gray-200 bg-gray-50 rounded-2xl cursor-pointer transition text-center space-y-1";
-                instantDetails.classList.add('hidden');
-            } else {
-                instantBtn.className = "p-4 border-2 border-brand-500 bg-brand-50 rounded-2xl cursor-pointer transition text-center space-y-1 shadow-sm";
-                walletBtn.className = "p-4 border-2 border-gray-200 bg-gray-50 rounded-2xl cursor-pointer transition text-center space-y-1";
-                instantDetails.classList.remove('hidden');
+            if (walletBtn && instantBtn && instantDetails) {
+                if (type === 'wallet') {
+                    walletBtn.className = "p-4 border-2 border-brand-600 bg-brand-50 rounded-2xl cursor-pointer transition text-center space-y-1 shadow-sm";
+                    instantBtn.className = "p-4 border-2 border-gray-200 bg-gray-50 rounded-2xl cursor-pointer transition text-center space-y-1";
+                    instantDetails.classList.add('hidden');
+                } else {
+                    instantBtn.className = "p-4 border-2 border-brand-500 bg-brand-50 rounded-2xl cursor-pointer transition text-center space-y-1 shadow-sm";
+                    walletBtn.className = "p-4 border-2 border-gray-200 bg-gray-50 rounded-2xl cursor-pointer transition text-center space-y-1";
+                    instantDetails.classList.remove('hidden');
+                }
             }
         }
 
@@ -753,8 +765,10 @@
                 const btn = document.getElementById(`pay-${m}`);
                 if (btn) btn.className = (m === method) ? "p-3 border-2 border-brand-500 bg-brand-50 rounded-xl text-center cursor-pointer font-bold text-xs text-brand-700" : "p-3 border-2 border-gray-200 bg-gray-50 rounded-xl text-center cursor-pointer font-bold text-xs text-gray-700";
             });
-            document.getElementById('pay-method-name').innerText = method;
-            document.getElementById('pay-number-display').innerText = selectedPayNumber;
+            const methodNameEl = document.getElementById('pay-method-name');
+            const numberDispEl = document.getElementById('pay-number-display');
+            if(methodNameEl) methodNameEl.innerText = method;
+            if(numberDispEl) numberDispEl.innerText = selectedPayNumber;
         }
 
         function updateCheckoutButtonState() {
@@ -781,7 +795,9 @@
                 showToast('অ্যাকাউন্ট ব্লকড', 'আপনার অ্যাকাউন্ট ব্লক করা রয়েছে!', 'error');
                 return;
             }
-            const playerId = document.getElementById('player-id-input').value.trim();
+            const playerIdEl = document.getElementById('player-id-input');
+            if(!playerIdEl) return;
+            const playerId = playerIdEl.value.trim();
             if (!selectedPackage) {
                 showToast('সতর্কতা', 'দয়া করে একটি প্যাকেজ সিলেক্ট করুন!', 'error');
                 return;
@@ -807,7 +823,9 @@
                 payMethodText = "Wallet Pay";
                 trxId = "WALLET_PAY";
             } else {
-                trxId = document.getElementById('trx-id-input').value.trim().toUpperCase();
+                const trxInputEl = document.getElementById('trx-id-input');
+                if(!trxInputEl) return;
+                trxId = trxInputEl.value.trim().toUpperCase();
                 if (!trxId || trxId.length < 6) {
                     showToast('ট্রানজেকশন আইডি ভুল', 'সঠিক TrxID প্রদান করুন!', 'error');
                     return;
@@ -842,8 +860,9 @@
             const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
 
-            document.getElementById('player-id-input').value = '';
-            document.getElementById('trx-id-input').value = '';
+            playerIdEl.value = '';
+            const trxInputEl2 = document.getElementById('trx-id-input');
+            if(trxInputEl2) trxInputEl2.value = '';
 
             showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} অর্ডার সফলভাবে জমা হয়েছে।`, 'success');
             navTo('orders', true);
@@ -852,7 +871,8 @@
         function updateAddMoneyView() {
             loadStoreData();
             const bal = currentUser ? (currentUser.balance || 0) : 0;
-            document.getElementById('addmoney-current-bal').innerText = `Balance: ${bal} ৳`;
+            const addmBalEl = document.getElementById('addmoney-current-bal');
+            if(addmBalEl) addmBalEl.innerText = `Balance: ${bal} ৳`;
             selectAddMoneyMethod(selectedAddMoneyMethod);
         }
 
@@ -863,13 +883,18 @@
                 const btn = document.getElementById(`addm-${m.toLowerCase()}`);
                 if(btn) btn.className = (m === method) ? "p-3 border-2 border-brand-500 bg-brand-50 font-bold text-xs rounded-xl text-brand-700" : "p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700";
             });
-            document.getElementById('addmoney-num-display').innerText = PaymentNumbers[method] || "01843800533";
-            document.getElementById('addmoney-method-name').innerText = method;
+            const numDisp = document.getElementById('addmoney-num-display');
+            const nameDisp = document.getElementById('addmoney-method-name');
+            if(numDisp) numDisp.innerText = PaymentNumbers[method] || "01843800533";
+            if(nameDisp) nameDisp.innerText = method;
         }
 
         function copyAddMoneyNum() {
-            navigator.clipboard.writeText(document.getElementById('addmoney-num-display').innerText);
-            showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success');
+            const numDisp = document.getElementById('addmoney-num-display');
+            if(numDisp) {
+                navigator.clipboard.writeText(numDisp.innerText);
+                showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success');
+            }
         }
 
         async function submitAddMoneyRequest() {
@@ -886,8 +911,12 @@
                 return;
             }
 
-            const amountStr = document.getElementById('addmoney-amount').value.trim();
-            const trxid = document.getElementById('addmoney-trxid').value.trim().toUpperCase();
+            const amountInputEl = document.getElementById('addmoney-amount');
+            const trxInputEl = document.getElementById('addmoney-trxid');
+            if(!amountInputEl || !trxInputEl) return;
+
+            const amountStr = amountInputEl.value.trim();
+            const trxid = trxInputEl.value.trim().toUpperCase();
             
             const addAmount = Number(amountStr);
             if(!amountStr || isNaN(addAmount) || addAmount < 10) {
@@ -907,8 +936,8 @@
             const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
 
-            document.getElementById('addmoney-amount').value = '';
-            document.getElementById('addmoney-trxid').value = '';
+            amountInputEl.value = '';
+            trxInputEl.value = '';
             showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
             navTo('profile', true);
         }
@@ -916,9 +945,11 @@
         function renderOrdersList() {
             loadOrders();
             const container = document.getElementById('orders-list-container');
-            if(!container) return;
+            const badgeEl = document.getElementById('orders-count-badge');
+            if(!container || !badgeEl) return;
+
             const myOrders = currentUser ? ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase()) : [];
-            document.getElementById('orders-count-badge').innerText = `${myOrders.length} Orders`;
+            badgeEl.innerText = `${myOrders.length} Orders`;
 
             if (myOrders.length === 0) {
                 container.innerHTML = `<div class="bg-white p-8 rounded-2xl shadow-sm text-center space-y-3"><i class="fa-solid fa-box-open text-4xl text-gray-300"></i><h4 class="font-bold text-gray-700 text-sm">কোনো অর্ডার পাওয়া যায়নি!</h4><button onclick="navTo('home', true)" class="bg-brand-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs">ORDER NOW</button></div>`;
@@ -937,8 +968,12 @@
             e.preventDefault();
             loadStoreData();
 
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
-            const pass = document.getElementById('login-pass').value;
+            const emailEl = document.getElementById('login-email');
+            const passEl = document.getElementById('login-pass');
+            if(!emailEl || !passEl) return;
+
+            const email = emailEl.value.trim().toLowerCase();
+            const pass = passEl.value;
             let name = email.split('@')[0];
             name = name.charAt(0).toUpperCase() + name.slice(1);
 
@@ -964,11 +999,13 @@
         }
 
         function promptLogoutConfirmation() {
-            document.getElementById('logout-confirm-modal').classList.remove('hidden');
+            const modal = document.getElementById('logout-confirm-modal');
+            if(modal) modal.classList.remove('hidden');
         }
 
         function closeLogoutModal() {
-            document.getElementById('logout-confirm-modal').classList.add('hidden');
+            const modal = document.getElementById('logout-confirm-modal');
+            if(modal) modal.classList.add('hidden');
         }
 
         function confirmLogout() {
@@ -983,23 +1020,35 @@
         function checkProfileState() {
             loadUserData();
             const walletHeader = document.getElementById('header-wallet-balance');
+            const loggedOutSec = document.getElementById('auth-logged-out');
+            const loggedInSec = document.getElementById('auth-logged-in');
+
             if (currentUser) {
-                document.getElementById('auth-logged-out').classList.add('hidden');
-                document.getElementById('auth-logged-in').classList.remove('hidden');
-                document.getElementById('user-info-name').innerText = currentUser.name;
-                document.getElementById('user-info-id').innerText = currentUser.userId;
-                document.getElementById('user-info-balance').innerText = (currentUser.balance || 0) + " Tk";
+                if(loggedOutSec) loggedOutSec.classList.add('hidden');
+                if(loggedInSec) loggedInSec.classList.remove('hidden');
+                
+                const nameEl = document.getElementById('user-info-name');
+                const idEl = document.getElementById('user-info-id');
+                const balEl = document.getElementById('user-info-balance');
+                const avatarEl = document.getElementById('user-avatar-text');
+                const totalOrdEl = document.getElementById('user-total-orders');
+                const totalSpendEl = document.getElementById('user-total-spend');
+
+                if(nameEl) nameEl.innerText = currentUser.name;
+                if(idEl) idEl.innerText = currentUser.userId;
+                if(balEl) balEl.innerText = (currentUser.balance || 0) + " Tk";
                 if(walletHeader) walletHeader.innerText = (currentUser.balance || 0) + " ৳";
-                document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
+                if(avatarEl) avatarEl.innerText = currentUser.name.charAt(0).toUpperCase();
 
                 const myOrders = ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase());
                 const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
-                document.getElementById('user-total-orders').innerText = myOrders.length;
-                document.getElementById('user-total-spend').innerText = totalSpendTk + " Tk";
+                if(totalOrdEl) totalOrdEl.innerText = myOrders.length;
+                if(totalSpendEl) totalSpendEl.innerText = totalSpendTk + " Tk";
             } else {
-                document.getElementById('auth-logged-out').classList.remove('hidden');
-                document.getElementById('auth-logged-in').classList.add('hidden');
-                document.getElementById('user-avatar-text').innerText = 'S';
+                if(loggedOutSec) loggedOutSec.classList.remove('hidden');
+                if(loggedInSec) loggedInSec.classList.add('hidden');
+                const avatarEl = document.getElementById('user-avatar-text');
+                if(avatarEl) avatarEl.innerText = 'S';
                 if(walletHeader) walletHeader.innerText = "0 ৳";
             }
         }
@@ -1021,11 +1070,15 @@
 
         function switchAdminTab(tabName) {
             ['branding', 'products', 'payments', 'users', 'orders'].forEach(t => {
-                document.getElementById(`admin-sec-${t}`).classList.add('hidden');
-                document.getElementById(`adm-tab-${t}`).className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap";
+                const sec = document.getElementById(`admin-sec-${t}`);
+                const tab = document.getElementById(`adm-tab-${t}`);
+                if(sec) sec.classList.add('hidden');
+                if(tab) tab.className = "flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap";
             });
-            document.getElementById(`admin-sec-${tabName}`).classList.remove('hidden');
-            document.getElementById(`adm-tab-${tabName}`).className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap";
+            const activeSec = document.getElementById(`admin-sec-${tabName}`);
+            const activeTab = document.getElementById(`adm-tab-${tabName}`);
+            if(activeSec) activeSec.classList.remove('hidden');
+            if(activeTab) activeTab.className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap";
             
             if(tabName === 'users') renderAdminUsersList();
             if(tabName === 'orders') renderAdminOrdersList();
@@ -1033,29 +1086,42 @@
         }
 
         function loadAdminBrandingInputs() {
-            document.getElementById('adm-branding-logo').value = SiteBranding.logo || "";
-            document.getElementById('adm-branding-banner').value = SiteBranding.banner || "";
+            const logoInput = document.getElementById('adm-branding-logo');
+            const bannerInput = document.getElementById('adm-branding-banner');
+            if(logoInput) logoInput.value = SiteBranding.logo || "";
+            if(bannerInput) bannerInput.value = SiteBranding.banner || "";
         }
 
         function adminSaveBranding() {
-            SiteBranding.logo = document.getElementById('adm-branding-logo').value.trim();
-            SiteBranding.banner = document.getElementById('adm-branding-banner').value.trim();
-            saveStoreData(); applyBranding();
+            const logoInput = document.getElementById('adm-branding-logo');
+            const bannerInput = document.getElementById('adm-branding-banner');
+            if(logoInput) SiteBranding.logo = logoInput.value.trim();
+            if(bannerInput) SiteBranding.banner = bannerInput.value.trim();
+            saveStoreData(); 
+            applyBranding();
             showToast('সফল', 'ব্র্যান্ডিং সেভ হয়েছে!', 'success');
         }
 
         function loadAdminPaymentInputs() {
-            document.getElementById('adm-pay-bkash').value = PaymentNumbers.bKash || "";
-            document.getElementById('adm-pay-nagad').value = PaymentNumbers.Nagad || "";
-            document.getElementById('adm-pay-rocket').value = PaymentNumbers.Rocket || "";
-            document.getElementById('adm-pay-upay').value = PaymentNumbers.Upay || "";
+            const bkEl = document.getElementById('adm-pay-bkash');
+            const ngEl = document.getElementById('adm-pay-nagad');
+            const rkEl = document.getElementById('adm-pay-rocket');
+            const upEl = document.getElementById('adm-pay-upay');
+            if(bkEl) bkEl.value = PaymentNumbers.bKash || "";
+            if(ngEl) ngEl.value = PaymentNumbers.Nagad || "";
+            if(rkEl) rkEl.value = PaymentNumbers.Rocket || "";
+            if(upEl) upEl.value = PaymentNumbers.Upay || "";
         }
 
         function adminSavePaymentNumbers() {
-            PaymentNumbers.bKash = document.getElementById('adm-pay-bkash').value.trim() || "01843800533";
-            PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim() || "01843800533";
-            PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim() || "01843800533";
-            PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim() || "01843800533";
+            const bkEl = document.getElementById('adm-pay-bkash');
+            const ngEl = document.getElementById('adm-pay-nagad');
+            const rkEl = document.getElementById('adm-pay-rocket');
+            const upEl = document.getElementById('adm-pay-upay');
+            if(bkEl) PaymentNumbers.bKash = bkEl.value.trim() || "01843800533";
+            if(ngEl) PaymentNumbers.Nagad = ngEl.value.trim() || "01843800533";
+            if(rkEl) PaymentNumbers.Rocket = rkEl.value.trim() || "01843800533";
+            if(upEl) PaymentNumbers.Upay = upEl.value.trim() || "01843800533";
             saveStoreData();
             showToast('সফল', 'পেমেন্ট নম্বর সেভ হয়েছে!', 'success');
         }
@@ -1095,8 +1161,11 @@
         function adminSearchUser() {
             loadStoreData();
             loadOrders();
-            const input = document.getElementById('adm-user-search-input').value.trim().toLowerCase();
+            const searchInputEl = document.getElementById('adm-user-search-input');
             const output = document.getElementById('adm-user-search-result');
+            if(!searchInputEl || !output) return;
+
+            const input = searchInputEl.value.trim().toLowerCase();
             let found = null;
             
             for (let email in usersStore) {
@@ -1154,8 +1223,10 @@
         function renderAdminOrdersList() {
             loadOrders();
             const container = document.getElementById('adm-all-orders-container');
+            const searchInputEl = document.getElementById('adm-order-query-search');
             if(!container) return;
-            const searchQuery = document.getElementById('adm-order-query-search').value.trim().toLowerCase();
+
+            const searchQuery = searchInputEl ? searchInputEl.value.trim().toLowerCase() : "";
             let filtered = ordersList;
 
             if (searchQuery) {
@@ -1212,7 +1283,7 @@
             if(!container) return;
             container.innerHTML = '';
             for (let catKey in PackagesData) {
-                const cat = PackagesData[catKey];
+                const cat = PackagesData[catKey] || {};
                 let pkgHtml = '';
                 if (cat.packages) {
                     cat.packages.forEach((p, idx) => {
@@ -1240,7 +1311,7 @@
         }
 
         function adminSaveCategoryRules(catKey) {
-            const textarea = document.getElementById(`adm-rules-${catKey}`);
+            const textarea = document.getElementById(`adm-rules-${CSS.escape(catKey)}`);
             if (textarea && PackagesData[catKey]) {
                 PackagesData[catKey].rules = textarea.value;
                 saveStoreData();
@@ -1250,16 +1321,22 @@
         }
 
         function adminAddCategory() {
-            const name = document.getElementById('adm-cat-name').value.trim();
-            const img = document.getElementById('adm-cat-img').value.trim();
-            const type = document.getElementById('adm-cat-type').value;
+            const nameEl = document.getElementById('adm-cat-name');
+            const imgEl = document.getElementById('adm-cat-img');
+            const typeEl = document.getElementById('adm-cat-type');
+            if(!nameEl || !typeEl) return;
+
+            const name = nameEl.value.trim();
+            const img = imgEl ? imgEl.value.trim() : "";
+            const type = typeEl.value;
+
             if(!name) return;
             PackagesData[name] = { type: type, img: img || "https://i.ibb.co.com/v4fLwZG1/logo.png", rules: "নিয়মাবলী এখানে লিখুন...", packages: [] };
             saveStoreData(); 
             renderHomeCategories(); 
             renderAdminCategories();
-            document.getElementById('adm-cat-name').value = '';
-            document.getElementById('adm-cat-img').value = '';
+            nameEl.value = '';
+            if(imgEl) imgEl.value = '';
             showToast('সফল', 'ক্যাটাগরি তৈরি হয়েছে!', 'success');
         }
 
@@ -1283,10 +1360,12 @@
         }
 
         function adminDeletePkg(catKey, idx) { 
-            PackagesData[catKey].packages.splice(idx, 1); 
-            saveStoreData(); 
-            renderHomeCategories();
-            renderAdminCategories(); 
+            if(PackagesData[catKey] && PackagesData[catKey].packages) {
+                PackagesData[catKey].packages.splice(idx, 1); 
+                saveStoreData(); 
+                renderHomeCategories();
+                renderAdminCategories(); 
+            }
         }
 
         /* Local Storage & State Handlers */
@@ -1358,24 +1437,36 @@
             } catch(e) {}
         }
 
-        function copyNumber() { navigator.clipboard.writeText(selectedPayNumber); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
-        function copyAddMoneyNum() { navigator.clipboard.writeText(document.getElementById('addmoney-num-display').innerText); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
-
-        function showToast(title, msg, type = 'info') {
-            document.getElementById('toast-title').innerText = title;
-            document.getElementById('toast-msg').innerText = msg;
-            const iconBox = document.getElementById('toast-icon');
-            if (type === 'error') {
-                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-red-100 text-red-600";
-                iconBox.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
-            } else {
-                iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600";
-                iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
-            }
-            document.getElementById('toast-modal').classList.remove('hidden');
+        function copyNumber() { 
+            navigator.clipboard.writeText(selectedPayNumber); 
+            showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); 
         }
 
-        function closeToast() { document.getElementById('toast-modal').classList.add('hidden'); }
+        function showToast(title, msg, type = 'info') {
+            const titleEl = document.getElementById('toast-title');
+            const msgEl = document.getElementById('toast-msg');
+            const iconBox = document.getElementById('toast-icon');
+            const modal = document.getElementById('toast-modal');
+
+            if(titleEl) titleEl.innerText = title;
+            if(msgEl) msgEl.innerText = msg;
+
+            if (iconBox) {
+                if (type === 'error') {
+                    iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-red-100 text-red-600";
+                    iconBox.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+                } else {
+                    iconBox.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600";
+                    iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                }
+            }
+            if(modal) modal.classList.remove('hidden');
+        }
+
+        function closeToast() { 
+            const modal = document.getElementById('toast-modal');
+            if(modal) modal.classList.add('hidden'); 
+        }
     </script>
 </body>
 </html>
