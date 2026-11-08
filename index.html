@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font Hind Siliguri -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Firebase SDK (v9 Compat) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -472,15 +469,8 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic with Firebase Realtime Sync -->
+    <!-- JavaScript Application Logic -->
     <script>
-        // Firebase Public Shared Database Configuration
-        const firebaseConfig = {
-            databaseURL: "https://sera-topup-default-rtdb.firebaseio.com/"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
         const DefaultPackagesData = {
             "Uid Topup [BD SERVER]": {
                 type: "ff",
@@ -529,9 +519,14 @@
         let currentUser = null;
 
         window.onload = function() {
-            initFirebaseRealtimeSync();
+            loadStoreData();
+            applyBranding();
+            loadOrders();
             loadUserData();
+            renderHomeCategories();
+            renderOrdersList();
             renderFooter('home');
+            updateCheckoutButtonState();
 
             window.onpopstate = function(event) {
                 if (event.state && event.state.view) {
@@ -541,40 +536,6 @@
                 }
             };
         };
-
-        function initFirebaseRealtimeSync() {
-            // Live sync packages & store settings from Cloud Database
-            db.ref('storeData').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    PackagesData = data.packages || DefaultPackagesData;
-                    PaymentNumbers = data.payments || DefaultPaymentNumbers;
-                    SiteBranding = data.branding || DefaultBranding;
-                    usersStore = data.users || {};
-                    ordersList = data.orders || [];
-                } else {
-                    PackagesData = DefaultPackagesData;
-                    PaymentNumbers = DefaultPaymentNumbers;
-                    SiteBranding = DefaultBranding;
-                    saveStoreDataToCloud();
-                }
-                applyBranding();
-                renderHomeCategories();
-                renderOrdersList();
-                checkProfileState();
-                updateCheckoutButtonState();
-            });
-        }
-
-        function saveStoreDataToCloud() {
-            db.ref('storeData').set({
-                packages: PackagesData,
-                payments: PaymentNumbers,
-                branding: SiteBranding,
-                users: usersStore,
-                orders: ordersList
-            });
-        }
 
         function renderFooter(viewName) {
             const footerContainer = document.getElementById('footer-container');
@@ -629,6 +590,11 @@
         }
 
         function navTo(viewName, pushHistory = true) {
+            loadStoreData();
+            loadOrders();
+            loadUserData();
+            renderHomeCategories();
+
             ['home', 'details', 'orders', 'addmoney', 'profile', 'admin'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
             });
@@ -654,6 +620,7 @@
         }
 
         function renderHomeCategories() {
+            loadStoreData();
             const ffContainer = document.getElementById('ff-categories-grid');
             const specialContainer = document.getElementById('special-offers-grid');
             const othersContainer = document.getElementById('others-categories-grid');
@@ -689,6 +656,7 @@
             document.getElementById('detail-title').innerText = catName;
             selectedPackage = null;
 
+            loadStoreData();
             selectPaymentMethod(selectedPayMethod);
 
             const grid = document.getElementById('package-grid');
@@ -778,6 +746,7 @@
         }
 
         function selectPaymentMethod(method) {
+            loadStoreData();
             selectedPayMethod = method;
             selectedPayNumber = PaymentNumbers[method] || "01843800533";
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
@@ -799,6 +768,10 @@
         }
 
         async function submitOrder() {
+            loadStoreData();
+            loadOrders();
+            loadUserData();
+
             if (!currentUser) {
                 showToast('লগইন প্রয়োজন', 'অর্ডার করতে চাইলে প্রথমে লগইন করুন!', 'error');
                 navTo('profile', true);
@@ -830,6 +803,7 @@
                 }
                 currentUser.balance = userBal - pkgPrice;
                 usersStore[currentUser.email] = currentUser;
+                saveUserData();
                 payMethodText = "Wallet Pay";
                 trxId = "WALLET_PAY";
             } else {
@@ -861,8 +835,9 @@
             };
 
             ordersList.unshift(orderObj);
-            usersStore[currentUser.email] = currentUser;
-            saveStoreDataToCloud();
+            saveOrders();
+            saveUserData();
+            checkProfileState();
 
             const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
@@ -875,12 +850,14 @@
         }
 
         function updateAddMoneyView() {
+            loadStoreData();
             const bal = currentUser ? (currentUser.balance || 0) : 0;
             document.getElementById('addmoney-current-bal').innerText = `Balance: ${bal} ৳`;
             selectAddMoneyMethod(selectedAddMoneyMethod);
         }
 
         function selectAddMoneyMethod(method) {
+            loadStoreData();
             selectedAddMoneyMethod = method;
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
                 const btn = document.getElementById(`addm-${m.toLowerCase()}`);
@@ -896,6 +873,9 @@
         }
 
         async function submitAddMoneyRequest() {
+            loadStoreData();
+            loadUserData();
+
             if(!currentUser) {
                 showToast('লগইন প্রয়োজন', 'লগইন করুন!', 'error');
                 navTo('profile', true);
@@ -921,7 +901,7 @@
 
             currentUser.balance = Number(currentUser.balance || 0) + addAmount;
             usersStore[currentUser.email] = currentUser;
-            saveStoreDataToCloud();
+            saveUserData();
             checkProfileState();
 
             const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
@@ -934,6 +914,7 @@
         }
 
         function renderOrdersList() {
+            loadOrders();
             const container = document.getElementById('orders-list-container');
             if(!container) return;
             const myOrders = currentUser ? ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase()) : [];
@@ -954,6 +935,8 @@
 
         function handleManualLogin(e) {
             e.preventDefault();
+            loadStoreData();
+
             const email = document.getElementById('login-email').value.trim().toLowerCase();
             const pass = document.getElementById('login-pass').value;
             let name = email.split('@')[0];
@@ -973,8 +956,7 @@
             }
 
             currentUser = usersStore[email];
-            localStorage.setItem('sera_topup_user', JSON.stringify(currentUser));
-            saveStoreDataToCloud();
+            saveUserData();
             checkProfileState();
             updateCheckoutButtonState();
             showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
@@ -999,7 +981,7 @@
         }
 
         function checkProfileState() {
-            loadUserDataLocally();
+            loadUserData();
             const walletHeader = document.getElementById('header-wallet-balance');
             if (currentUser) {
                 document.getElementById('auth-logged-out').classList.add('hidden');
@@ -1007,7 +989,7 @@
                 document.getElementById('user-info-name').innerText = currentUser.name;
                 document.getElementById('user-info-id').innerText = currentUser.userId;
                 document.getElementById('user-info-balance').innerText = (currentUser.balance || 0) + " Tk";
-                walletHeader.innerText = (currentUser.balance || 0) + " ৳";
+                if(walletHeader) walletHeader.innerText = (currentUser.balance || 0) + " ৳";
                 document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
 
                 const myOrders = ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase());
@@ -1022,24 +1004,12 @@
             }
         }
 
-        function loadUserDataLocally() {
-            try {
-                const u = localStorage.getItem('sera_topup_user'); 
-                if(u) {
-                    let localUser = JSON.parse(u);
-                    if(localUser && localUser.email && usersStore[localUser.email]) {
-                        currentUser = usersStore[localUser.email];
-                    } else {
-                        currentUser = localUser;
-                    }
-                }
-            } catch(e) {}
-        }
-
         /* Admin Panel Functions */
         function openAdminAuth() {
             const pass = prompt("অ্যাডমিন পাসওয়ার্ড দিন:");
             if (pass === "Stp26GR") {
+                loadStoreData();
+                loadOrders();
                 loadAdminBrandingInputs();
                 renderAdminCategories();
                 loadAdminPaymentInputs();
@@ -1070,7 +1040,7 @@
         function adminSaveBranding() {
             SiteBranding.logo = document.getElementById('adm-branding-logo').value.trim();
             SiteBranding.banner = document.getElementById('adm-branding-banner').value.trim();
-            saveStoreDataToCloud(); applyBranding();
+            saveStoreData(); applyBranding();
             showToast('সফল', 'ব্র্যান্ডিং সেভ হয়েছে!', 'success');
         }
 
@@ -1086,11 +1056,13 @@
             PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim() || "01843800533";
             PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim() || "01843800533";
             PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim() || "01843800533";
-            saveStoreDataToCloud();
+            saveStoreData();
             showToast('সফল', 'পেমেন্ট নম্বর সেভ হয়েছে!', 'success');
         }
 
         function renderAdminUsersList() {
+            loadStoreData();
+            loadOrders();
             const container = document.getElementById('adm-all-users-list');
             if(!container) return;
             container.innerHTML = '';
@@ -1121,6 +1093,8 @@
         }
 
         function adminSearchUser() {
+            loadStoreData();
+            loadOrders();
             const input = document.getElementById('adm-user-search-input').value.trim().toLowerCase();
             const output = document.getElementById('adm-user-search-result');
             let found = null;
@@ -1153,21 +1127,23 @@
         }
 
         function adminToggleBlockUser(email) {
+            loadStoreData();
             if(usersStore[email]) {
                 usersStore[email].isBlocked = !usersStore[email].isBlocked;
-                saveStoreDataToCloud(); 
+                saveStoreData(); 
                 renderAdminUsersList();
                 showToast('আপডেট', 'স্ট্যাটাস পরিবর্তিত হয়েছে', 'info');
             }
         }
 
         function adminAddBal(email) {
+            loadStoreData();
             const amt = prompt("টাকার পরিমাণ দিন:");
             if (amt && !isNaN(amt)) {
                 if(usersStore[email]) {
                     usersStore[email].balance = (Number(usersStore[email].balance) || 0) + Number(amt);
                     if (currentUser && currentUser.email === email) currentUser.balance = usersStore[email].balance;
-                    saveStoreDataToCloud(); 
+                    saveStoreData(); 
                     renderAdminUsersList(); 
                     checkProfileState();
                     showToast('সফল', 'ব্যালেন্স যুক্ত হয়েছে', 'success');
@@ -1176,6 +1152,7 @@
         }
 
         function renderAdminOrdersList() {
+            loadOrders();
             const container = document.getElementById('adm-all-orders-container');
             if(!container) return;
             const searchQuery = document.getElementById('adm-order-query-search').value.trim().toLowerCase();
@@ -1219,16 +1196,18 @@
         }
 
         function adminUpdateOrderStatus(serial, newStatus) {
+            loadOrders();
             const ord = ordersList.find(o => Number(o.serial) === Number(serial));
             if (ord) {
                 ord.status = newStatus;
-                saveStoreDataToCloud(); 
+                saveOrders(); 
                 renderAdminOrdersList();
                 showToast('সফল', `অর্ডার #${serial} স্ট্যাটাস ${newStatus} করা হয়েছে।`, 'success');
             }
         }
 
         function renderAdminCategories() {
+            loadStoreData();
             const container = document.getElementById('adm-categories-list');
             if(!container) return;
             container.innerHTML = '';
@@ -1264,7 +1243,7 @@
             const textarea = document.getElementById(`adm-rules-${catKey}`);
             if (textarea && PackagesData[catKey]) {
                 PackagesData[catKey].rules = textarea.value;
-                saveStoreDataToCloud();
+                saveStoreData();
                 renderHomeCategories();
                 showToast('সফল', `${catKey} ক্যাটাগরির নিয়মাবলী আপডেট করা হয়েছে!`, 'success');
             }
@@ -1276,7 +1255,7 @@
             const type = document.getElementById('adm-cat-type').value;
             if(!name) return;
             PackagesData[name] = { type: type, img: img || "https://i.ibb.co.com/v4fLwZG1/logo.png", rules: "নিয়মাবলী এখানে লিখুন...", packages: [] };
-            saveStoreDataToCloud(); 
+            saveStoreData(); 
             renderHomeCategories(); 
             renderAdminCategories();
             document.getElementById('adm-cat-name').value = '';
@@ -1286,7 +1265,7 @@
 
         function adminDeleteCat(key) { 
             delete PackagesData[key]; 
-            saveStoreDataToCloud(); 
+            saveStoreData(); 
             renderHomeCategories(); 
             renderAdminCategories(); 
         }
@@ -1297,7 +1276,7 @@
             if(name && price) { 
                 if(!PackagesData[catKey].packages) PackagesData[catKey].packages = [];
                 PackagesData[catKey].packages.push({ name: name, price: Number(price) }); 
-                saveStoreDataToCloud(); 
+                saveStoreData(); 
                 renderHomeCategories();
                 renderAdminCategories(); 
             }
@@ -1305,9 +1284,78 @@
 
         function adminDeletePkg(catKey, idx) { 
             PackagesData[catKey].packages.splice(idx, 1); 
-            saveStoreDataToCloud(); 
+            saveStoreData(); 
             renderHomeCategories();
             renderAdminCategories(); 
+        }
+
+        /* Local Storage & State Handlers */
+        function saveStoreData() {
+            try {
+                localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
+                localStorage.setItem('sera_topup_payments', JSON.stringify(PaymentNumbers));
+                localStorage.setItem('sera_topup_branding', JSON.stringify(SiteBranding));
+                localStorage.setItem('sera_topup_users_store', JSON.stringify(usersStore));
+            } catch(e) {}
+        }
+
+        function loadStoreData() {
+            try {
+                const p = localStorage.getItem('sera_topup_packages'); 
+                if(p) PackagesData = JSON.parse(p); 
+                else { PackagesData = DefaultPackagesData; saveStoreData(); }
+
+                const pay = localStorage.getItem('sera_topup_payments'); 
+                if(pay) PaymentNumbers = JSON.parse(pay); 
+                else PaymentNumbers = DefaultPaymentNumbers;
+
+                const b = localStorage.getItem('sera_topup_branding'); 
+                if(b) SiteBranding = JSON.parse(b); 
+                else SiteBranding = DefaultBranding;
+
+                const u = localStorage.getItem('sera_topup_users_store'); 
+                if(u) usersStore = JSON.parse(u);
+            } catch(e) {
+                PackagesData = DefaultPackagesData;
+                PaymentNumbers = DefaultPaymentNumbers;
+                SiteBranding = DefaultBranding;
+            }
+        }
+
+        function saveUserData() { 
+            if(currentUser) { 
+                usersStore[currentUser.email] = currentUser;
+                localStorage.setItem('sera_topup_user', JSON.stringify(currentUser)); 
+                saveStoreData(); 
+            } 
+        }
+
+        function loadUserData() { 
+            loadStoreData();
+            try {
+                const u = localStorage.getItem('sera_topup_user'); 
+                if(u) {
+                    currentUser = JSON.parse(u);
+                    if(currentUser && currentUser.email && usersStore[currentUser.email]) {
+                        currentUser = usersStore[currentUser.email];
+                    }
+                }
+            } catch(e) {}
+            checkProfileState(); 
+            updateCheckoutButtonState(); 
+        }
+
+        function saveOrders() { 
+            try {
+                localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList)); 
+            } catch(e) {}
+        }
+
+        function loadOrders() { 
+            try {
+                const o = localStorage.getItem('sera_topup_orders'); 
+                if(o) ordersList = JSON.parse(o); 
+            } catch(e) {}
         }
 
         function copyNumber() { navigator.clipboard.writeText(selectedPayNumber); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
