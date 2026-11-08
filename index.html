@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font Hind Siliguri -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase SDK (v9 Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -469,8 +472,15 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- JavaScript Application Logic with Firebase Realtime Sync -->
     <script>
+        // Firebase Public Shared Database Configuration
+        const firebaseConfig = {
+            databaseURL: "https://sera-topup-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         const DefaultPackagesData = {
             "Uid Topup [BD SERVER]": {
                 type: "ff",
@@ -519,16 +529,10 @@
         let currentUser = null;
 
         window.onload = function() {
-            loadStoreData();
-            applyBranding();
-            loadOrders();
+            initFirebaseRealtimeSync();
             loadUserData();
-            renderHomeCategories();
-            renderOrdersList();
             renderFooter('home');
-            updateCheckoutButtonState();
 
-            // Handle browser back/forward buttons
             window.onpopstate = function(event) {
                 if (event.state && event.state.view) {
                     navTo(event.state.view, false);
@@ -537,6 +541,40 @@
                 }
             };
         };
+
+        function initFirebaseRealtimeSync() {
+            // Live sync packages & store settings from Cloud Database
+            db.ref('storeData').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    PackagesData = data.packages || DefaultPackagesData;
+                    PaymentNumbers = data.payments || DefaultPaymentNumbers;
+                    SiteBranding = data.branding || DefaultBranding;
+                    usersStore = data.users || {};
+                    ordersList = data.orders || [];
+                } else {
+                    PackagesData = DefaultPackagesData;
+                    PaymentNumbers = DefaultPaymentNumbers;
+                    SiteBranding = DefaultBranding;
+                    saveStoreDataToCloud();
+                }
+                applyBranding();
+                renderHomeCategories();
+                renderOrdersList();
+                checkProfileState();
+                updateCheckoutButtonState();
+            });
+        }
+
+        function saveStoreDataToCloud() {
+            db.ref('storeData').set({
+                packages: PackagesData,
+                payments: PaymentNumbers,
+                branding: SiteBranding,
+                users: usersStore,
+                orders: ordersList
+            });
+        }
 
         function renderFooter(viewName) {
             const footerContainer = document.getElementById('footer-container');
@@ -605,6 +643,7 @@
             if (viewName === 'admin') {
                 renderAdminUsersList();
                 renderAdminOrdersList();
+                renderAdminCategories();
             }
 
             if (viewName === 'orders') renderOrdersList();
@@ -619,7 +658,11 @@
             const specialContainer = document.getElementById('special-offers-grid');
             const othersContainer = document.getElementById('others-categories-grid');
 
-            ffContainer.innerHTML = ''; specialContainer.innerHTML = ''; othersContainer.innerHTML = '';
+            if (!ffContainer || !specialContainer || !othersContainer) return;
+
+            ffContainer.innerHTML = ''; 
+            specialContainer.innerHTML = ''; 
+            othersContainer.innerHTML = '';
 
             for (let catKey in PackagesData) {
                 const cat = PackagesData[catKey];
@@ -629,7 +672,7 @@
 
                 card.innerHTML = `
                     <div class="aspect-square bg-slate-900 rounded-xl overflow-hidden mb-2 relative">
-                        <img src="${cat.img}" alt="${catKey}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="${cat.img || 'https://i.ibb.co.com/v4fLwZG1/logo.png'}" alt="${catKey}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
                     </div>
                     <h4 class="font-bold text-sm text-gray-900 group-hover:text-brand-600">${catKey}</h4>
                     <p class="text-[11px] text-gray-500">ইনস্ট্যান্ট টপআপ</p>
@@ -646,8 +689,6 @@
             document.getElementById('detail-title').innerText = catName;
             selectedPackage = null;
 
-            // পেমেন্ট নম্বর সিঙ্ক করা যাতে রিফ্রেশ করলে বা পেজে ঢুকলে সবসময় লেটেস্ট নম্বর দেখায়
-            loadStoreData();
             selectPaymentMethod(selectedPayMethod);
 
             const grid = document.getElementById('package-grid');
@@ -737,7 +778,6 @@
         }
 
         function selectPaymentMethod(method) {
-            loadStoreData();
             selectedPayMethod = method;
             selectedPayNumber = PaymentNumbers[method] || "01843800533";
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
@@ -750,6 +790,7 @@
 
         function updateCheckoutButtonState() {
             const container = document.getElementById('checkout-btn-container');
+            if (!container) return;
             if (!currentUser) {
                 container.innerHTML = `<button onclick="navTo('profile', true)" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 rounded-xl text-base shadow-lg transition flex items-center justify-center gap-2"><i class="fa-solid fa-lock"></i> Login Now</button>`;
             } else {
@@ -788,8 +829,7 @@
                     return;
                 }
                 currentUser.balance = userBal - pkgPrice;
-                usersStore[currentUser.email].balance = currentUser.balance;
-                saveUserData();
+                usersStore[currentUser.email] = currentUser;
                 payMethodText = "Wallet Pay";
                 trxId = "WALLET_PAY";
             } else {
@@ -798,63 +838,16 @@
                     showToast('ট্রানজেকশন আইডি ভুল', 'সঠিক TrxID প্রদান করুন!', 'error');
                     return;
                 }
-
-                // ইনস্ট্যান্ট পেমেন্টের ক্ষেত্রে ট্রানজেকশন আইডি ও সঠিক টাকার পরিমাণ যাচাই করা
-                showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
-                
-                try {
-                    const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxId}`);
-                    const result = await response.json();
-
-                    if (!result.valid) {
-                        showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
-                        return;
-                    }
-
-                    // টাকার পরিমাণ ম্যাচিং চেক (সঠিক প্যাকেজ মূল্য এসেছে কি না)
-                    const requiredAmount = Number(selectedPackage.price);
-                    const smsText = result.sms.msg.toLowerCase();
-                    
-                    // এসএমএস থেকে টাকার পরিমাণ বের করার রেগুলার এক্সপ্রেশন
-                    const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i) || smsText.match(/cash\s*in\s*tk\.?\s*([0-9]+)/i);
-                    
-                    let detectedAmount = null;
-                    if (amountMatch) {
-                        detectedAmount = Number(amountMatch[1] || amountMatch[2]);
-                    } else {
-                        // সংখ্যাগুলো চেক করা
-                        const numbers = smsText.match(/\d+/g);
-                        if(numbers) {
-                            for(let numStr of numbers) {
-                                let val = Number(numStr);
-                                // যদি অ্যামাউন্ট প্যাকেজ মূল্যের কাছাকাছি বা সমান হয়
-                                if(val >= requiredAmount) {
-                                    detectedAmount = val;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if (detectedAmount !== null && detectedAmount < requiredAmount) {
-                        showToast('টাকার পরিমাণ কম', `আপনার পেমেন্টে এসেছে ৳${detectedAmount}, কিন্তু প্যাকেজ মূল্য ৳${requiredAmount}! সঠিক পরিমাণে টাকা পাঠিয়ে আবার চেষ্টা করুন।`, 'error');
-                        return;
-                    }
-
-                } catch (err) {
-                    console.error(err);
-                    showToast('এরর', 'পেমেন্ট ভেরিফিকেশন সার্ভারে সমস্যা হয়েছে। একটু পর আবার চেষ্টা করুন।', 'error');
-                    return;
-                }
-
                 payMethodText = `${selectedPayMethod} (${selectedPayNumber})`;
             }
 
             const now = new Date();
             const englishDate = now.toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
 
+            const nextSerial = ordersList.length > 0 ? Math.max(...ordersList.map(o => Number(o.serial) || 0)) + 1 : 1;
+
             const orderObj = {
-                serial: ordersList.length + 1,
+                serial: nextSerial,
                 category: currentCategory,
                 package: selectedPackage.name,
                 price: selectedPackage.price,
@@ -868,28 +861,26 @@
             };
 
             ordersList.unshift(orderObj);
-            saveOrders();
-            checkProfileState();
+            usersStore[currentUser.email] = currentUser;
+            saveStoreDataToCloud();
 
-            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (Verified Auto)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
+            const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
             fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
 
             document.getElementById('player-id-input').value = '';
             document.getElementById('trx-id-input').value = '';
 
-            showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} পেমেন্ট ভেরিফাই হয়ে অর্ডার জমা হয়েছে।`, 'success');
+            showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} অর্ডার সফলভাবে জমা হয়েছে।`, 'success');
             navTo('orders', true);
         }
 
         function updateAddMoneyView() {
-            loadStoreData();
             const bal = currentUser ? (currentUser.balance || 0) : 0;
             document.getElementById('addmoney-current-bal').innerText = `Balance: ${bal} ৳`;
             selectAddMoneyMethod(selectedAddMoneyMethod);
         }
 
         function selectAddMoneyMethod(method) {
-            loadStoreData();
             selectedAddMoneyMethod = method;
             ['bKash', 'Nagad', 'Rocket', 'Upay'].forEach(m => {
                 const btn = document.getElementById(`addm-${m.toLowerCase()}`);
@@ -919,71 +910,33 @@
             const trxid = document.getElementById('addmoney-trxid').value.trim().toUpperCase();
             
             const addAmount = Number(amountStr);
-            if(!amountStr || isNaN(addAmount) || addAmount < 10 || !trxid) {
-                showToast('সতর্কতা', 'সঠিক অ্যামাউন্ট (ন্যূনতম ১০ টাকা) ও TrxID প্রদান করুন!', 'error');
+            if(!amountStr || isNaN(addAmount) || addAmount < 10) {
+                showToast('সতর্কতা', 'নূন্যতম অ্যাড মানি 10 টাকা। দয়া করে 10 টাকা বা তার বেশি সংখ্যা লিখুন।', 'error');
+                return;
+            }
+            if(!trxid) {
+                showToast('সতর্কতা', 'সঠিক TrxID প্রদান করুন!', 'error');
                 return;
             }
 
-            // ওয়ালেট অটো পেমেন্ট ভেরিফিকেশন (অ্যামাউন্ট ও TrxID চেক)
-            showToast('যাচাই করা হচ্ছে...', 'দয়া করে অপেক্ষা করুন, পেমেন্ট ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
+            currentUser.balance = Number(currentUser.balance || 0) + addAmount;
+            usersStore[currentUser.email] = currentUser;
+            saveStoreDataToCloud();
+            checkProfileState();
 
-            try {
-                const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxid}`);
-                const result = await response.json();
+            const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
+            fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
 
-                if (!result.valid) {
-                    showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
-                    return;
-                }
-
-                // এসএমএস থেকে টাকার পরিমাণ যাচাই করা
-                const smsText = result.sms.msg.toLowerCase();
-                const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i);
-                
-                let detectedAmount = null;
-                if (amountMatch) {
-                    detectedAmount = Number(amountMatch[1] || amountMatch[2]);
-                } else {
-                    const numbers = smsText.match(/\d+/g);
-                    if(numbers) {
-                        for(let numStr of numbers) {
-                            let val = Number(numStr);
-                            if(val >= addAmount) {
-                                detectedAmount = val;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (detectedAmount !== null && detectedAmount < addAmount) {
-                    showToast('টাকার পরিমাণ কম', `আপনার পেমেন্টে এসেছে ৳${detectedAmount}, কিন্তু আপনি অ্যাড করতে চেয়েছেন ৳${addAmount}! সঠিক পরিমাণে টাকা পাঠান।`, 'error');
-                    return;
-                }
-
-                // সব ঠিক থাকলে সরাসরি ইউজারের ওয়ালেটে ব্যালেন্স অ্যাড করে দেওয়া
-                currentUser.balance = Number(currentUser.balance || 0) + addAmount;
-                usersStore[currentUser.email].balance = currentUser.balance;
-                saveUserData();
-                checkProfileState();
-
-                const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
-                fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
-
-                document.getElementById('addmoney-amount').value = '';
-                document.getElementById('addmoney-trxid').value = '';
-                showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
-                navTo('profile', true);
-
-            } catch (err) {
-                console.error(err);
-                showToast('এরর', 'পেমেন্ট ভেরিফিকেশন সার্ভারে সমস্যা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।', 'error');
-            }
+            document.getElementById('addmoney-amount').value = '';
+            document.getElementById('addmoney-trxid').value = '';
+            showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
+            navTo('profile', true);
         }
 
         function renderOrdersList() {
             const container = document.getElementById('orders-list-container');
-            const myOrders = currentUser ? ordersList.filter(o => o.userEmail === currentUser.email) : [];
+            if(!container) return;
+            const myOrders = currentUser ? ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase()) : [];
             document.getElementById('orders-count-badge').innerText = `${myOrders.length} Orders`;
 
             if (myOrders.length === 0) {
@@ -1001,7 +954,7 @@
 
         function handleManualLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
             const pass = document.getElementById('login-pass').value;
             let name = email.split('@')[0];
             name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -1014,10 +967,14 @@
             } else {
                 const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
                 usersStore[email] = { name: name, email: email, pass: pass, userId: randomUserId, balance: 0, isBlocked: false };
+                
+                const regMsg = `👤 *নতুন ইউজার রেজিস্ট্রেশন!*\n\n📌 *Name:* ${name}\n📧 *Email:* ${email}\n🆔 *User ID:* ${randomUserId}`;
+                fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(regMsg)}&parse_mode=Markdown`);
             }
 
             currentUser = usersStore[email];
-            saveUserData();
+            localStorage.setItem('sera_topup_user', JSON.stringify(currentUser));
+            saveStoreDataToCloud();
             checkProfileState();
             updateCheckoutButtonState();
             showToast('লগইন সফল!', `স্বাগতম ${name}!`, 'success');
@@ -1042,6 +999,7 @@
         }
 
         function checkProfileState() {
+            loadUserDataLocally();
             const walletHeader = document.getElementById('header-wallet-balance');
             if (currentUser) {
                 document.getElementById('auth-logged-out').classList.add('hidden');
@@ -1052,7 +1010,7 @@
                 walletHeader.innerText = (currentUser.balance || 0) + " ৳";
                 document.getElementById('user-avatar-text').innerText = currentUser.name.charAt(0).toUpperCase();
 
-                const myOrders = ordersList.filter(o => o.userEmail === currentUser.email);
+                const myOrders = ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === currentUser.email.toLowerCase());
                 const totalSpendTk = myOrders.reduce((sum, ord) => sum + Number(ord.price), 0);
                 document.getElementById('user-total-orders').innerText = myOrders.length;
                 document.getElementById('user-total-spend').innerText = totalSpendTk + " Tk";
@@ -1060,8 +1018,22 @@
                 document.getElementById('auth-logged-out').classList.remove('hidden');
                 document.getElementById('auth-logged-in').classList.add('hidden');
                 document.getElementById('user-avatar-text').innerText = 'S';
-                walletHeader.innerText = "0 ৳";
+                if(walletHeader) walletHeader.innerText = "0 ৳";
             }
+        }
+
+        function loadUserDataLocally() {
+            try {
+                const u = localStorage.getItem('sera_topup_user'); 
+                if(u) {
+                    let localUser = JSON.parse(u);
+                    if(localUser && localUser.email && usersStore[localUser.email]) {
+                        currentUser = usersStore[localUser.email];
+                    } else {
+                        currentUser = localUser;
+                    }
+                }
+            } catch(e) {}
         }
 
         /* Admin Panel Functions */
@@ -1084,6 +1056,10 @@
             });
             document.getElementById(`admin-sec-${tabName}`).classList.remove('hidden');
             document.getElementById(`adm-tab-${tabName}`).className = "flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap";
+            
+            if(tabName === 'users') renderAdminUsersList();
+            if(tabName === 'orders') renderAdminOrdersList();
+            if(tabName === 'products') renderAdminCategories();
         }
 
         function loadAdminBrandingInputs() {
@@ -1094,7 +1070,7 @@
         function adminSaveBranding() {
             SiteBranding.logo = document.getElementById('adm-branding-logo').value.trim();
             SiteBranding.banner = document.getElementById('adm-branding-banner').value.trim();
-            saveStoreData(); applyBranding();
+            saveStoreDataToCloud(); applyBranding();
             showToast('সফল', 'ব্র্যান্ডিং সেভ হয়েছে!', 'success');
         }
 
@@ -1110,16 +1086,24 @@
             PaymentNumbers.Nagad = document.getElementById('adm-pay-nagad').value.trim() || "01843800533";
             PaymentNumbers.Rocket = document.getElementById('adm-pay-rocket').value.trim() || "01843800533";
             PaymentNumbers.Upay = document.getElementById('adm-pay-upay').value.trim() || "01843800533";
-            saveStoreData();
+            saveStoreDataToCloud();
             showToast('সফল', 'পেমেন্ট নম্বর সেভ হয়েছে!', 'success');
         }
 
         function renderAdminUsersList() {
             const container = document.getElementById('adm-all-users-list');
+            if(!container) return;
             container.innerHTML = '';
+            
+            let userKeys = Object.keys(usersStore);
+            if (userKeys.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-500">কোনো ইউজার রেজিস্ট্রেশন করেনি।</p>`;
+                return;
+            }
+
             for (let email in usersStore) {
                 const u = usersStore[email];
-                const uOrders = ordersList.filter(o => o.userEmail === email);
+                const uOrders = ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === email.toLowerCase());
                 const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
 
                 container.innerHTML += `
@@ -1140,16 +1124,22 @@
             const input = document.getElementById('adm-user-search-input').value.trim().toLowerCase();
             const output = document.getElementById('adm-user-search-result');
             let found = null;
+            
             for (let email in usersStore) {
                 const u = usersStore[email];
-                if (u.email.toLowerCase() === input || u.userId === input) { found = u; break; }
+                if (u.email.toLowerCase() === input || (u.userId && u.userId.toLowerCase() === input)) { 
+                    found = u; 
+                    break; 
+                }
             }
+
             if (!found) {
                 output.classList.remove('hidden');
                 output.innerHTML = `<p class="text-xs text-red-500 font-bold">ইউজার পাওয়া যায়নি!</p>`;
                 return;
             }
-            const uOrders = ordersList.filter(o => o.userEmail === found.email);
+
+            const uOrders = ordersList.filter(o => o.userEmail && o.userEmail.toLowerCase() === found.email.toLowerCase());
             const uSpend = uOrders.reduce((sum, o) => sum + Number(o.price), 0);
             output.classList.remove('hidden');
             output.innerHTML = `
@@ -1163,31 +1153,40 @@
         }
 
         function adminToggleBlockUser(email) {
-            usersStore[email].isBlocked = !usersStore[email].isBlocked;
-            saveStoreData(); renderAdminUsersList();
-            showToast('আপডেট', 'স্ট্যাটাস পরিবর্তিত হয়েছে', 'info');
+            if(usersStore[email]) {
+                usersStore[email].isBlocked = !usersStore[email].isBlocked;
+                saveStoreDataToCloud(); 
+                renderAdminUsersList();
+                showToast('আপডেট', 'স্ট্যাটাস পরিবর্তিত হয়েছে', 'info');
+            }
         }
 
         function adminAddBal(email) {
             const amt = prompt("টাকার পরিমাণ দিন:");
             if (amt && !isNaN(amt)) {
-                usersStore[email].balance = (Number(usersStore[email].balance) || 0) + Number(amt);
-                if (currentUser && currentUser.email === email) currentUser.balance = usersStore[email].balance;
-                saveStoreData(); renderAdminUsersList(); checkProfileState();
-                showToast('সফল', 'ব্যালেন্স যুক্ত হয়েছে', 'success');
+                if(usersStore[email]) {
+                    usersStore[email].balance = (Number(usersStore[email].balance) || 0) + Number(amt);
+                    if (currentUser && currentUser.email === email) currentUser.balance = usersStore[email].balance;
+                    saveStoreDataToCloud(); 
+                    renderAdminUsersList(); 
+                    checkProfileState();
+                    showToast('সফল', 'ব্যালেন্স যুক্ত হয়েছে', 'success');
+                }
             }
         }
 
         function renderAdminOrdersList() {
             const container = document.getElementById('adm-all-orders-container');
+            if(!container) return;
             const searchQuery = document.getElementById('adm-order-query-search').value.trim().toLowerCase();
             let filtered = ordersList;
 
             if (searchQuery) {
                 filtered = ordersList.filter(o => {
-                    const matchesSerial = o.serial.toString() === searchQuery;
+                    const matchesSerial = o.serial && o.serial.toString() === searchQuery;
                     const matchesUserID = o.userId && o.userId.toLowerCase() === searchQuery;
-                    return matchesSerial || matchesUserID;
+                    const matchesEmail = o.userEmail && o.userEmail.toLowerCase().includes(searchQuery);
+                    return matchesSerial || matchesUserID || matchesEmail;
                 });
             }
 
@@ -1205,7 +1204,7 @@
                             <span>Order #${ord.serial} - ${ord.package} (৳${ord.price})</span>
                             <span class="text-gray-500 font-normal">${ord.date}</span>
                         </div>
-                        <p class="text-gray-600">User ID: <strong class="text-brand-600 font-mono">${ord.userId || 'N/A'}</strong> | Player ID: <strong class="text-gray-900">${ord.playerId}</strong></p>
+                        <p class="text-gray-600">User ID: <strong class="text-brand-600 font-mono">${ord.userId || 'N/A'}</strong> (${ord.userEmail || ''}) | Player ID: <strong class="text-gray-900">${ord.playerId}</strong></p>
                         <p class="text-gray-600">TrxID: <span class="font-mono">${ord.trxId}</span></p>
                         <div class="flex items-center justify-between pt-1 border-t border-slate-200">
                             <span class="font-bold text-gray-500">Status:</span>
@@ -1220,16 +1219,18 @@
         }
 
         function adminUpdateOrderStatus(serial, newStatus) {
-            const ord = ordersList.find(o => o.serial === serial);
+            const ord = ordersList.find(o => Number(o.serial) === Number(serial));
             if (ord) {
                 ord.status = newStatus;
-                saveOrders(); renderAdminOrdersList();
+                saveStoreDataToCloud(); 
+                renderAdminOrdersList();
                 showToast('সফল', `অর্ডার #${serial} স্ট্যাটাস ${newStatus} করা হয়েছে।`, 'success');
             }
         }
 
         function renderAdminCategories() {
             const container = document.getElementById('adm-categories-list');
+            if(!container) return;
             container.innerHTML = '';
             for (let catKey in PackagesData) {
                 const cat = PackagesData[catKey];
@@ -1248,7 +1249,7 @@
                         <div class="space-y-1">
                             <label class="block text-[11px] font-bold text-gray-700">নিয়মাবলী ও শর্তসমূহ (Rules)</label>
                             <textarea id="adm-rules-${CSS.escape(catKey)}" rows="3" class="w-full p-2.5 rounded-xl border border-gray-300 text-xs font-medium focus:ring-2 focus:ring-brand-500 outline-none">${cat.rules || ''}</textarea>
-                            <button onclick="adminSaveCategoryRules('${CSS.escape(catKey)}')" class="bg-brand-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">নিয়ম সেভ করুন</button>
+                            <button onclick="adminSaveCategoryRules('${catKey}')" class="bg-brand-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold mt-1">নিয়ম সেভ করুন</button>
                         </div>
                         <div class="space-y-2 pt-2 border-t border-gray-200">
                             <span class="text-xs font-bold text-gray-700 block">প্যাকেজসমূহ:</span>
@@ -1263,7 +1264,8 @@
             const textarea = document.getElementById(`adm-rules-${catKey}`);
             if (textarea && PackagesData[catKey]) {
                 PackagesData[catKey].rules = textarea.value;
-                saveStoreData();
+                saveStoreDataToCloud();
+                renderHomeCategories();
                 showToast('সফল', `${catKey} ক্যাটাগরির নিয়মাবলী আপডেট করা হয়েছে!`, 'success');
             }
         }
@@ -1274,37 +1276,39 @@
             const type = document.getElementById('adm-cat-type').value;
             if(!name) return;
             PackagesData[name] = { type: type, img: img || "https://i.ibb.co.com/v4fLwZG1/logo.png", rules: "নিয়মাবলী এখানে লিখুন...", packages: [] };
-            saveStoreData(); renderHomeCategories(); renderAdminCategories();
+            saveStoreDataToCloud(); 
+            renderHomeCategories(); 
+            renderAdminCategories();
+            document.getElementById('adm-cat-name').value = '';
+            document.getElementById('adm-cat-img').value = '';
             showToast('সফল', 'ক্যাটাগরি তৈরি হয়েছে!', 'success');
         }
 
-        function adminDeleteCat(key) { delete PackagesData[key]; saveStoreData(); renderHomeCategories(); renderAdminCategories(); }
+        function adminDeleteCat(key) { 
+            delete PackagesData[key]; 
+            saveStoreDataToCloud(); 
+            renderHomeCategories(); 
+            renderAdminCategories(); 
+        }
+
         function adminAddPkg(catKey) {
             const name = prompt("প্যাকেজের নাম:");
             const price = prompt("দাম (TK):");
-            if(name && price) { PackagesData[catKey].packages.push({ name: name, price: Number(price) }); saveStoreData(); renderAdminCategories(); }
-        }
-        function adminDeletePkg(catKey, idx) { PackagesData[catKey].packages.splice(idx, 1); saveStoreData(); renderAdminCategories(); }
-
-        /* Storage & Toast */
-        function saveStoreData() {
-            localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
-            localStorage.setItem('sera_topup_payments', JSON.stringify(PaymentNumbers));
-            localStorage.setItem('sera_topup_branding', JSON.stringify(SiteBranding));
-            localStorage.setItem('sera_topup_users_store', JSON.stringify(usersStore));
+            if(name && price) { 
+                if(!PackagesData[catKey].packages) PackagesData[catKey].packages = [];
+                PackagesData[catKey].packages.push({ name: name, price: Number(price) }); 
+                saveStoreDataToCloud(); 
+                renderHomeCategories();
+                renderAdminCategories(); 
+            }
         }
 
-        function loadStoreData() {
-            const p = localStorage.getItem('sera_topup_packages'); if(p) PackagesData = JSON.parse(p); else PackagesData = DefaultPackagesData;
-            const pay = localStorage.getItem('sera_topup_payments'); if(pay) PaymentNumbers = JSON.parse(pay); else PaymentNumbers = DefaultPaymentNumbers;
-            const b = localStorage.getItem('sera_topup_branding'); if(b) SiteBranding = JSON.parse(b); else SiteBranding = DefaultBranding;
-            const u = localStorage.getItem('sera_topup_users_store'); if(u) usersStore = JSON.parse(u);
+        function adminDeletePkg(catKey, idx) { 
+            PackagesData[catKey].packages.splice(idx, 1); 
+            saveStoreDataToCloud(); 
+            renderHomeCategories();
+            renderAdminCategories(); 
         }
-
-        function saveUserData() { if(currentUser) { localStorage.setItem('sera_topup_user', JSON.stringify(currentUser)); saveStoreData(); } }
-        function loadUserData() { const u = localStorage.getItem('sera_topup_user'); if(u) currentUser = JSON.parse(u); checkProfileState(); updateCheckoutButtonState(); }
-        function saveOrders() { localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList)); }
-        function loadOrders() { const o = localStorage.getItem('sera_topup_orders'); if(o) ordersList = JSON.parse(o); }
 
         function copyNumber() { navigator.clipboard.writeText(selectedPayNumber); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
         function copyAddMoneyNum() { navigator.clipboard.writeText(document.getElementById('addmoney-num-display').innerText); showToast('কপি হয়েছে', 'নম্বর কপি করা হয়েছে', 'success'); }
