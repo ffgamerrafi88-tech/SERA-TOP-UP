@@ -143,6 +143,11 @@ function initFirebaseRealtimeSync() {
             renderHomeCategories();
             renderOrdersList();
             checkProfileState();
+            if(document.getElementById('view-admin') && !document.getElementById('view-admin').classList.contains('hidden')) {
+                renderAdminUsersList();
+                renderAdminOrdersList();
+                renderAdminCategories();
+            }
         }
     }, (error) => {
         console.log("Using local offline storage mode.");
@@ -702,8 +707,7 @@ function handleManualLogin(e) {
     } else {
         const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
         usersStore[email] = { name: name, email: email, pass: pass, userId: randomUserId, balance: 0, isBlocked: false };
-        
-        // নতুন ইউজার রেজিস্ট্রেশনের টেলিগ্রাম নোটিফিকেশন বন্ধ করা হলো
+        // নতুন ইউজার রেজিস্ট্রেশনের টেলিগ্রাম নোটিফিকেশন বন্ধ রাখা হয়েছে
     }
 
     currentUser = usersStore[email];
