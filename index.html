@@ -472,9 +472,8 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic with Robust Firebase Integration -->
+    <!-- JavaScript Application Logic with Safe Hybrid Fallback -->
     <script>
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAcGK0qUTeYvBMcxR3pL2IVaq34KXIuuUk",
             authDomain: "sera-top-up-a2d73.firebaseapp.com",
@@ -485,7 +484,6 @@
             measurementId: "G-R3YH2YF39H"
         };
         
-        // Safely Initialize Firebase without duplication
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -525,23 +523,32 @@
         const TELEGRAM_TOKEN = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
         const TELEGRAM_CHAT_ID = "8598185365";
 
-        let PackagesData = JSON.parse(JSON.stringify(DefaultPackagesData));
-        let PaymentNumbers = JSON.parse(JSON.stringify(DefaultPaymentNumbers));
-        let SiteBranding = JSON.parse(JSON.stringify(DefaultBranding));
+        // Local Fallback Initializers
+        let PackagesData = JSON.parse(localStorage.getItem('sera_topup_packages') || JSON.stringify(DefaultPackagesData));
+        let PaymentNumbers = JSON.parse(localStorage.getItem('sera_topup_payments') || JSON.stringify(DefaultPaymentNumbers));
+        let SiteBranding = JSON.parse(localStorage.getItem('sera_topup_branding') || JSON.stringify(DefaultBranding));
+        let ordersList = JSON.parse(localStorage.getItem('sera_topup_orders') || "[]");
+        let usersStore = JSON.parse(localStorage.getItem('sera_topup_users') || "{}");
+        let currentUser = null;
+
         let currentCategory = "";
         let selectedPackage = null;
         let selectedPayType = "instant";
         let selectedPayMethod = "bKash";
         let selectedPayNumber = "01843800533";
         let selectedAddMoneyMethod = "bKash";
-        let ordersList = [];
-        let usersStore = {};
-        let currentUser = null;
 
         window.onload = function() {
-            initFirebaseRealtimeSync();
             loadUserDataLocally();
+            applyBranding();
+            renderHomeCategories();
+            renderOrdersList();
+            checkProfileState();
+            updateCheckoutButtonState();
             renderFooter('home');
+
+            // Background Firebase Sync
+            initFirebaseRealtimeSync();
 
             window.onpopstate = function(event) {
                 if (event.state && event.state.view) {
@@ -556,32 +563,45 @@
             db.ref('storeData').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    PackagesData = data.packages || DefaultPackagesData;
-                    PaymentNumbers = data.payments || DefaultPaymentNumbers;
-                    SiteBranding = data.branding || DefaultBranding;
-                    usersStore = data.users || {};
-                    ordersList = data.orders || [];
-                } else {
-                    saveStoreDataToCloud();
+                    if (data.packages) PackagesData = data.packages;
+                    if (data.payments) PaymentNumbers = data.payments;
+                    if (data.branding) SiteBranding = data.branding;
+                    if (data.users) usersStore = data.users;
+                    if (data.orders) ordersList = data.orders;
+
+                    // Sync local cache
+                    localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
+                    localStorage.setItem('sera_topup_payments', JSON.stringify(PaymentNumbers));
+                    localStorage.setItem('sera_topup_branding', JSON.stringify(SiteBranding));
+                    localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList));
+                    localStorage.setItem('sera_topup_users', JSON.stringify(usersStore));
+
+                    applyBranding();
+                    renderHomeCategories();
+                    renderOrdersList();
+                    checkProfileState();
                 }
-                applyBranding();
-                renderHomeCategories();
-                renderOrdersList();
-                checkProfileState();
-                updateCheckoutButtonState();
             }, (error) => {
-                console.error("Firebase sync error: ", error);
+                console.log("Using local offline storage mode.");
             });
         }
 
         function saveStoreDataToCloud() {
+            // Save locally first to prevent any lag
+            localStorage.setItem('sera_topup_packages', JSON.stringify(PackagesData));
+            localStorage.setItem('sera_topup_payments', JSON.stringify(PaymentNumbers));
+            localStorage.setItem('sera_topup_branding', JSON.stringify(SiteBranding));
+            localStorage.setItem('sera_topup_orders', JSON.stringify(ordersList));
+            localStorage.setItem('sera_topup_users', JSON.stringify(usersStore));
+
+            // Then push to cloud
             db.ref('storeData').set({
                 packages: PackagesData,
                 payments: PaymentNumbers,
                 branding: SiteBranding,
                 users: usersStore,
                 orders: ordersList
-            });
+            }).catch(err => console.log("Cloud sync pending"));
         }
 
         function renderFooter(viewName) {
@@ -1242,6 +1262,7 @@
             if(bkEl) bkEl.value = PaymentNumbers.bKash || "";
             if(ngEl) ngEl.value = PaymentNumbers.Nagad || "";
             if(rkEl) rkEl.value = PaymentNumbers.Rocket || "";
+            if(upEl) cpEl = PaymentNumbers.Upay || ""; // fallback
             if(upEl) upEl.value = PaymentNumbers.Upay || "";
         }
 
@@ -1485,7 +1506,7 @@
         function adminDeletePkg(catKey, idx) { 
             if(PackagesData[catKey] && PackagesData[catKey].packages) {
                 PackagesData[catKey].packages.splice(idx, 1); 
-                saveStoreDataToCloud(); 
+                saveStoreDataRealtime ? saveStoreDataToCloud() : saveStoreDataToCloud();
                 renderHomeCategories();
                 renderAdminCategories(); 
             }
