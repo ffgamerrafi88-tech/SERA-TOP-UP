@@ -990,7 +990,7 @@
             const trxid = trxInputEl.value.trim().toUpperCase();
             
             const addAmount = Number(amountStr);
-            // কোডে চাওয়া নতুন নোটিফিকেশন মেসেজ আপডেট করা হলো
+            // আপনার দেওয়া নির্দিষ্ট মেসেজ এখানে সেট করা হলো
             if(!amountStr || isNaN(addAmount) || addAmount < 10 || !trxid) {
                 showToast('সতর্কতা', 'নূন্যতম অ্যাড মানি 10 টাকা। দয়া করে 10 বা এর বেশি সংখ্যা লিখুন', 'error');
                 return;
