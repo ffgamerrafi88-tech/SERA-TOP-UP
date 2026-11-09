@@ -1,15 +1,15 @@
 const DefaultPackagesData = {
     "FF Like": {
         type: "special",
-        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        img: "https://i.postimg.cc/wygWGchZ/FF-Like.jpg",
         rules: "• শুধুমাত্র বাংলাদেশ সার্ভারে UID দিয়ে লাইক দেওয়া হয়।\n• ভুল UID দিয়ে লাইক না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• প্রতি ২৪ ঘণ্টায় এক আইডি এক বারই অর্ডার করা যাবে। ২৪ ঘণ্টায় এক আইডি তে বা অর্ডার করে লাইক না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• লাইক পেতে দেরি হলে বা যে কোন সমস্যায় পড়লে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
-            { name: "220 Like", price: 30 }
+            { name: "220 Like", price: 25 }
         ]
     },
     "UID Top Up [BD SERVER]": {
         type: "ff",
-        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        img: "https://bdtopup.store/uploads/media/260/01KGAX7XFP7W8KXK4C4MY76297.jpg",
         rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
             { name: "25 Diamond", price: 22 },
@@ -33,7 +33,7 @@ const DefaultPackagesData = {
     },
     "Weekly/Monthly": {
         type: "ff",
-        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Wekkly-monthly-membership-.webp",
         rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
             { name: "Weekly", price: 153 },
@@ -50,7 +50,7 @@ const DefaultPackagesData = {
     },
     "Weekly Lite (BD Server)": {
         type: "ff",
-        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Weekly-Lite.webp",
         rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
             { name: "1X Weekly Lite", price: 45 },
@@ -62,7 +62,7 @@ const DefaultPackagesData = {
     },
     "Level Up Pass": {
         type: "ff",
-        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Level-Up-Pass.webp",
         rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
             { name: "Level Up Package-Level 6 120💎", price: 43 },
@@ -818,4 +818,3 @@ function closeToast() {
     const modal = document.getElementById('toast-modal');
     if(modal) modal.classList.add('hidden'); 
 }
-
