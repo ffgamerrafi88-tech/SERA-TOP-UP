@@ -1,3 +1,120 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERA TOP UP - Free Fire Diamond Top Up</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Hind Siliguri -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'Segoe UI', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f4f6f9;
+            user-select: text;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 pb-28 min-h-screen flex flex-col justify-between">
+
+    <div>
+        <!-- Top Sticky Header -->
+        <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-4xl mx-auto px-4 py-2.5 flex items-center justify-between">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="navTo('home', true)">
+                    <img id="site-logo-img" src="https://i.ibb.co.com/v4fLwZG1/logo.png" alt="Logo" class="w-10 h-10 rounded-xl object-cover shadow-md shadow-brand-500/30" onerror="this.src='https://i.ibb.co.com/v4fLwZG1/logo.png'">
+                    <div>
+                        <h1 class="text-xl font-extrabold text-gray-900 tracking-tight leading-none">SERA <span class="text-brand-600">TOP UP</span></h1>
+                        <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Fast & Trusted Game TopUp</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <div onclick="navTo('addmoney', true)" class="bg-brand-50 border border-brand-200 px-3 py-1.5 rounded-full flex items-center gap-2 cursor-pointer hover:bg-brand-100 transition shadow-sm">
+                        <i class="fa-solid fa-wallet text-brand-600 text-xs sm:text-sm"></i>
+                        <span id="header-wallet-balance" class="font-extrabold text-xs sm:text-sm text-brand-700">0 ৳</span>
+                        <span class="bg-brand-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold">+</span>
+                    </div>
+
+                    <div id="user-header-avatar" onclick="navTo('profile', true)" class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow-sm cursor-pointer overflow-hidden">
+                        <span id="user-avatar-text">S</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dynamic View Container -->
+        <main class="max-w-4xl mx-auto px-4 pt-4 space-y-6">
+
+            <!-- ================= VIEW 1: HOME PAGE ================= -->
+            <section id="view-home" class="space-y-6">
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 rounded-r-xl shadow-sm">
+                    <div class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg mt-0.5"></i>
+                        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
+                            <strong>নোটিশ:</strong> মা-বাবা বা ফ্যামিলির কারো ফোন থেকে না বলে টাকা পাঠিয়ে টপ-আপ করলে তার অ্যাকাউন্ট স্থায়ীভাবে ব্লক করা হবে। যেকোনো সমস্যায় হেল্প পেতে টেলিগ্রাম চ্যাটে মেসেজ দিন।
+                        </p>
+                    </div>
+                </div>
+
+                <div id="home-banner-container" class="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-emerald-700 to-teal-900 text-white p-6 sm:p-8">
+                    <img id="home-banner-img" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Banner">
+                    <div id="home-banner-text" class="relative z-10 space-y-3 max-w-lg">
+                        <span class="bg-amber-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Instant Auto Delivery</span>
+                        <h2 class="text-2xl sm:text-4xl font-black leading-snug">ফ্রি ফায়ার ডায়মন্ড <br><span class="text-amber-300">ইনস্ট্যান্ট টপ-আপ</span></h2>
+                        <p class="text-xs sm:text-sm text-emerald-100">বাংলাদেশ সার্ভারে সর্বনিম্ন দামে সর্বোচ্চ বিশ্বস্ততায় নিন ইউআইডি টপ-আপ!</p>
+                    </div>
+                    <div class="absolute right-[-10px] bottom-[-10px] opacity-20 text-8xl sm:text-9xl text-white">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Special Offer
+                    </h3>
+                    <div id="special-offers-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5"></div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> FF Categories
+                    </h3>
+                    <div id="ff-categories-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5"></div>
+                </div>
+
+                <div class="space-y-3">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500 inline-block"></span> Others
+                    </h3>
+                    <div id="others-categories-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5"></div>
+                </div>
+            </section>
+
             <!-- ================= VIEW 2: DETAILS PAGE ================= -->
             <section id="view-details" class="hidden space-y-6 max-w-2xl mx-auto">
                 <button onclick="navTo('home', true)" class="flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 transition">
@@ -92,3 +209,271 @@
                     </ul>
                 </div>
             </section>
+
+            <!-- ================= VIEW 3: ADD MONEY PAGE ================= -->
+            <section id="view-addmoney" class="hidden space-y-6 max-w-xl mx-auto">
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 space-y-5">
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                        <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-wallet text-brand-500"></i> Add Money to Wallet
+                        </h2>
+                        <span id="addmoney-current-bal" class="bg-brand-50 text-brand-700 font-extrabold text-xs px-3 py-1 rounded-full">Balance: 0 ৳</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Amount (TK)</label>
+                            <input type="number" id="addmoney-amount" placeholder="e.g. 500" class="w-full px-4 py-3 rounded-xl border border-gray-300 font-bold text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-700">Select Payment Method</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <button type="button" onclick="selectAddMoneyMethod('bKash')" id="addm-bkash" class="p-3 border-2 border-brand-500 bg-brand-50 font-bold text-xs rounded-xl text-brand-700">bKash</button>
+                                <button type="button" onclick="selectAddMoneyMethod('Nagad')" id="addm-nagad" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Nagad</button>
+                                <button type="button" onclick="selectAddMoneyMethod('Rocket')" id="addm-rocket" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Rocket</button>
+                                <button type="button" onclick="selectAddMoneyMethod('Upay')" id="addm-upay" class="p-3 border-2 border-gray-200 bg-gray-50 font-bold text-xs rounded-xl text-gray-700">Upay</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
+                            <p class="font-semibold text-gray-700"><span id="addmoney-method-name">bKash</span> Send Money Number:</p>
+                            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-300">
+                                <span id="addmoney-num-display" class="font-mono font-bold text-base text-gray-900">01843800533</span>
+                                <button onclick="copyAddMoneyNum()" class="bg-brand-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs">Copy</button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">TrxID (Transaction ID)</label>
+                            <input type="text" id="addmoney-trxid" placeholder="e.g. 9N7A8B6C" class="w-full uppercase px-4 py-3 rounded-xl border border-gray-300 font-mono font-bold text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+
+                        <button onclick="submitAddMoneyRequest()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
+                            Add Money
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 4: MY ORDERS PAGE ================= -->
+            <section id="view-orders" class="hidden space-y-4 max-w-2xl mx-auto">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-box text-brand-500"></i> My Orders
+                    </h2>
+                    <span class="text-xs text-gray-500 font-semibold" id="orders-count-badge">0 Orders</span>
+                </div>
+                <div id="orders-list-container" class="space-y-3"></div>
+            </section>
+
+            <!-- ================= VIEW 5: PROFILE PAGE ================= -->
+            <section id="view-profile" class="hidden space-y-6 max-w-md mx-auto">
+                <div id="auth-logged-out" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-6">
+                    <div class="text-left space-y-1">
+                        <h2 class="text-2xl font-extrabold text-gray-900">Login / Register</h2>
+                        <p class="text-xs text-gray-500">Sign in to continue or create a new account</p>
+                    </div>
+
+                    <form onsubmit="handleManualLogin(event)" class="space-y-4">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Email Address</label>
+                            <input type="email" id="login-email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-xs font-bold text-gray-700">Password</label>
+                            <input type="password" id="login-pass" placeholder="Password" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                        </div>
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-md transition">
+                            Sign In / Register
+                        </button>
+                    </form>
+                </div>
+
+                <div id="auth-logged-in" class="space-y-4 hidden">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase tracking-wider">Account Information</h3>
+                        <div class="space-y-3">
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base"><i class="fa-solid fa-user"></i></div>
+                                <div><span class="text-[10px] text-gray-400 block font-bold uppercase">Name</span><span id="user-info-name" class="font-extrabold text-sm text-gray-900">User</span></div>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base"><i class="fa-solid fa-id-card"></i></div>
+                                <div><span class="text-[10px] text-gray-400 block font-bold uppercase">User ID</span><span id="user-info-id" class="font-extrabold text-sm text-brand-600 font-mono">000000</span></div>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center gap-3">
+                                <div class="w-10 h-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center font-bold text-base"><i class="fa-solid fa-wallet"></i></div>
+                                <div><span class="text-[10px] text-gray-400 block font-bold uppercase">Wallet Balance</span><span id="user-info-balance" class="font-extrabold text-sm text-brand-600">0 Tk</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-clipboard-list"></i></div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 font-bold block uppercase">Orders</span>
+                                <span id="user-total-orders" class="font-extrabold text-base text-gray-900">0</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-lg"><i class="fa-solid fa-dollar-sign"></i></div>
+                            <div>
+                                <span class="text-[10px] text-gray-400 font-bold block uppercase">Total Spend</span>
+                                <span id="user-total-spend" class="font-extrabold text-base text-gray-900">0 Tk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="promptLogoutConfirmation()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-xl text-xs shadow-md transition">
+                        Logout Account
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 6: ADMIN PANEL ================= -->
+            <section id="view-admin" class="hidden space-y-6 max-w-3xl mx-auto pb-12">
+                <div class="flex items-center justify-between bg-slate-900 text-white p-4 rounded-2xl shadow-md">
+                    <h2 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-sliders text-brand-500"></i> Admin Panel</h2>
+                    <button onclick="navTo('home', true)" class="bg-slate-800 hover:bg-slate-700 text-xs px-3 py-1.5 rounded-xl font-bold">Exit Admin</button>
+                </div>
+
+                <div class="flex border-b border-gray-200 bg-white rounded-xl p-1 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
+                    <button onclick="switchAdminTab('branding')" id="adm-tab-branding" class="flex-1 py-2.5 px-3 rounded-lg bg-brand-500 text-white whitespace-nowrap">Branding</button>
+                    <button onclick="switchAdminTab('products')" id="adm-tab-products" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">প্যাকেজ ও ক্যাটাগরি</button>
+                    <button onclick="switchAdminTab('payments')" id="adm-tab-payments" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">পেমেন্ট নম্বর</button>
+                    <button onclick="switchAdminTab('users')" id="adm-tab-users" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">ইউজার ট্র্যাকিং</button>
+                    <button onclick="switchAdminTab('orders')" id="adm-tab-orders" class="flex-1 py-2.5 px-3 rounded-lg text-gray-600 hover:bg-gray-100 whitespace-nowrap">সকল অর্ডার</button>
+                </div>
+
+                <!-- Branding Tab -->
+                <div id="admin-sec-branding" class="space-y-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">Logo & Banner Settings</h3>
+                        <div class="space-y-3">
+                            <input type="text" id="adm-branding-logo" placeholder="Logo URL" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <input type="text" id="adm-branding-banner" placeholder="Banner URL" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <button onclick="adminSaveBranding()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs">Save Branding</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="admin-sec-products" class="hidden space-y-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">নতুন ক্যাটাগরি যোগ করুন</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <input type="text" id="adm-cat-name" placeholder="ক্যাটাগরির নাম" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <input type="text" id="adm-cat-img" placeholder="ইমেজ লিংক" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <select id="adm-cat-type" class="px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold">
+                                <option value="ff">FF Category</option>
+                                <option value="special">Special Offer</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </div>
+                        <button onclick="adminAddCategory()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs">+ ক্যাটাগরি সেভ করুন</button>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                        <div id="adm-categories-list" class="space-y-4"></div>
+                    </div>
+                </div>
+
+                <!-- Payments Tab -->
+                <div id="admin-sec-payments" class="hidden space-y-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">পেমেন্ট নম্বর পরিবর্তন করুন</h3>
+                        <div class="space-y-3">
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">bKash Number</label><input type="text" id="adm-pay-bkash" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">Nagad Number</label><input type="text" id="adm-pay-nagad" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">Rocket Number</label><input type="text" id="adm-pay-rocket" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <div class="space-y-1"><label class="block text-xs font-bold text-gray-700">Upay Number</label><input type="text" id="adm-pay-upay" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs font-semibold"></div>
+                            <button onclick="adminSavePaymentNumbers()" class="bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md">পেমেন্ট নম্বর সেভ করুন</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Tracking Tab -->
+                <div id="admin-sec-users" class="hidden space-y-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                        <h3 class="font-extrabold text-sm text-gray-800 uppercase">ইউজার ট্র্যাকিং ও সার্চ</h3>
+                        <div class="flex gap-2">
+                            <input type="text" id="adm-user-search-input" placeholder="User ID বা Email লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <button onclick="adminSearchUser()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ</button>
+                        </div>
+                    </div>
+                    <div id="adm-user-search-result" class="hidden bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3"></div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                        <h4 class="font-bold text-xs text-gray-700 uppercase">সকল কাস্টমার তালিকা</h4>
+                        <div id="adm-all-users-list" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- Orders Tab -->
+                <div id="admin-sec-orders" class="hidden space-y-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                        <div class="flex gap-2">
+                            <input type="text" id="adm-order-query-search" placeholder="অর্ডার সিরিয়াল বা User ID লিখে সার্চ করুন" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-xs font-semibold">
+                            <button onclick="renderAdminOrdersList()" class="bg-slate-900 text-white font-bold px-4 py-2.5 rounded-xl text-xs">সার্চ / রিসেট</button>
+                        </div>
+                        <div id="adm-all-orders-container" class="space-y-3 pt-2"></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div>
+        <div id="footer-container"></div>
+        <a href="https://t.me/amartopup" target="_blank" class="fixed right-4 bottom-20 z-30 w-12 h-12 bg-[#229ED9] text-white rounded-full flex items-center justify-center text-2xl shadow-xl hover:scale-110 transition duration-300" title="Telegram Support">
+            <i class="fa-brands fa-telegram"></i>
+        </a>
+        <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-lg">
+            <div class="max-w-4xl mx-auto grid grid-cols-4 py-2 text-center text-xs font-semibold text-gray-500">
+                <button id="nav-btn-home" onclick="navTo('home', true)" class="flex flex-col items-center gap-1 text-brand-600"><i class="fa-solid fa-house text-lg"></i><span>Home</span></button>
+                <button id="nav-btn-orders" onclick="navTo('orders', true)" class="flex flex-col items-center gap-1 hover:text-brand-600"><i class="fa-solid fa-box text-lg"></i><span>My Orders</span></button>
+                <button id="nav-btn-addmoney" onclick="navTo('addmoney', true)" class="flex flex-col items-center gap-1 hover:text-brand-600"><i class="fa-solid fa-wallet text-lg"></i><span>Add Money</span></button>
+                <button id="nav-btn-profile" onclick="navTo('profile', true)" class="flex flex-col items-center gap-1 hover:text-brand-600"><i class="fa-solid fa-user text-lg"></i><span>Profile</span></button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Custom Notification Toast Modal -->
+    <div id="toast-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
+            <div id="toast-icon" class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div>
+                <h3 id="toast-title" class="font-bold text-gray-900 text-base">নোটিফিকেশন</h3>
+                <p id="toast-msg" class="text-xs text-gray-600 mt-1 leading-relaxed"></p>
+            </div>
+            <button onclick="closeToast()" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">ঠিক আছে</button>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-confirm-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 text-center space-y-4 shadow-2xl">
+            <div class="bg-amber-100 text-amber-700 font-extrabold text-xs py-1 px-3 rounded-full inline-block uppercase">সতর্কতা</div>
+            <div>
+                <p class="text-xs text-gray-700 leading-relaxed font-semibold">আপনি কি আপনার একাউন্ট থেকে লগআউট করতে চান? তাহলে নিশ্চিত চাপুন</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="closeLogoutModal()" class="bg-gray-200 text-gray-800 font-bold py-2.5 rounded-xl text-xs">বাতিল</button>
+                <button onclick="confirmLogout()" class="bg-red-500 text-white font-bold py-2.5 rounded-xl text-xs">নিশ্চিত</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <!-- Modular JS Files -->
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
