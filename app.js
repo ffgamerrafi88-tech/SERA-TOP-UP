@@ -1,21 +1,77 @@
 const DefaultPackagesData = {
-    "Uid Topup [BD SERVER]": {
+    "FF Like": {
+        type: "special",
+        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        rules: "• শুধুমাত্র বাংলাদেশ সার্ভারে UID দিয়ে লাইক দেওয়া হয়।\n• ভুল UID দিয়ে লাইক না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• প্রতি ২৪ ঘণ্টায় এক আইডি এক বারই অর্ডার করা যাবে। ২৪ ঘণ্টায় এক আইডি তে বা অর্ডার করে লাইক না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• লাইক পেতে দেরি হলে বা যে কোন সমস্যায় পড়লে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
+        packages: [
+            { name: "220 Like", price: 30 }
+        ]
+    },
+    "UID Top Up [BD SERVER]": {
         type: "ff",
-        img: "https://bdtopup.store/uploads/media/260/01KGAX7XFP7W8KXK4C4MY76297.jpg",
-        rules: "শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে。\nPlayer ID Code ভুল দিয়ে ডায়মন্ড না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।",
+        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
             { name: "25 Diamond", price: 22 },
             { name: "50 Diamond", price: 35 },
-            { name: "100 Diamond", price: 68 }
+            { name: "100 Diamond", price: 68 },
+            { name: "115 Diamond", price: 76 },
+            { name: "240 Diamond", price: 152 },
+            { name: "355 Diamond", price: 229 },
+            { name: "480 Diamond", price: 304 },
+            { name: "505 Diamond", price: 323 },
+            { name: "610 Diamond", price: 385 },
+            { name: "850 Diamond", price: 536 },
+            { name: "1090 Diamond", price: 690 },
+            { name: "1240 Diamond", price: 780 },
+            { name: "1850 Diamond", price: 1152 },
+            { name: "2530 Diamond", price: 1540 },
+            { name: "5060 Diamond", price: 3080 },
+            { name: "10120 Diamond", price: 6160 },
+            { name: "20240 Diamond", price: 12320 }
         ]
     },
     "Weekly/Monthly": {
         type: "ff",
-        img: "https://www.digitalproductsbd.com/wp-content/uploads/Freefire-Wekkly-monthly-membership-.webp",
-        rules: "সঠিক ইউজার আইডি প্রদান করুন।",
+        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
         packages: [
             { name: "Weekly", price: 153 },
-            { name: "Monthly", price: 758 }
+            { name: "Monthly", price: 760 },
+            { name: "2X Weekly", price: 306 },
+            { name: "3X Weekly", price: 459 },
+            { name: "5X Weekly", price: 765 },
+            { name: "2X Monthly", price: 1518 },
+            { name: "5X Monthly", price: 3950 },
+            { name: "1Weekly + 1Monthly", price: 911 },
+            { name: "2X Weekly + 2X Monthly", price: 1822 },
+            { name: "4Weekly + 1Monthly", price: 1370 }
+        ]
+    },
+    "Weekly Lite (BD Server)": {
+        type: "ff",
+        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
+        packages: [
+            { name: "1X Weekly Lite", price: 45 },
+            { name: "2X Weekly Lite", price: 89 },
+            { name: "3X Weekly Lite", price: 133 },
+            { name: "4X Weekly Lite", price: 180 },
+            { name: "5X Weekly Lite", price: 225 }
+        ]
+    },
+    "Level Up Pass": {
+        type: "ff",
+        img: "https://i.ibb.co.com/v4fLwZG1/logo.png",
+        rules: "• শুধুমাত্র Bangladesh সার্ভারে ID Code দিয়ে টপ আপ হবে।\n• Player ID ভুল দিয়ে Diamond না পেলে SERA TOP UP কর্তৃপক্ষ দায়ী নয়।\n• Order কমপ্লিট হওয়ার পরেও আইডিটিতে ডায়মন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে।\n• ডায়মন্ড পেতে দেরি হলে বা যে কোন সমস্যা হলে ওয়েবসাইটের সাপোর্ট সিস্টেমে যোগাযোগ করুন।",
+        packages: [
+            { name: "Level Up Package-Level 6 120💎", price: 43 },
+            { name: "Level Up Package-Level 10 200💎", price: 75 },
+            { name: "Level Up Package-Level 15 200💎", price: 75 },
+            { name: "Level Up Package-Level 20 200💎", price: 75 },
+            { name: "Level Up Package-Level 25 200💎", price: 75 },
+            { name: "Level Up Package-Level 30 350💎", price: 106 },
+            { name: "Full Level Up (1270 Diamond)", price: 425 }
         ]
     },
     "Others": {
@@ -54,8 +110,8 @@ window.onload = function() {
     checkProfileState();
     updateCheckoutButtonState();
     renderFooter('home');
+    updateNavActiveState('home');
 
-    // Background Firebase Sync
     initFirebaseRealtimeSync();
 
     window.onpopstate = function(event) {
@@ -164,6 +220,19 @@ function applyBranding() {
     }
 }
 
+function updateNavActiveState(viewName) {
+    ['home', 'orders', 'addmoney', 'profile'].forEach(v => {
+        const btn = document.getElementById(`nav-btn-${v}`);
+        if(btn) {
+            if(v === viewName) {
+                btn.className = "flex flex-col items-center gap-1 text-brand-600";
+            } else {
+                btn.className = "flex flex-col items-center gap-1 text-gray-500 hover:text-brand-600";
+            }
+        }
+    });
+}
+
 function navTo(viewName, pushHistory = true) {
     ['home', 'details', 'orders', 'addmoney', 'profile', 'admin'].forEach(v => {
         const el = document.getElementById(`view-${v}`);
@@ -173,6 +242,7 @@ function navTo(viewName, pushHistory = true) {
     if(targetView) targetView.classList.remove('hidden');
 
     renderFooter(viewName);
+    updateNavActiveState(viewName);
 
     if (pushHistory) {
         history.pushState({ view: viewName }, "", `#${viewName}`);
@@ -223,16 +293,23 @@ function renderHomeCategories() {
 function openCategory(catName) {
     currentCategory = catName;
     const titleEl = document.getElementById('detail-title');
+    const detailImgEl = document.getElementById('detail-category-img');
+    
     if(titleEl) titleEl.innerText = catName;
-    selectedPackage = null;
+    
+    const catInfo = PackagesData[catName] || {};
+    
+    if(detailImgEl) {
+        detailImgEl.src = catInfo.img || 'https://i.ibb.co.com/v4fLwZG1/logo.png';
+    }
 
+    selectedPackage = null;
     selectPaymentMethod(selectedPayMethod);
 
     const grid = document.getElementById('package-grid');
     if(!grid) return;
     grid.innerHTML = '';
 
-    const catInfo = PackagesData[catName] || {};
     const list = catInfo.packages || [];
     
     const rulesListEl = document.getElementById('dynamic-rules-list');
@@ -626,8 +703,7 @@ function handleManualLogin(e) {
         const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
         usersStore[email] = { name: name, email: email, pass: pass, userId: randomUserId, balance: 0, isBlocked: false };
         
-        const regMsg = `👤 *নতুন ইউজার রেজিস্ট্রেশন!*\n\n📌 *Name:* ${name}\n📧 *Email:* ${email}\n🆔 *User ID:* ${randomUserId}`;
-        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(regMsg)}&parse_mode=Markdown`);
+        // নতুন ইউজার রেজিস্ট্রেশনের টেলিগ্রাম নোটিফিকেশন বন্ধ করা হলো
     }
 
     currentUser = usersStore[email];
@@ -742,3 +818,4 @@ function closeToast() {
     const modal = document.getElementById('toast-modal');
     if(modal) modal.classList.add('hidden'); 
 }
+
