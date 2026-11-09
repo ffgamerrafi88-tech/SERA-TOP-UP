@@ -472,9 +472,9 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic with Firebase Realtime Database Integration -->
+    <!-- JavaScript Application Logic with Robust Firebase Integration -->
     <script>
-        // Firebase Configuration (Connected to your project)
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAcGK0qUTeYvBMcxR3pL2IVaq34KXIuuUk",
             authDomain: "sera-top-up-a2d73.firebaseapp.com",
@@ -485,7 +485,10 @@
             measurementId: "G-R3YH2YF39H"
         };
         
-        firebase.initializeApp(firebaseConfig);
+        // Safely Initialize Firebase without duplication
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.database();
 
         const DefaultPackagesData = {
@@ -522,9 +525,9 @@
         const TELEGRAM_TOKEN = "8926999898:AAEG19I5CTySwErX8isKejUqdDfbx3nB7-Y";
         const TELEGRAM_CHAT_ID = "8598185365";
 
-        let PackagesData = {};
-        let PaymentNumbers = {};
-        let SiteBranding = {};
+        let PackagesData = JSON.parse(JSON.stringify(DefaultPackagesData));
+        let PaymentNumbers = JSON.parse(JSON.stringify(DefaultPaymentNumbers));
+        let SiteBranding = JSON.parse(JSON.stringify(DefaultBranding));
         let currentCategory = "";
         let selectedPackage = null;
         let selectedPayType = "instant";
@@ -537,11 +540,9 @@
 
         window.onload = function() {
             initFirebaseRealtimeSync();
-            loadUserData();
-            loadOrdersLocally();
+            loadUserDataLocally();
             renderFooter('home');
 
-            // Handle browser back/forward buttons
             window.onpopstate = function(event) {
                 if (event.state && event.state.view) {
                     navTo(event.state.view, false);
@@ -561,9 +562,6 @@
                     usersStore = data.users || {};
                     ordersList = data.orders || [];
                 } else {
-                    PackagesData = DefaultPackagesData;
-                    PaymentNumbers = DefaultPaymentNumbers;
-                    SiteBranding = DefaultBranding;
                     saveStoreDataToCloud();
                 }
                 applyBranding();
@@ -571,6 +569,8 @@
                 renderOrdersList();
                 checkProfileState();
                 updateCheckoutButtonState();
+            }, (error) => {
+                console.error("Firebase sync error: ", error);
             });
         }
 
@@ -990,7 +990,6 @@
             const trxid = trxInputEl.value.trim().toUpperCase();
             
             const addAmount = Number(amountStr);
-            // আপনার দেওয়া নির্দিষ্ট মেসেজ এখানে সেট করা হলো
             if(!amountStr || isNaN(addAmount) || addAmount < 10 || !trxid) {
                 showToast('সতর্কতা', 'নূন্যতম অ্যাড মানি 10 টাকা। দয়া করে 10 বা এর বেশি সংখ্যা লিখুন', 'error');
                 return;
@@ -1107,6 +1106,7 @@
             }
 
             currentUser = usersStore[email];
+            saveUserDataLocally();
             saveStoreDataToCloud();
             checkProfileState();
             updateCheckoutButtonState();
@@ -1134,10 +1134,13 @@
         }
 
         function checkProfileState() {
-            loadUserDataLocally();
             const walletHeader = document.getElementById('header-wallet-balance');
             const loggedOutSec = document.getElementById('auth-logged-out');
             const loggedInSec = document.getElementById('auth-logged-in');
+
+            if (currentUser && usersStore[currentUser.email]) {
+                currentUser = usersStore[currentUser.email];
+            }
 
             if (currentUser) {
                 if(loggedOutSec) loggedOutSec.classList.add('hidden');
@@ -1169,25 +1172,19 @@
             }
         }
 
+        function saveUserDataLocally() {
+            if (currentUser) {
+                localStorage.setItem('sera_topup_user', JSON.stringify(currentUser));
+            }
+        }
+
         function loadUserDataLocally() {
             try {
                 const u = localStorage.getItem('sera_topup_user'); 
                 if(u) {
-                    let localUser = JSON.parse(u);
-                    if(localUser && localUser.email && usersStore[localUser.email]) {
-                        currentUser = usersStore[localUser.email];
-                    } else {
-                        currentUser = localUser;
-                    }
+                    currentUser = JSON.parse(u);
                 }
             } catch(e) {}
-        }
-
-        function loadOrdersLocally() {
-            const o = localStorage.getItem('sera_topup_orders'); 
-            if(o && ordersList.length === 0) {
-                try { ordersList = JSON.parse(o); } catch(e){}
-            }
         }
 
         /* Admin Panel Functions */
