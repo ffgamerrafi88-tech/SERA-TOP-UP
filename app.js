@@ -475,7 +475,8 @@ async function submitOrder() {
         showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
         
         try {
-            const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxId}`);
+            // এখানে সংশোধন করা হয়েছে (/api/receive-sms এর বদলে সঠিক রুট /api/webhook দেওয়া হয়েছে)
+            const response = await fetch(`/api/webhook?action=verify&trxid=${trxId}`);
             const result = await response.json();
 
             if (!result.valid) {
@@ -605,7 +606,8 @@ async function submitAddMoneyRequest() {
     showToast('যাচাই করা হচ্ছে...', 'দয়া করে অপেক্ষা করুন, পেমেন্ট ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
 
     try {
-        const response = await fetch(`/api/receive-sms?action=verify&trxid=${trxid}`);
+        // এখানে সংশোধন করা হয়েছে (/api/receive-sms এর বদলে সঠিক রুট /api/webhook দেওয়া হয়েছে)
+        const response = await fetch(`/api/webhook?action=verify&trxid=${trxid}`);
         const result = await response.json();
 
         if (!result.valid) {
@@ -707,7 +709,6 @@ function handleManualLogin(e) {
     } else {
         const randomUserId = Math.floor(100000 + Math.random() * 900000).toString();
         usersStore[email] = { name: name, email: email, pass: pass, userId: randomUserId, balance: 0, isBlocked: false };
-        // নতুন ইউজার রেজিস্ট্রেশনের টেলিগ্রাম নোটিফিকেশন বন্ধ রাখা হয়েছে
     }
 
     currentUser = usersStore[email];
@@ -815,7 +816,7 @@ function showToast(title, msg, type = 'info') {
             iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
         }
     }
-    if(modal) modal.classList.remove('hidden');
+    if(modal) modal.classList.add('hidden');
 }
 
 function closeToast() { 
