@@ -425,7 +425,7 @@ function updateCheckoutButtonState() {
     }
 }
 
-async function submitOrder() {
+function submitOrder() {
     if (!currentUser) {
         showToast('লগইন প্রয়োজন', 'অর্ডার করতে চাইলে প্রথমে লগইন করুন!', 'error');
         navTo('profile', true);
@@ -471,48 +471,6 @@ async function submitOrder() {
             showToast('ট্রানজেকশন আইডি ভুল', 'সঠিক TrxID প্রদান করুন!', 'error');
             return;
         }
-
-        showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
-        
-        try {
-            const response = await fetch(`/api/webhook?action=verify&trxid=${trxId}`);
-            const result = await response.json();
-
-            if (!result.valid) {
-                showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
-                return;
-            }
-
-            const requiredAmount = Number(selectedPackage.price);
-            const smsText = (result.sms && result.sms.msg) ? result.sms.msg.toLowerCase() : "";
-            const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i) || smsText.match(/cash\s*in\s*tk\.?\s*([0-9]+)/i);
-            
-            let detectedAmount = null;
-            if (amountMatch) {
-                detectedAmount = Number(amountMatch[1] || amountMatch[2]);
-            } else {
-                const numbers = smsText.match(/\d+/g);
-                if(numbers) {
-                    for(let numStr of numbers) {
-                        let val = Number(numStr);
-                        if(val >= requiredAmount) {
-                            detectedAmount = val;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (detectedAmount !== null && detectedAmount < requiredAmount) {
-                showToast('টাকার পরিমাণ কম', `আপনার পেমেন্টে এসেছে ৳${detectedAmount}, কিন্তু প্যাকেজ মূল্য ৳${requiredAmount}! সঠিক পরিমাণে টাকা পাঠিয়ে আবার চেষ্টা করুন।`, 'error');
-                return;
-            }
-
-        } catch (err) {
-            console.error("Verification error:", err);
-            // সার্ভার ফেইল করলে বা কানেকশন সমস্যা হলে বাইপাস করে অর্ডার নিয়ে নেওয়া যাতে ইউজার আটকে না যায়
-        }
-
         payMethodText = `${selectedPayMethod} (${selectedPayNumber})`;
     }
 
@@ -541,14 +499,14 @@ async function submitOrder() {
     }
     saveStoreDataToCloud();
 
-    const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (Verified Auto)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
+    const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (Auto Direct)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
     fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`).catch(()=>{});
 
     playerIdEl.value = '';
     const trxInputEl2 = document.getElementById('trx-id-input');
     if(trxInputEl2) trxInputEl2.value = '';
 
-    showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} পেমেন্ট ভেরিফাই হয়ে অর্ডার জমা হয়েছে।`, 'success');
+    showToast('অর্ডার সফল!', `আপনার ${selectedPackage.name} অর্ডার সফলভাবে জমা হয়েছে।`, 'success');
     navTo('orders', true);
 }
 
@@ -579,7 +537,7 @@ function copyAddMoneyNum() {
     }
 }
 
-async function submitAddMoneyRequest() {
+function submitAddMoneyRequest() {
     if(!currentUser) {
         showToast('লগইন প্রয়োজন', 'লগইন করুন!', 'error');
         navTo('profile', true);
@@ -603,70 +561,20 @@ async function submitAddMoneyRequest() {
         return;
     }
 
-    showToast('যাচাই করা হচ্ছে...', 'দয়া করে অপেক্ষা করুন, পেমেন্ট ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
-
-    try {
-        const response = await fetch(`/api/webhook?action=verify&trxid=${trxid}`);
-        const result = await response.json();
-
-        if (!result.valid) {
-            showToast('ভুল ট্রানজেকশন আইডি', 'এই TrxID দিয়ে কোনো পেমেন্ট পাওয়া যায়নি! সঠিক TrxID দিন।', 'error');
-            return;
-        }
-
-        const smsText = (result.sms && result.sms.msg) ? result.sms.msg.toLowerCase() : "";
-        const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i);
-        
-        let detectedAmount = null;
-        if (amountMatch) {
-            detectedAmount = Number(amountMatch[1] || amountMatch[2]);
-        } else {
-            const numbers = smsText.match(/\d+/g);
-            if(numbers) {
-                for(let numStr of numbers) {
-                    let val = Number(numStr);
-                    if(val >= addAmount) {
-                        detectedAmount = val;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (detectedAmount !== null && detectedAmount < addAmount) {
-            showToast('টাকার পরিমাণ কম', `আপনার পেমেন্টে এসেছে ৳${detectedAmount}, কিন্তু আপনি অ্যাড করতে চেয়েছেন ৳${addAmount}! সঠিক পরিমাণে টাকা পাঠান।`, 'error');
-            return;
-        }
-
-        currentUser.balance = Number(currentUser.balance || 0) + addAmount;
-        if(usersStore[currentUser.email]) {
-            usersStore[currentUser.email].balance = currentUser.balance;
-        }
-        saveStoreDataToCloud();
-        checkProfileState();
-
-        const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
-        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`).catch(()=>{});
-
-        amountInputEl.value = '';
-        trxInputEl.value = '';
-        showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
-        navTo('profile', true);
-
-    } catch (err) {
-        console.error("Add money error:", err);
-        // কোনো কারণে সার্ভার রিকোয়েস্ট ফেইল করলে বা অফলাইন থাকলে যেন ব্যালেন্স সেভ হয়ে যায় এবং আটকে না থাকে
-        currentUser.balance = Number(currentUser.balance || 0) + addAmount;
-        if(usersStore[currentUser.email]) {
-            usersStore[currentUser.email].balance = currentUser.balance;
-        }
-        saveStoreDataToCloud();
-        checkProfileState();
-        amountInputEl.value = '';
-        trxInputEl.value = '';
-        showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
-        navTo('profile', true);
+    currentUser.balance = Number(currentUser.balance || 0) + addAmount;
+    if(usersStore[currentUser.email]) {
+        usersStore[currentUser.email].balance = currentUser.balance;
     }
+    saveStoreDataToCloud();
+    checkProfileState();
+
+    const msg = `💰 *ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
+    fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`).catch(()=>{});
+
+    amountInputEl.value = '';
+    trxInputEl.value = '';
+    showToast('সফল!', `আপনার ওয়ালেটে সফলভাবে ৳${addAmount} যোগ করা হয়েছে।`, 'success');
+    navTo('profile', true);
 }
 
 function renderOrdersList() {
@@ -816,7 +724,6 @@ function showToast(title, msg, type = 'info') {
             iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
         }
     }
-    if(modal) modal.classList.not('hidden'); // Fixed safe toggle class
     if(modal) modal.classList.remove('hidden');
 }
 
