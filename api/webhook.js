@@ -1,10 +1,6 @@
 global.receivedSmsList = global.receivedSmsList || [];
 
 export default async function handler(req, res) {
-  // সার্ভারে রিকোয়েস্ট আসার পর কনসোলে ডিবাগ দেখার জন্য
-  console.log("FULL REQUEST BODY:", JSON.stringify(req.body));
-  console.log("FULL REQUEST QUERY:", JSON.stringify(req.query));
-
   const query = req.query || {};
   const body = req.body || {};
   
@@ -16,7 +12,7 @@ export default async function handler(req, res) {
       // ১. ওয়েবসাইট থেকে যখন ট্রানজেকশন ভেরিফাই করতে আসে
       if (action === 'verify' || trxid) {
         const searchTrx = (trxid || '').trim().toLowerCase();
-        console.log("Searching for TrxID:", searchTrx);
+        console.log("Verifying TrxID:", searchTrx);
 
         const found = global.receivedSmsList.find(sms => {
           const smsText = (sms.msg || '').toLowerCase();
@@ -24,14 +20,28 @@ export default async function handler(req, res) {
         });
 
         if (found) {
-          return res.status(200).json({ valid: true, message: 'TrxID matched', sms: found });
+          // এসএমএস থেকে টাকার পরিমাণ বের করা
+          const amountMatch = found.msg.match(/(?:Tk|BDT|৳)\s*([\d,.]+)/i);
+          const amount = amountMatch ? amountMatch[1].replace(/,/g, '') : '0';
+
+          return res.status(200).json({ 
+            success: true, 
+            valid: true, 
+            amount: amount,
+            message: 'TrxID matched', 
+            sms: found 
+          });
         } else {
-          return res.status(200).json({ valid: false, message: 'TrxID match koreni' });
+          return res.status(200).json({ 
+            success: false, 
+            valid: false, 
+            message: 'TrxID match koreni' 
+          });
         }
       }
 
       // ২. SMS Forwarder অ্যাপ থেকে যখন এসএমএস আসে
-      const msg = body.msg || body.text || body.key || query.msg || query.text || JSON.stringify(body);
+      const msg = body.msg || body.text || body.key || query.msg || query.text || '';
       const sender = body.sender || query.sender || 'Unknown';
       const time = body.time || query.time || '';
 
@@ -43,7 +53,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, message: 'SMS stored successfully' });
       }
 
-      return res.status(200).json({ success: true, message: 'Webhook is active, but no msg found' });
+      return res.status(200).json({ success: true, message: 'Webhook is active' });
 
     } catch (error) {
       console.error("Webhook Error:", error);
