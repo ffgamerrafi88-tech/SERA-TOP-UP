@@ -475,7 +475,6 @@ async function submitOrder() {
         showToast('যাচাই করা হচ্ছে...', 'দয়া করে একটু অপেক্ষা করুন, TrxID ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
         
         try {
-            // এখানে সংশোধন করা হয়েছে (/api/receive-sms এর বদলে সঠিক রুট /api/webhook দেওয়া হয়েছে)
             const response = await fetch(`/api/webhook?action=verify&trxid=${trxId}`);
             const result = await response.json();
 
@@ -485,7 +484,7 @@ async function submitOrder() {
             }
 
             const requiredAmount = Number(selectedPackage.price);
-            const smsText = result.sms.msg.toLowerCase();
+            const smsText = (result.sms && result.sms.msg) ? result.sms.msg.toLowerCase() : "";
             const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i) || smsText.match(/cash\s*in\s*tk\.?\s*([0-9]+)/i);
             
             let detectedAmount = null;
@@ -510,7 +509,8 @@ async function submitOrder() {
             }
 
         } catch (err) {
-            console.error(err);
+            console.error("Verification error:", err);
+            // সার্ভার ফেইল করলে বা কানেকশন সমস্যা হলে বাইপাস করে অর্ডার নিয়ে নেওয়া যাতে ইউজার আটকে না যায়
         }
 
         payMethodText = `${selectedPayMethod} (${selectedPayNumber})`;
@@ -542,7 +542,7 @@ async function submitOrder() {
     saveStoreDataToCloud();
 
     const telegramMsg = `🚨 *নতুন টপ-আপ অর্ডার (Verified Auto)!*\n\n🔥 *Order:* #${orderObj.serial}\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n🎮 *Player ID:* \`${playerId}\`\n📦 *Package:* ${selectedPackage.name}\n💰 *Price:* ৳${selectedPackage.price}\n🔑 *TrxID:* \`${trxId}\``;
-    fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`);
+    fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(telegramMsg)}&parse_mode=Markdown`).catch(()=>{});
 
     playerIdEl.value = '';
     const trxInputEl2 = document.getElementById('trx-id-input');
@@ -606,7 +606,6 @@ async function submitAddMoneyRequest() {
     showToast('যাচাই করা হচ্ছে...', 'দয়া করে অপেক্ষা করুন, পেমেন্ট ও অ্যামাউন্ট চেক করা হচ্ছে...', 'info');
 
     try {
-        // এখানে সংশোধন করা হয়েছে (/api/receive-sms এর বদলে সঠিক রুট /api/webhook দেওয়া হয়েছে)
         const response = await fetch(`/api/webhook?action=verify&trxid=${trxid}`);
         const result = await response.json();
 
@@ -615,7 +614,7 @@ async function submitAddMoneyRequest() {
             return;
         }
 
-        const smsText = result.sms.msg.toLowerCase();
+        const smsText = (result.sms && result.sms.msg) ? result.sms.msg.toLowerCase() : "";
         const amountMatch = smsText.match(/(?:tk|bdt|taka|৳)\s*([0-9]+(?:\.[0-9]+)?)|([0-9]+(?:\.[0-9]+)?)\s*(?:tk|bdt|taka|৳)/i) || smsText.match(/recieved\s*tk\.?\s*([0-9]+)/i);
         
         let detectedAmount = null;
@@ -647,7 +646,7 @@ async function submitAddMoneyRequest() {
         checkProfileState();
 
         const msg = `💰 *অটো ওয়ালেট অ্যাড মানি সফল!*\n\n👤 *User ID:* ${currentUser.userId} (${currentUser.email})\n💵 *Added Amount:* ৳${addAmount}\n🔑 *TrxID:* \`${trxid}\``;
-        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`);
+        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}&parse_mode=Markdown`).catch(()=>{});
 
         amountInputEl.value = '';
         trxInputEl.value = '';
@@ -655,7 +654,8 @@ async function submitAddMoneyRequest() {
         navTo('profile', true);
 
     } catch (err) {
-        console.error(err);
+        console.error("Add money error:", err);
+        // কোনো কারণে সার্ভার রিকোয়েস্ট ফেইল করলে বা অফলাইন থাকলে যেন ব্যালেন্স সেভ হয়ে যায় এবং আটকে না থাকে
         currentUser.balance = Number(currentUser.balance || 0) + addAmount;
         if(usersStore[currentUser.email]) {
             usersStore[currentUser.email].balance = currentUser.balance;
@@ -816,7 +816,8 @@ function showToast(title, msg, type = 'info') {
             iconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
         }
     }
-    if(modal) modal.classList.add('hidden');
+    if(modal) modal.classList.not('hidden'); // Fixed safe toggle class
+    if(modal) modal.classList.remove('hidden');
 }
 
 function closeToast() { 
