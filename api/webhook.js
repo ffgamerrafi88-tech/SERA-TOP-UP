@@ -1,34 +1,49 @@
 global.receivedSmsList = global.receivedSmsList || [];
 
 export default async function handler(req, res) {
-  if (req.method === 'POST' || req.method === 'GET') {
-    try {
-      const msg = req.body?.msg || req.query?.msg || '';
-      const sender = req.body?.sender || req.query?.sender || '';
-      const time = req.body?.time || req.query?.time || '';
+  // GET এবং POST উভয় রিকোয়েস্টের জন্যই কুয়েরি ও বডি একত্রিত করা
+  const query = req.query || {};
+  const body = req.body || {};
+  
+  const action = query.action || body.action;
+  const trxid = query.trxid || body.trxid;
 
-      // ওয়েবসাইট থেকে ভেরিফাই করার রিকোয়েস্ট (action=verify)
-      if (req.query.action === 'verify' || req.body?.action === 'verify') {
-        const trxid = req.query.trxid || req.body?.trxid;
-        const found = global.receivedSmsList.find(sms => sms.msg.includes(trxid));
+  if (req.method === 'GET' || req.method === 'POST') {
+    try {
+      // ১. ওয়েবসাইট থেকে যখন ভেরিফাই করার রিকোয়েস্ট আসে
+      if (action === 'verify' || trxid) {
+        const searchTrx = (trxid || '').trim().toLowerCase();
+        console.log("Verifying TrxID:", searchTrx);
+
+        const found = global.receivedSmsList.find(sms => 
+          sms.msg && sms.msg.toLowerCase().includes(searchTrx)
+        );
+
         if (found) {
-          return res.status(200).json({ valid: true, sms: found });
+          return res.status(200).json({ valid: true, message: 'TrxID matched', sms: found });
         } else {
           return res.status(200).json({ valid: false, message: 'TrxID match koreni' });
         }
       }
 
-      // SMS Forwarder থেকে আসা এসএমএস স্টোর করা
+      // ২. SMS Forwarder অ্যাপ থেকে যখন এসএমএস আসে
+      const msg = body.msg || query.msg || '';
+      const sender = body.sender || query.sender || '';
+      const time = body.time || query.time || '';
+
       if (msg) {
         global.receivedSmsList.unshift({ msg, sender, time, receivedAt: new Date() });
+        // মেমোরিতে সর্বোচ্চ ১০০টি মেসেজ সংরক্ষণ রাখবে
         if (global.receivedSmsList.length > 100) global.receivedSmsList.pop();
+        
         console.log(`Saved SMS: ${msg}`);
         return res.status(200).json({ success: true, message: 'SMS stored successfully' });
       }
 
-      return res.status(200).json({ success: true, message: 'Webhook received, but no message content' });
+      return res.status(200).json({ success: true, message: 'Webhook is active' });
+
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Webhook Error:", error);
       return res.status(500).json({ success: false, error: error.message });
     }
   } else {
